@@ -21,8 +21,20 @@ const AboutSection = () => {
     offset: ["start end", "end start"]
   });
 
-  const rotateY = useTransform(scrollYProgress, [0, 1], [0, 15]);
-  const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
+  // Exceptional 3D with true Z-depth
+  const rotateX = useTransform(scrollYProgress, [0, 0.3, 0.5, 0.7, 1], [35, 10, 0, -10, -35]);
+  const rotateY = useTransform(scrollYProgress, [0, 0.25, 0.5, 0.75, 1], [-18, -5, 0, 5, 18]);
+  const z = useTransform(scrollYProgress, [0, 0.2, 0.5, 0.8, 1], [-300, -120, 0, -120, -300]);
+  const scale = useTransform(scrollYProgress, [0, 0.2, 0.5, 0.8, 1], [0.7, 0.9, 1.05, 0.9, 0.7]);
+  const opacity = useTransform(scrollYProgress, [0, 0.2, 0.5, 0.8, 1], [0, 0.9, 1, 0.9, 0]);
+
+  // Z-axis parallax layers
+  const layer1Z = useTransform(scrollYProgress, [0, 1], [0, -200]);
+  const layer2Z = useTransform(scrollYProgress, [0, 1], [0, -450]);
+  const layer3Z = useTransform(scrollYProgress, [0, 1], [0, -700]);
+  const layer1RotateZ = useTransform(scrollYProgress, [0, 1], [0, 360]);
+  const layer2RotateX = useTransform(scrollYProgress, [0, 1], [0, -360]);
+  const layer3RotateY = useTransform(scrollYProgress, [0, 1], [0, 480]);
 
   const metrics = [
     { value: "500+", label: "Schools & Colleges", desc: "Educational partnerships" },
@@ -48,7 +60,7 @@ const AboutSection = () => {
   }, [metrics.length]);
 
   return (
-    <section ref={containerRef} className="relative min-h-screen bg-black text-white overflow-hidden">
+    <section ref={containerRef} className="relative min-h-screen bg-black text-white overflow-hidden" data-3d-section>
       {/* Advanced geometric background */}
       <div className="absolute inset-0">
         {/* Primary grid */}
@@ -81,7 +93,17 @@ const AboutSection = () => {
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-6 py-32">
-        <motion.div style={{ opacity }} className="text-center mb-32">
+        <motion.div 
+          style={{ 
+            opacity, 
+            rotateX, 
+            rotateY,
+            z,
+            scale,
+            transformStyle: "preserve-3d"
+          }} 
+          className="text-center mb-32"
+        >
           {/* Minimalist title design */}
           <motion.div
             initial={{ opacity: 0, y: 50 }}
@@ -285,12 +307,18 @@ const AboutSection = () => {
         </motion.div>
       </div>
 
-      {/* Subtle floating elements */}
+      {/* Exceptional 3D floating particles with Z-depth */}
       <motion.div
-        className="absolute top-1/4 right-32 w-2 h-2 border border-white/20 rounded-full"
+        style={{
+          z: layer1Z,
+          rotateZ: layer1RotateZ,
+          rotateX: layer2RotateX,
+          transformStyle: "preserve-3d"
+        }}
+        className="absolute top-1/4 right-32 w-4 h-4 bg-gradient-to-br from-white/30 to-white/10 rounded-full shadow-2xl"
         animate={{
-          scale: [1, 1.5, 1],
-          opacity: [0.2, 0.5, 0.2],
+          scale: [1, 1.8, 1],
+          opacity: [0.4, 0.9, 0.4],
         }}
         transition={{
           duration: 4,
@@ -299,13 +327,38 @@ const AboutSection = () => {
         }}
       />
       <motion.div
-        className="absolute bottom-1/3 left-32 w-1 h-1 border border-white/30 rounded-full"
+        style={{
+          z: layer2Z,
+          rotateY: layer2RotateX,
+          rotateZ: layer3RotateY,
+          transformStyle: "preserve-3d"
+        }}
+        className="absolute bottom-1/3 left-32 w-3 h-3 bg-gradient-to-br from-white/40 to-white/20 rounded-full shadow-xl"
         animate={{
-          scale: [1, 1.8, 1],
-          opacity: [0.3, 0.6, 0.3],
+          scale: [1, 2.5, 1],
+          opacity: [0.5, 1, 0.5],
         }}
         transition={{
           duration: 6,
+          repeat: Infinity,
+          ease: "easeInOut",
+          delay: 1,
+        }}
+      />
+      <motion.div
+        style={{
+          z: layer3Z,
+          rotateX: layer1RotateZ,
+          rotateY: layer3RotateY,
+          transformStyle: "preserve-3d"
+        }}
+        className="absolute top-1/2 left-1/4 w-2.5 h-2.5 bg-gradient-to-br from-white/25 to-white/8 rounded-full shadow-lg"
+        animate={{
+          scale: [1, 3, 1],
+          opacity: [0.3, 0.7, 0.3],
+        }}
+        transition={{
+          duration: 8,
           repeat: Infinity,
           ease: "easeInOut",
           delay: 2,

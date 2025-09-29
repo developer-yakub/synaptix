@@ -29,8 +29,20 @@ const CustomizeSection = () => {
     offset: ["start end", "end start"]
   });
 
-  const rotateX = useTransform(scrollYProgress, [0, 1], [0, 10]);
-  const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
+  // Exceptional 3D transforms with Z-axis depth
+  const rotateX = useTransform(scrollYProgress, [0, 0.3, 0.5, 0.7, 1], [40, 12, 0, -12, -40]);
+  const rotateY = useTransform(scrollYProgress, [0, 0.25, 0.5, 0.75, 1], [-20, -6, 0, 6, 20]);
+  const z = useTransform(scrollYProgress, [0, 0.2, 0.5, 0.8, 1], [-350, -150, 0, -150, -350]);
+  const scale = useTransform(scrollYProgress, [0, 0.2, 0.5, 0.8, 1], [0.65, 0.88, 1.08, 0.88, 0.65]);
+  const opacity = useTransform(scrollYProgress, [0, 0.2, 0.5, 0.8, 1], [0, 0.85, 1, 0.85, 0]);
+
+  // Multi-layer Z-depth parallax
+  const layer1Z = useTransform(scrollYProgress, [0, 1], [0, -250]);
+  const layer2Z = useTransform(scrollYProgress, [0, 1], [0, -500]);
+  const layer3Z = useTransform(scrollYProgress, [0, 1], [0, -750]);
+  const layer1RotateY = useTransform(scrollYProgress, [0, 1], [0, 270]);
+  const layer2RotateX = useTransform(scrollYProgress, [0, 1], [0, -270]);
+  const layer3RotateZ = useTransform(scrollYProgress, [0, 1], [0, 540]);
 
   const services = [
     {
@@ -93,9 +105,9 @@ const CustomizeSection = () => {
   }, []);
 
   return (
-    <section ref={containerRef} className="relative min-h-screen bg-black text-white overflow-hidden">
-      {/* Advanced geometric background */}
-      <div className="absolute inset-0">
+    <section ref={containerRef} className="relative min-h-screen bg-black text-white overflow-hidden" data-3d-section>
+      {/* Exceptional 3D background with depth */}
+      <div className="absolute inset-0" style={{ transformStyle: "preserve-3d", perspective: "2000px" }}>
         {/* Primary geometric grid */}
         <div className="absolute inset-0 opacity-[0.03]">
           <div
@@ -110,23 +122,48 @@ const CustomizeSection = () => {
           />
         </div>
 
-        {/* Floating geometric shapes */}
+        {/* 3D geometric shapes with Z-depth */}
         <motion.div
-          style={{ rotateX }}
-          className="absolute top-20 left-20 w-64 h-64 border border-white/5"
+          style={{ 
+            z: layer1Z,
+            rotateY: layer1RotateY,
+            rotateX: useTransform(scrollYProgress, [0, 1], [0, 60]),
+            transformStyle: "preserve-3d"
+          }}
+          className="absolute top-20 left-20 w-64 h-64 border-2 border-white/15 shadow-2xl"
         />
         <motion.div
-          style={{ rotateX: useTransform(scrollYProgress, [0, 1], [5, -5]) }}
-          className="absolute top-40 right-32 w-48 h-48 border border-white/3 rotate-45"
+          style={{ 
+            z: layer2Z,
+            rotateX: layer2RotateX,
+            rotateZ: useTransform(scrollYProgress, [0, 1], [0, 45]),
+            transformStyle: "preserve-3d"
+          }}
+          className="absolute top-40 right-32 w-48 h-48 border-2 border-white/12 rotate-45 shadow-xl"
         />
         <motion.div
-          style={{ rotateX: useTransform(scrollYProgress, [0, 1], [-3, 8]) }}
-          className="absolute bottom-32 left-16 w-56 h-56 border border-white/2 -rotate-12"
+          style={{ 
+            z: layer3Z,
+            rotateZ: layer3RotateZ,
+            rotateY: useTransform(scrollYProgress, [0, 1], [0, -30]),
+            transformStyle: "preserve-3d"
+          }}
+          className="absolute bottom-32 left-16 w-56 h-56 border border-white/10 -rotate-12 shadow-lg"
         />
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-6 py-32">
-        <motion.div style={{ opacity }} className="text-center mb-24">
+        <motion.div 
+          style={{ 
+            opacity, 
+            rotateX, 
+            rotateY,
+            z,
+            scale,
+            transformStyle: "preserve-3d"
+          }} 
+          className="text-center mb-24"
+        >
           {/* Minimalist modular title */}
           <motion.div
             initial={{ opacity: 0, y: 50 }}
@@ -419,17 +456,61 @@ const CustomizeSection = () => {
         )}
       </AnimatePresence>
 
-      {/* Ambient floating elements */}
+      {/* Exceptional 3D floating orbs with Z-depth */}
       <motion.div
-        className="absolute top-1/3 right-20 w-1 h-1 bg-white/30 rounded-full"
+        style={{ 
+          z: layer1Z,
+          rotateY: layer1RotateY,
+          rotateX: layer2RotateX,
+          transformStyle: "preserve-3d"
+        }}
+        className="absolute top-1/3 right-20 w-4 h-4 bg-gradient-to-br from-white/35 to-white/10 rounded-full shadow-2xl"
         animate={{
-          y: [-10, 10, -10],
-          opacity: [0.3, 0.7, 0.3],
+          scale: [1, 2, 1],
+          opacity: [0.4, 0.9, 0.4],
         }}
         transition={{
-          duration: 4,
+          duration: 5,
           repeat: Infinity,
           ease: "easeInOut",
+        }}
+      />
+      <motion.div
+        style={{ 
+          z: layer2Z,
+          rotateX: layer2RotateX,
+          rotateZ: layer3RotateZ,
+          transformStyle: "preserve-3d"
+        }}
+        className="absolute bottom-1/4 left-24 w-3.5 h-3.5 bg-gradient-to-br from-white/40 to-white/15 rounded-full shadow-xl"
+        animate={{
+          scale: [1, 2.5, 1],
+          opacity: [0.5, 1, 0.5],
+        }}
+        transition={{
+          duration: 7,
+          repeat: Infinity,
+          ease: "easeInOut",
+          delay: 1,
+        }}
+      />
+      <motion.div
+        style={{ 
+          z: layer3Z,
+          rotateZ: layer3RotateZ,
+          rotateY: useTransform(scrollYProgress, [0, 1], [0, -200]),
+          transformStyle: "preserve-3d"
+        }}
+        className="absolute top-1/2 left-1/4 w-2.5 h-2.5 bg-gradient-to-br from-white/30 to-white/8 rounded-full shadow-lg"
+        animate={{
+          scale: [1, 3, 1],
+          opacity: [0.3, 0.8, 0.3],
+        }}
+        transition={{
+          duration: 9,
+          repeat: Infinity,
+          ease: "easeInOut",
+          delay: 2,
         }}
       />
     </section>

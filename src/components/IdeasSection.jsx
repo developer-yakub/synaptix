@@ -24,8 +24,20 @@ const IdeasSection = () => {
     offset: ["start end", "end start"]
   });
 
-  const y = useTransform(scrollYProgress, [0, 1], [100, -100]);
-  const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
+  // Exceptional 3D scroll transforms with true depth
+  const rotateX = useTransform(scrollYProgress, [0, 0.3, 0.5, 0.7, 1], [45, 15, 0, -15, -45]);
+  const rotateY = useTransform(scrollYProgress, [0, 0.25, 0.5, 0.75, 1], [-25, -8, 0, 8, 25]);
+  const z = useTransform(scrollYProgress, [0, 0.2, 0.5, 0.8, 1], [-400, -200, 0, -200, -400]);
+  const scale = useTransform(scrollYProgress, [0, 0.2, 0.5, 0.8, 1], [0.6, 0.85, 1.1, 0.85, 0.6]);
+  const opacity = useTransform(scrollYProgress, [0, 0.2, 0.5, 0.8, 1], [0, 0.8, 1, 0.8, 0]);
+
+  // Multi-layer parallax with Z-depth
+  const layer1Z = useTransform(scrollYProgress, [0, 1], [0, -300]);
+  const layer2Z = useTransform(scrollYProgress, [0, 1], [0, -600]);
+  const layer3Z = useTransform(scrollYProgress, [0, 1], [0, -900]);
+  const layer1RotateX = useTransform(scrollYProgress, [0, 1], [0, 360]);
+  const layer2RotateY = useTransform(scrollYProgress, [0, 1], [0, -360]);
+  const layer3RotateZ = useTransform(scrollYProgress, [0, 1], [0, 720]);
 
   const steps = [
     {
@@ -92,21 +104,38 @@ const IdeasSection = () => {
   }, [isVisible, steps.length]);
 
   return (
-    <section ref={containerRef} className="relative min-h-screen bg-black text-white overflow-hidden">
-      {/* Geometric Background */}
-      <div className="absolute inset-0">
-        {/* Large geometric shapes */}
+    <section ref={containerRef} className="relative min-h-screen bg-black text-white overflow-hidden" data-3d-section>
+      {/* Exceptional 3D Background with Z-depth */}
+      <div className="absolute inset-0" style={{ transformStyle: "preserve-3d", perspective: "2000px" }}>
+        {/* Layer 1 - Closest with Z-depth */}
         <motion.div
-          style={{ y }}
-          className="absolute top-20 left-10 w-96 h-96 border border-white/5 rotate-45"
+          style={{ 
+            z: layer1Z,
+            rotateX: layer1RotateX,
+            rotateY: useTransform(scrollYProgress, [0, 1], [0, 45]),
+            transformStyle: "preserve-3d"
+          }}
+          className="absolute top-20 left-10 w-96 h-96 border-2 border-white/15 rotate-45 shadow-2xl"
         />
+        {/* Layer 2 - Middle depth */}
         <motion.div
-          style={{ y: useTransform(scrollYProgress, [0, 1], [-50, 50]) }}
-          className="absolute top-40 right-20 w-64 h-64 border border-white/3 rotate-12"
+          style={{ 
+            z: layer2Z,
+            rotateY: layer2RotateY,
+            rotateX: useTransform(scrollYProgress, [0, 1], [0, -30]),
+            transformStyle: "preserve-3d"
+          }}
+          className="absolute top-40 right-20 w-64 h-64 border-2 border-white/12 rotate-12 shadow-xl"
         />
+        {/* Layer 3 - Farthest depth */}
         <motion.div
-          style={{ y: useTransform(scrollYProgress, [0, 1], [200, -200]) }}
-          className="absolute bottom-40 left-1/4 w-48 h-48 border border-white/2 -rotate-30"
+          style={{ 
+            z: layer3Z,
+            rotateZ: layer3RotateZ,
+            rotateX: useTransform(scrollYProgress, [0, 1], [-20, 20]),
+            transformStyle: "preserve-3d"
+          }}
+          className="absolute bottom-40 left-1/4 w-48 h-48 border border-white/10 -rotate-30 shadow-lg"
         />
 
         {/* Grid pattern */}
@@ -122,7 +151,17 @@ const IdeasSection = () => {
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-6 py-32">
-        <motion.div style={{ opacity }} className="text-center mb-24">
+        <motion.div 
+          style={{ 
+            opacity, 
+            rotateX, 
+            rotateY,
+            z,
+            scale,
+            transformStyle: "preserve-3d"
+          }} 
+          className="text-center mb-24"
+        >
           {/* Minimalist Title */}
           <motion.div
             initial={{ opacity: 0, y: 50 }}
@@ -328,24 +367,55 @@ const IdeasSection = () => {
         </motion.div>
       </div>
 
-      {/* Floating elements */}
+      {/* Exceptional 3D floating particles with real depth */}
       <motion.div
-        className="absolute top-1/4 right-10 w-2 h-2 bg-white/20 rounded-full"
+        style={{ 
+          z: layer1Z,
+          rotateX: layer1RotateX,
+          rotateY: layer2RotateY,
+          transformStyle: "preserve-3d"
+        }}
+        className="absolute top-1/4 right-10 w-4 h-4 bg-gradient-to-br from-white/30 to-white/10 rounded-full shadow-2xl"
         animate={{
-          y: [-20, 20, -20],
-          opacity: [0.2, 0.5, 0.2],
+          scale: [1, 1.8, 1],
+          opacity: [0.4, 0.9, 0.4],
         }}
         transition={{
-          duration: 6,
+          duration: 4,
           repeat: Infinity,
           ease: "easeInOut",
         }}
       />
       <motion.div
-        className="absolute bottom-1/4 left-10 w-1 h-1 bg-white/30 rounded-full"
+        style={{ 
+          z: layer2Z,
+          rotateY: layer2RotateY,
+          rotateZ: layer3RotateZ,
+          transformStyle: "preserve-3d"
+        }}
+        className="absolute bottom-1/4 left-10 w-3 h-3 bg-gradient-to-br from-white/40 to-white/20 rounded-full shadow-xl"
         animate={{
-          y: [20, -20, 20],
-          opacity: [0.3, 0.6, 0.3],
+          scale: [1, 2.5, 1],
+          opacity: [0.5, 1, 0.5],
+        }}
+        transition={{
+          duration: 6,
+          repeat: Infinity,
+          ease: "easeInOut",
+          delay: 1,
+        }}
+      />
+      <motion.div
+        style={{ 
+          z: layer3Z,
+          rotateX: layer1RotateX,
+          rotateZ: useTransform(scrollYProgress, [0, 1], [0, -180]),
+          transformStyle: "preserve-3d"
+        }}
+        className="absolute top-1/2 left-1/3 w-2 h-2 bg-gradient-to-br from-white/25 to-white/5 rounded-full shadow-lg"
+        animate={{
+          scale: [1, 3, 1],
+          opacity: [0.3, 0.7, 0.3],
         }}
         transition={{
           duration: 8,

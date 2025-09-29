@@ -25,8 +25,20 @@ const ContactPage = () => {
     offset: ["start end", "end start"]
   });
 
-  const rotateX = useTransform(scrollYProgress, [0, 1], [0, 5]);
-  const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
+  // Exceptional 3D with Z-depth
+  const rotateX = useTransform(scrollYProgress, [0, 0.3, 0.5, 0.7, 1], [38, 11, 0, -11, -38]);
+  const rotateY = useTransform(scrollYProgress, [0, 0.25, 0.5, 0.75, 1], [-16, -4, 0, 4, 16]);
+  const z = useTransform(scrollYProgress, [0, 0.2, 0.5, 0.8, 1], [-320, -130, 0, -130, -320]);
+  const scale = useTransform(scrollYProgress, [0, 0.2, 0.5, 0.8, 1], [0.68, 0.89, 1.06, 0.89, 0.68]);
+  const opacity = useTransform(scrollYProgress, [0, 0.2, 0.5, 0.8, 1], [0, 0.88, 1, 0.88, 0]);
+
+  // Z-axis depth layers
+  const layer1Z = useTransform(scrollYProgress, [0, 1], [0, -220]);
+  const layer2Z = useTransform(scrollYProgress, [0, 1], [0, -480]);
+  const layer3Z = useTransform(scrollYProgress, [0, 1], [0, -740]);
+  const layer1RotateX = useTransform(scrollYProgress, [0, 1], [0, 300]);
+  const layer2RotateY = useTransform(scrollYProgress, [0, 1], [0, -420]);
+  const layer3RotateZ = useTransform(scrollYProgress, [0, 1], [0, 600]);
 
   const contactMethods = [
     {
@@ -76,7 +88,7 @@ const ContactPage = () => {
   };
 
   return (
-    <section ref={containerRef} className="relative min-h-screen bg-black text-white overflow-hidden">
+    <section ref={containerRef} className="relative min-h-screen bg-black text-white overflow-hidden" data-3d-section>
       {/* Advanced geometric background */}
       <div className="absolute inset-0">
         {/* Primary grid */}
@@ -91,7 +103,7 @@ const ContactPage = () => {
               backgroundSize: '80px 80px'
             }}
           />
-        </div>
+      </div>
 
         {/* Rotating geometric shapes */}
         <motion.div
@@ -109,7 +121,17 @@ const ContactPage = () => {
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-6 py-32">
-        <motion.div style={{ opacity }} className="text-center mb-24">
+        <motion.div 
+          style={{ 
+            opacity, 
+            rotateX, 
+            rotateY,
+            z,
+            scale,
+            transformStyle: "preserve-3d"
+          }} 
+          className="text-center mb-24"
+        >
           {/* Minimalist title */}
           <motion.div
             initial={{ opacity: 0, y: 50 }}
@@ -125,14 +147,14 @@ const ContactPage = () => {
               <Minus className="w-16 h-px bg-white/30" />
             </div>
 
-            <motion.p
+          <motion.p
               initial={{ opacity: 0, scale: 0.9 }}
               whileInView={{ opacity: 1, scale: 1 }}
               transition={{ duration: 1, delay: 0.3 }}
               className="text-lg font-light text-white/70 leading-relaxed max-w-3xl mx-auto"
             >
               Direct communication channels. Immediate response. Start your project today.
-            </motion.p>
+          </motion.p>
           </motion.div>
         </motion.div>
 
@@ -155,24 +177,24 @@ const ContactPage = () => {
                 >
                   <div className="text-center">
                     {/* Icon */}
-                    <motion.div
+                  <motion.div
                       className="w-12 h-12 border border-white/30 rounded flex items-center justify-center mx-auto mb-6"
                       whileHover={{ scale: 1.1 }}
-                      transition={{ duration: 0.3 }}
-                    >
+                    transition={{ duration: 0.3 }}
+                  >
                       <IconComponent className="w-6 h-6 text-white/60" />
-                    </motion.div>
+                  </motion.div>
 
                     {/* Content */}
                     <h3 className="text-sm font-medium text-white/70 mb-4 uppercase tracking-wider">
                       {method.label}
-                    </h3>
+                  </h3>
 
                     <div className="space-y-2">
                       <p className="text-white/90 font-light">{method.value}</p>
                       <p className="text-white/50 text-sm font-light">{method.subvalue}</p>
                     </div>
-                  </div>
+                </div>
                 </motion.div>
               </motion.div>
             );
@@ -194,11 +216,11 @@ const ContactPage = () => {
               <div className="mb-8">
                 <p className="text-white/60 text-sm mb-4">What brings you here?</p>
                 <div className="grid grid-cols-2 gap-3">
-                  {inquiryTypes.map((type) => {
-                    const IconComponent = type.icon;
+                      {inquiryTypes.map((type) => {
+                        const IconComponent = type.icon;
                     const isSelected = selectedInquiry === type.id;
 
-                    return (
+                        return (
                       <motion.button
                         key={type.id}
                         onClick={() => setSelectedInquiry(type.id)}
@@ -207,8 +229,8 @@ const ContactPage = () => {
                             ? 'border-white bg-white/5'
                             : 'border-white/20 hover:border-white/40'
                         }`}
-                        whileHover={{ scale: 1.02 }}
-                        whileTap={{ scale: 0.98 }}
+                            whileHover={{ scale: 1.02 }}
+                            whileTap={{ scale: 0.98 }}
                       >
                         <IconComponent className={`w-4 h-4 mb-2 ${
                           isSelected ? 'text-white' : 'text-white/60'
@@ -216,17 +238,17 @@ const ContactPage = () => {
                         <p className={`text-sm font-light ${
                           isSelected ? 'text-white' : 'text-white/70'
                         }`}>
-                          {type.label}
+                              {type.label}
                         </p>
                       </motion.button>
-                    );
-                  })}
-                </div>
-              </div>
+                        );
+                      })}
+                    </div>
+                  </div>
 
               {/* Form */}
               <form onSubmit={handleSubmit} className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
                     <input
                       type="text"
@@ -263,27 +285,27 @@ const ContactPage = () => {
                   />
                 </div>
 
-                <motion.button
-                  type="submit"
-                  disabled={isSubmitting}
+                  <motion.button
+                    type="submit"
+                    disabled={isSubmitting}
                   className="w-full px-8 py-4 border border-white/20 rounded-lg text-white font-light tracking-wide hover:border-white/40 transition-all duration-300 flex items-center justify-center"
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                >
-                  {isSubmitting ? (
-                    <motion.div
-                      animate={{ rotate: 360 }}
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                  >
+                    {isSubmitting ? (
+                        <motion.div
+                          animate={{ rotate: 360 }}
                       transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
                       className="w-4 h-4 border border-white/30 border-t-transparent rounded-full mr-3"
                     />
-                  ) : (
-                    <>
+                    ) : (
+                      <>
                       <Send className="w-4 h-4 mr-3" />
-                      Send Message
+                        Send Message
                       <ArrowUpRight className="w-4 h-4 ml-3" />
-                    </>
-                  )}
-                </motion.button>
+                      </>
+                    )}
+                  </motion.button>
               </form>
             </div>
           </motion.div>
@@ -306,11 +328,11 @@ const ContactPage = () => {
                 <div className="flex justify-between items-center">
                   <span className="text-white/60">Technical Support</span>
                   <span className="text-white/90">12 hours</span>
-                </div>
+              </div>
                 <div className="flex justify-between items-center">
                   <span className="text-white/60">Project Consultation</span>
                   <span className="text-white/90">6 hours</span>
-                </div>
+            </div>
               </div>
             </div>
 
@@ -375,17 +397,61 @@ const ContactPage = () => {
         </motion.div>
       </div>
 
-      {/* Ambient floating elements */}
+      {/* Exceptional 3D floating particles with Z-depth */}
       <motion.div
-        className="absolute top-1/3 right-16 w-2 h-2 border border-white/20 rounded-full"
+        style={{
+          z: layer1Z,
+          rotateX: layer1RotateX,
+          rotateY: layer2RotateY,
+          transformStyle: "preserve-3d"
+        }}
+        className="absolute top-1/3 right-16 w-4 h-4 bg-gradient-to-br from-white/35 to-white/10 rounded-full shadow-2xl"
         animate={{
-          scale: [1, 1.5, 1],
-          opacity: [0.2, 0.5, 0.2],
+          scale: [1, 2, 1],
+          opacity: [0.4, 0.9, 0.4],
         }}
         transition={{
           duration: 4,
           repeat: Infinity,
           ease: "easeInOut",
+        }}
+      />
+      <motion.div
+        style={{
+          z: layer2Z,
+          rotateY: layer2RotateY,
+          rotateZ: layer3RotateZ,
+          transformStyle: "preserve-3d"
+        }}
+        className="absolute bottom-1/4 left-20 w-3 h-3 bg-gradient-to-br from-white/40 to-white/20 rounded-full shadow-xl"
+        animate={{
+          scale: [1, 2.5, 1],
+          opacity: [0.5, 1, 0.5],
+        }}
+        transition={{
+          duration: 6,
+          repeat: Infinity,
+          ease: "easeInOut",
+          delay: 1,
+        }}
+      />
+      <motion.div
+        style={{
+          z: layer3Z,
+          rotateZ: layer3RotateZ,
+          rotateX: useTransform(scrollYProgress, [0, 1], [0, 180]),
+          transformStyle: "preserve-3d"
+        }}
+        className="absolute top-1/2 left-1/3 w-2.5 h-2.5 bg-gradient-to-br from-white/25 to-white/8 rounded-full shadow-lg"
+        animate={{
+          scale: [1, 3, 1],
+          opacity: [0.3, 0.7, 0.3],
+        }}
+        transition={{
+          duration: 8,
+          repeat: Infinity,
+          ease: "easeInOut",
+          delay: 2,
         }}
       />
     </section>
