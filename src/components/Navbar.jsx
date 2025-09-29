@@ -12,7 +12,6 @@ import {
 } from "@/components/ui/resizable-navbar";
 import { useState } from "react";
 import { BackgroundRippleEffectDemo } from "./SectionOne";
-import Link from "next/link";
 
 export function NavbarDemo() {
   const navItems = [
@@ -48,11 +47,11 @@ export function NavbarDemo() {
           <NavbarLogo />
           <NavItems items={navItems} />
           <div className="flex items-center gap-4">
-            <NavbarButton variant="secondary">
-              <Link href={"/login"}>Login</Link>
+            <NavbarButton variant="secondary" href="/login">
+              Login
             </NavbarButton>
-            <NavbarButton variant="primary">
-              <Link href={"/login"}>Sign up</Link>
+            <NavbarButton variant="primary" href="/login">
+              Sign up
             </NavbarButton>
           </div>
         </NavBody>

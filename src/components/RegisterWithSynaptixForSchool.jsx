@@ -1,213 +1,250 @@
 "use client";
-import React from "react";
-import { motion } from "framer-motion";
+import React, { useRef } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { ArrowRight, Grid3X3 } from "lucide-react";
 
 const SynaptixLanding = () => {
-  const fadeInUp = {
-    initial: { opacity: 0, y: 60 },
-    animate: { opacity: 1, y: 0 },
-    transition: { duration: 0.6, ease: "easeOut" },
-  };
+  const containerRef = useRef(null);
 
-  const staggerContainer = {
-    initial: {},
-    animate: {
-      transition: {
-        staggerChildren: 0.2,
-      },
-    },
-  };
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"]
+  });
 
-  const buttonHover = {
-    scale: 1.05,
-    boxShadow: "0 10px 40px rgba(255, 255, 255, 0.1)",
-    transition: { duration: 0.3 },
-  };
+  const rotateX = useTransform(scrollYProgress, [0, 1], [0, 10]);
+  const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-800 text-white overflow-hidden">
-      {/* Animated background particles */}
+    <section ref={containerRef} className="relative min-h-screen bg-black text-white overflow-hidden">
+      {/* Advanced geometric background */}
       <div className="absolute inset-0">
-        {[...Array(20)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute w-1 h-1 bg-gray-500 rounded-full"
+        {/* Primary grid */}
+        <div className="absolute inset-0 opacity-[0.02]">
+          <div
+            className="w-full h-full"
             style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-            }}
-            animate={{
-              y: [-20, 20, -20],
-              opacity: [0.3, 0.8, 0.3],
-            }}
-            transition={{
-              duration: 3 + Math.random() * 2,
-              repeat: Infinity,
-              ease: "easeInOut",
-              delay: Math.random() * 2,
+              backgroundImage: `
+                linear-gradient(to right, white 1px, transparent 1px),
+                linear-gradient(to bottom, white 1px, transparent 1px)
+              `,
+              backgroundSize: '50px 50px'
             }}
           />
-        ))}
+        </div>
+
+        {/* Rotating geometric shapes */}
+        <motion.div
+          style={{ rotateX }}
+          className="absolute top-32 left-16 w-96 h-96 border border-white/3"
+        />
+        <motion.div
+          style={{ rotateX: useTransform(scrollYProgress, [0, 1], [5, -5]) }}
+          className="absolute top-48 right-32 w-80 h-80 border border-white/2 rotate-45"
+        />
+        <motion.div
+          style={{ rotateX: useTransform(scrollYProgress, [0, 1], [-8, 15]) }}
+          className="absolute bottom-40 left-24 w-72 h-72 border border-white/4 -rotate-12"
+        />
       </div>
 
-      <div className="relative z-10 container mx-auto px-6 py-12 flex items-center min-h-screen">
-        <div className="grid lg:grid-cols-2 gap-12 items-center w-full">
-          {/* Left side - Robot placeholder */}
+      <div className="relative z-10 max-w-7xl mx-auto px-6 py-32">
+        <motion.div style={{ opacity }} className="grid lg:grid-cols-2 gap-24 items-center min-h-screen">
+          {/* Left side - Visualization */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
+            initial={{ opacity: 0, x: -50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 1 }}
             className="relative order-2 lg:order-1"
           >
-            <div className="relative w-full h-96 lg:h-[500px] bg-gradient-to-br from-gray-800 to-gray-900 rounded-2xl border border-gray-700 flex items-center justify-center overflow-hidden">
-              {/* Subtle grid pattern */}
-              <div className="absolute inset-0 opacity-10">
-                <div
-                  className="w-full h-full"
-                  style={{
-                    backgroundImage: `linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px),
-                                   linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)`,
-                    backgroundSize: "20px 20px",
-                  }}
-                />
+            <div className="relative border border-white/20 rounded-2xl p-12 h-[500px] flex flex-col items-center justify-center">
+              {/* Modular grid visualization */}
+              <div className="grid grid-cols-3 gap-4 mb-8">
+                {[...Array(9)].map((_, i) => (
+                  <motion.div
+                    key={i}
+                    className="w-16 h-16 border border-white/30 rounded flex items-center justify-center"
+                    whileHover={{ scale: 1.1, borderColor: "rgba(255,255,255,0.6)" }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <div className="w-6 h-6 border border-white/40 rounded" />
+                  </motion.div>
+                ))}
               </div>
 
-              {/* Placeholder content */}
-              <motion.div
-                animate={{
-                  scale: [1, 1.02, 1],
-                }}
-                transition={{
-                  duration: 4,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                }}
-                className="text-center"
-              >
-                <div className="w-32 h-32 mx-auto mb-4 bg-gradient-to-br from-gray-600 to-gray-700 rounded-full flex items-center justify-center">
-                  <div className="w-16 h-16 bg-gradient-to-br from-white to-gray-300 rounded-lg"></div>
-                </div>
-                <p className="text-gray-400 text-sm">
-                  Robot Visualization Area
-                </p>
-              </motion.div>
+              <Grid3X3 className="w-12 h-12 text-white/40 mb-6" />
 
-              {/* Floating elements */}
-              <motion.div
-                className="absolute top-8 right-8 w-3 h-3 bg-green-400 rounded-full"
-                animate={{
-                  scale: [1, 1.5, 1],
-                  opacity: [0.5, 1, 0.5],
-                }}
-                transition={{
-                  duration: 2,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                }}
-              />
-              <motion.div
-                className="absolute bottom-12 left-8 w-2 h-2 bg-blue-400 rounded-full"
-                animate={{
-                  scale: [1, 1.3, 1],
-                  opacity: [0.7, 1, 0.7],
-                }}
-                transition={{
-                  duration: 2.5,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                  delay: 1,
-                }}
-              />
+              <p className="text-white/60 text-sm font-light text-center max-w-xs">
+                System architecture visualization.
+                Modular design principles in action.
+              </p>
+
+              {/* Connection lines animation */}
+              <svg className="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 400 400">
+                <defs>
+                  <linearGradient id="lineGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stopColor="transparent" />
+                    <stop offset="50%" stopColor="white" stopOpacity="0.2" />
+                    <stop offset="100%" stopColor="transparent" />
+                  </linearGradient>
+                </defs>
+                {[...Array(6)].map((_, i) => (
+                  <motion.line
+                    key={i}
+                    x1={`${20 + i * 15}%`}
+                    y1={`${20 + (i % 2) * 60}%`}
+                    x2={`${35 + i * 15}%`}
+                    y2={`${40 + (i % 2) * 40}%`}
+                    stroke="url(#lineGrad)"
+                    strokeWidth="1"
+                    initial={{ pathLength: 0 }}
+                    animate={{ pathLength: 1 }}
+                    transition={{
+                      duration: 2,
+                      delay: i * 0.3,
+                      repeat: Infinity,
+                      repeatType: "reverse"
+                    }}
+                  />
+                ))}
+              </svg>
             </div>
           </motion.div>
 
           {/* Right side - Content */}
           <motion.div
-            variants={staggerContainer}
-            initial="initial"
-            animate="animate"
-            className="space-y-8 order-1 lg:order-2"
+            initial={{ opacity: 0, x: 50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 1 }}
+            className="space-y-12 order-1 lg:order-2"
           >
-            {/* Header */}
-            <motion.div variants={fadeInUp} className="space-y-6">
-              <motion.h1
-                className="text-4xl lg:text-6xl font-bold leading-tight"
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, ease: "easeOut" }}
-              >
-                <span className="block text-white mb-2">REGISTER WITH</span>
-                <span className="block bg-gradient-to-r from-white via-gray-300 to-gray-500 bg-clip-text text-transparent">
-                  SYNAPTIX
-                </span>
-              </motion.h1>
-
+            {/* Title */}
+            <div className="space-y-8">
               <motion.div
-                variants={fadeInUp}
-                className="space-y-4 text-lg lg:text-xl text-gray-300 leading-relaxed"
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 1 }}
               >
-                <p>
-                  <span className="font-semibold text-white">
-                    BRING INNOVATION TO YOUR SCHOOL!
-                  </span>
-                </p>
-                <p>
-                  PARTNER WITH US TO INSPIRE STUDENTS THROUGH HANDS-ON ROBOTICS
-                  WORKSHOPS
-                </p>
-                <p>
-                  OR SET UP A FULLY EQUIPPED ROBOTICS LAB TAILORED TO YOUR
-                  INSTITUTION'S NEEDS.
-                </p>
-              </motion.div>
-            </motion.div>
+                <div className="flex items-center space-x-4 mb-6">
+                  <div className="w-px h-16 bg-white/30" />
+                  <h1 className="text-5xl md:text-7xl font-light tracking-widest leading-none" style={{ fontFamily: 'var(--font-display)' }}>
+                    REGISTER
+                  </h1>
+                </div>
 
-            {/* Buttons */}
+                <div className="flex items-center space-x-4">
+                  <div className="w-px h-12 bg-white/30" />
+                  <h1 className="text-4xl md:text-6xl font-light tracking-widest leading-none" style={{ fontFamily: 'var(--font-display)' }}>
+                    WITH SYNAPTIX
+                  </h1>
+                </div>
+              </motion.div>
+
+              {/* Description */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 1, delay: 0.3 }}
+                className="space-y-6"
+              >
+                <div className="border-l border-white/30 pl-6">
+                  <p className="text-lg font-light text-white/70 leading-relaxed">
+                    Bring innovation to your institution.
+                    Transform learning through technology.
+                  </p>
+                </div>
+
+                <div className="border-l border-white/30 pl-6">
+                  <p className="text-lg font-light text-white/70 leading-relaxed">
+                    Partner with us for hands-on robotics workshops
+                    and fully equipped laboratory solutions.
+                  </p>
+                </div>
+              </motion.div>
+            </div>
+
+            {/* Action buttons */}
             <motion.div
-              variants={fadeInUp}
-              className="flex flex-col sm:flex-row gap-4"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1, delay: 0.6 }}
+              className="flex flex-col sm:flex-row gap-6"
             >
               <motion.button
-                whileHover={buttonHover}
+                className="group relative px-8 py-4 border border-white/20 rounded-full text-white font-light tracking-wide hover:border-white/40 transition-all duration-500 overflow-hidden"
+                whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="px-8 py-4 bg-white text-black font-semibold rounded-xl hover:bg-gray-100 transition-colors duration-300 text-lg shadow-lg"
               >
-                BOOK A WORKSHOP
+                <span className="relative z-10 flex items-center">
+                  Book Workshop
+                  <ArrowRight className="w-4 h-4 ml-3" />
+                </span>
+                <motion.div
+                  className="absolute inset-0 bg-white/5"
+                  initial={{ x: "-100%" }}
+                  whileHover={{ x: "100%" }}
+                  transition={{ duration: 0.6 }}
+                />
               </motion.button>
 
               <motion.button
-                whileHover={buttonHover}
+                className="px-8 py-4 bg-white text-black font-light tracking-wide rounded-full hover:bg-white/90 transition-all duration-300"
+                whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="px-8 py-4 bg-gradient-to-r from-gray-700 to-gray-600 text-white font-semibold rounded-xl hover:from-gray-600 hover:to-gray-500 transition-all duration-300 text-lg shadow-lg border border-gray-500"
               >
-                GET QUOTATION FOR ROBOTIC LAB
+                Get Lab Quotation
               </motion.button>
             </motion.div>
 
-            {/* Additional interactive elements */}
+            {/* Core values */}
             <motion.div
-              variants={fadeInUp}
-              className="flex items-center space-x-6 pt-8"
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              transition={{ duration: 1, delay: 0.9 }}
+              className="flex items-center justify-center space-x-8 pt-8"
             >
               {["Innovation", "Education", "Technology"].map((item, index) => (
                 <motion.div
                   key={item}
-                  className="flex items-center space-x-2 text-sm text-gray-400"
-                  whileHover={{ scale: 1.1, color: "#ffffff" }}
-                  transition={{ duration: 0.2 }}
+                  className="flex items-center space-x-2 text-sm text-white/50 uppercase tracking-wider"
+                  whileHover={{ scale: 1.1, color: "rgba(255,255,255,0.9)" }}
+                  transition={{ duration: 0.3 }}
                 >
-                  <div className="w-2 h-2 bg-gradient-to-r from-gray-500 to-white rounded-full" />
+                  <div className="w-1.5 h-1.5 border border-white/40 rounded-full" />
                   <span>{item}</span>
                 </motion.div>
               ))}
             </motion.div>
           </motion.div>
-        </div>
+        </motion.div>
       </div>
 
-      {/* Bottom gradient overlay */}
-      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-black to-transparent pointer-events-none" />
-    </div>
+      {/* Ambient floating elements */}
+      <motion.div
+        className="absolute top-1/4 right-20 w-2 h-2 border border-white/30 rounded-full"
+        animate={{
+          scale: [1, 1.5, 1],
+          opacity: [0.3, 0.6, 0.3],
+        }}
+        transition={{
+          duration: 5,
+          repeat: Infinity,
+          ease: "easeInOut",
+        }}
+      />
+      <motion.div
+        className="absolute bottom-1/3 left-20 w-1.5 h-1.5 border border-white/40 rounded-full"
+        animate={{
+          scale: [1, 1.8, 1],
+          opacity: [0.4, 0.7, 0.4],
+        }}
+        transition={{
+          duration: 7,
+          repeat: Infinity,
+          ease: "easeInOut",
+          delay: 2,
+        }}
+      />
+    </section>
   );
 };
 

@@ -8,6 +8,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "@next/font": "^14.2.15",
     "@radix-ui/react-slot": "^1.2.3",
     "@tabler/icons-react": "^3.35.0",
     "class-variance-authority": "^0.7.1",
