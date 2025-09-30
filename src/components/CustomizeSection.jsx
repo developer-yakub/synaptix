@@ -105,9 +105,9 @@ const CustomizeSection = () => {
   }, []);
 
   return (
-    <section ref={containerRef} className="relative min-h-screen bg-black text-white overflow-hidden" data-3d-section>
-      {/* Exceptional 3D background with depth */}
-      <div className="absolute inset-0" style={{ transformStyle: "preserve-3d", perspective: "2000px" }}>
+    <section ref={containerRef} className="relative min-h-screen bg-slate-950 text-slate-50 overflow-hidden" data-3d-section>
+      {/* 3D background - Desktop only */}
+      <div className="hidden lg:block absolute inset-0" style={{ transformStyle: "preserve-3d", perspective: "2000px" }}>
         {/* Primary geometric grid */}
         <div className="absolute inset-0 opacity-[0.03]">
           <div
@@ -124,31 +124,31 @@ const CustomizeSection = () => {
 
         {/* 3D geometric shapes with Z-depth */}
         <motion.div
-          style={{ 
+          style={{
             z: layer1Z,
             rotateY: layer1RotateY,
             rotateX: useTransform(scrollYProgress, [0, 1], [0, 60]),
             transformStyle: "preserve-3d"
           }}
-          className="absolute top-20 left-20 w-64 h-64 border-2 border-white/15 shadow-2xl"
+          className="absolute top-20 left-20 w-64 h-64 border-2 border-slate-700"
         />
         <motion.div
-          style={{ 
+          style={{
             z: layer2Z,
             rotateX: layer2RotateX,
             rotateZ: useTransform(scrollYProgress, [0, 1], [0, 45]),
             transformStyle: "preserve-3d"
           }}
-          className="absolute top-40 right-32 w-48 h-48 border-2 border-white/12 rotate-45 shadow-xl"
+          className="absolute top-40 right-32 w-48 h-48 border-2 border-slate-600 rotate-45"
         />
         <motion.div
-          style={{ 
+          style={{
             z: layer3Z,
             rotateZ: layer3RotateZ,
             rotateY: useTransform(scrollYProgress, [0, 1], [0, -30]),
             transformStyle: "preserve-3d"
           }}
-          className="absolute bottom-32 left-16 w-56 h-56 border border-white/10 -rotate-12 shadow-lg"
+          className="absolute bottom-32 left-16 w-56 h-56 border border-slate-500 -rotate-12"
         />
       </div>
 
@@ -156,13 +156,13 @@ const CustomizeSection = () => {
         <motion.div 
           style={{ 
             opacity, 
-            rotateX, 
-            rotateY,
-            z,
-            scale,
+            rotateX: typeof window !== 'undefined' && window.innerWidth >= 1024 ? rotateX : 0, 
+            rotateY: typeof window !== 'undefined' && window.innerWidth >= 1024 ? rotateY : 0,
+            z: typeof window !== 'undefined' && window.innerWidth >= 1024 ? z : 0,
+            scale: typeof window !== 'undefined' && window.innerWidth >= 1024 ? scale : 1,
             transformStyle: "preserve-3d"
           }} 
-          className="text-center mb-24"
+          className="text-center mb-16 sm:mb-20 lg:mb-24"
         >
           {/* Minimalist modular title */}
           <motion.div
@@ -172,9 +172,9 @@ const CustomizeSection = () => {
             className="mb-12"
           >
             <div className="flex items-center justify-center space-x-4 mb-8">
-              <div className="w-16 h-px bg-white/30" />
-              <Grid3X3 className="w-8 h-8 text-white/60" />
-              <div className="w-16 h-px bg-white/30" />
+              <div className="w-16 h-px bg-slate-600" />
+              <Grid3X3 className="w-8 h-8 text-slate-400" />
+              <div className="w-16 h-px bg-slate-600" />
             </div>
 
             <h1 className="text-5xl md:text-7xl font-light tracking-widest leading-none mb-6" style={{ fontFamily: 'var(--font-display)' }}>
@@ -182,11 +182,11 @@ const CustomizeSection = () => {
             </h1>
 
             <div className="flex items-center justify-center space-x-6">
-              <div className="w-8 h-8 border border-white/40 rotate-45" />
+              <div className="w-8 h-8 border border-slate-500 rotate-45" />
               <h1 className="text-5xl md:text-7xl font-light tracking-widest leading-none" style={{ fontFamily: 'var(--font-display)' }}>
                 YOUR
               </h1>
-              <div className="w-8 h-8 border border-white/40 rotate-45" />
+              <div className="w-8 h-8 border border-slate-500 rotate-45" />
             </div>
 
             <h1 className="text-5xl md:text-7xl font-light tracking-widest leading-none" style={{ fontFamily: 'var(--font-display)' }}>
@@ -201,7 +201,7 @@ const CustomizeSection = () => {
             transition={{ duration: 1, delay: 0.3 }}
             className="max-w-4xl mx-auto"
           >
-            <p className="text-lg font-normal text-white/70 leading-relaxed mb-8" style={{ fontFamily: 'var(--font-sans)' }}>
+            <p className="text-lg font-normal text-slate-300 leading-relaxed mb-8" style={{ fontFamily: 'var(--font-sans)' }}>
               Modular development approach. Select components. Build systems.
               Scale infinitely.
             </p>
@@ -217,7 +217,7 @@ const CustomizeSection = () => {
         </motion.div>
 
         {/* Services Grid - Modular Layout */}
-        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6 mb-24">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 sm:gap-6 mb-16 sm:mb-20 lg:mb-24">
           {services.map((service, index) => {
             const IconComponent = service.icon;
             const isSelected = selectedService === service.id;
@@ -464,7 +464,7 @@ const CustomizeSection = () => {
           rotateX: layer2RotateX,
           transformStyle: "preserve-3d"
         }}
-        className="absolute top-1/3 right-20 w-4 h-4 bg-gradient-to-br from-white/35 to-white/10 rounded-full shadow-2xl"
+        className="hidden lg:block absolute top-1/3 right-20 w-3 h-3 bg-slate-500 rounded-full"
         animate={{
           scale: [1, 2, 1],
           opacity: [0.4, 0.9, 0.4],
@@ -482,7 +482,7 @@ const CustomizeSection = () => {
           rotateZ: layer3RotateZ,
           transformStyle: "preserve-3d"
         }}
-        className="absolute bottom-1/4 left-24 w-3.5 h-3.5 bg-gradient-to-br from-white/40 to-white/15 rounded-full shadow-xl"
+        className="hidden lg:block absolute bottom-1/4 left-24 w-2.5 h-2.5 bg-slate-400 rounded-full"
         animate={{
           scale: [1, 2.5, 1],
           opacity: [0.5, 1, 0.5],
@@ -501,7 +501,7 @@ const CustomizeSection = () => {
           rotateY: useTransform(scrollYProgress, [0, 1], [0, -200]),
           transformStyle: "preserve-3d"
         }}
-        className="absolute top-1/2 left-1/4 w-2.5 h-2.5 bg-gradient-to-br from-white/30 to-white/8 rounded-full shadow-lg"
+        className="hidden lg:block absolute top-1/2 left-1/4 w-2 h-2 bg-slate-300 rounded-full"
         animate={{
           scale: [1, 3, 1],
           opacity: [0.3, 0.8, 0.3],

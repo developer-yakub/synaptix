@@ -88,8 +88,8 @@ const ContactPage = () => {
   };
 
   return (
-    <section ref={containerRef} className="relative min-h-screen bg-black text-white overflow-hidden" data-3d-section>
-      {/* Advanced geometric background */}
+    <section ref={containerRef} className="relative min-h-screen bg-slate-950 text-slate-50 overflow-hidden" data-3d-section>
+      {/* Simple grid for mobile, 3D for desktop */}
       <div className="absolute inset-0">
         {/* Primary grid */}
         <div className="absolute inset-0 opacity-[0.02]">
@@ -105,18 +105,18 @@ const ContactPage = () => {
           />
       </div>
 
-        {/* Rotating geometric shapes */}
+        {/* Rotating geometric shapes - Desktop only */}
         <motion.div
           style={{ rotateX }}
-          className="absolute top-40 left-20 w-96 h-96 border border-white/3"
+          className="hidden lg:block absolute top-40 left-20 w-96 h-96 border border-white/3"
         />
         <motion.div
           style={{ rotateX: useTransform(scrollYProgress, [0, 1], [8, -8]) }}
-          className="absolute top-60 right-40 w-80 h-80 border border-white/2 rotate-45"
+          className="hidden lg:block absolute top-60 right-40 w-80 h-80 border border-white/2 rotate-45"
         />
         <motion.div
           style={{ rotateX: useTransform(scrollYProgress, [0, 1], [-6, 12]) }}
-          className="absolute bottom-40 left-32 w-64 h-64 border border-white/4 -rotate-30"
+          className="hidden lg:block absolute bottom-40 left-32 w-64 h-64 border border-white/4 -rotate-30"
         />
       </div>
 
@@ -124,13 +124,13 @@ const ContactPage = () => {
         <motion.div 
           style={{ 
             opacity, 
-            rotateX, 
-            rotateY,
-            z,
-            scale,
+            rotateX: typeof window !== 'undefined' && window.innerWidth >= 1024 ? rotateX : 0, 
+            rotateY: typeof window !== 'undefined' && window.innerWidth >= 1024 ? rotateY : 0,
+            z: typeof window !== 'undefined' && window.innerWidth >= 1024 ? z : 0,
+            scale: typeof window !== 'undefined' && window.innerWidth >= 1024 ? scale : 1,
             transformStyle: "preserve-3d"
           }} 
-          className="text-center mb-24"
+          className="text-center mb-16 sm:mb-20 lg:mb-24"
         >
           {/* Minimalist title */}
           <motion.div
@@ -140,11 +140,11 @@ const ContactPage = () => {
             className="mb-16"
           >
             <div className="flex items-center justify-center space-x-6 mb-8">
-              <Minus className="w-16 h-px bg-white/30" />
+              <Minus className="w-16 h-px bg-slate-600" />
               <h1 className="text-6xl md:text-8xl font-light tracking-widest leading-none" style={{ fontFamily: 'var(--font-display)' }}>
                 CONTACT
               </h1>
-              <Minus className="w-16 h-px bg-white/30" />
+              <Minus className="w-16 h-px bg-slate-600" />
             </div>
 
           <motion.p
@@ -159,7 +159,7 @@ const ContactPage = () => {
         </motion.div>
 
         {/* Contact Methods Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-24">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 mb-16 sm:mb-20 lg:mb-24">
           {contactMethods.map((method, index) => {
             const IconComponent = method.icon;
 
@@ -202,7 +202,7 @@ const ContactPage = () => {
         </div>
 
         {/* Main Communication Interface */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-16">
           {/* Contact Form */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
@@ -405,7 +405,7 @@ const ContactPage = () => {
           rotateY: layer2RotateY,
           transformStyle: "preserve-3d"
         }}
-        className="absolute top-1/3 right-16 w-4 h-4 bg-gradient-to-br from-white/35 to-white/10 rounded-full shadow-2xl"
+        className="hidden lg:block absolute top-1/3 right-16 w-3 h-3 bg-slate-500 rounded-full"
         animate={{
           scale: [1, 2, 1],
           opacity: [0.4, 0.9, 0.4],
@@ -423,7 +423,7 @@ const ContactPage = () => {
           rotateZ: layer3RotateZ,
           transformStyle: "preserve-3d"
         }}
-        className="absolute bottom-1/4 left-20 w-3 h-3 bg-gradient-to-br from-white/40 to-white/20 rounded-full shadow-xl"
+        className="hidden lg:block absolute bottom-1/4 left-20 w-2 h-2 bg-slate-400 rounded-full"
         animate={{
           scale: [1, 2.5, 1],
           opacity: [0.5, 1, 0.5],
@@ -442,7 +442,7 @@ const ContactPage = () => {
           rotateX: useTransform(scrollYProgress, [0, 1], [0, 180]),
           transformStyle: "preserve-3d"
         }}
-        className="absolute top-1/2 left-1/3 w-2.5 h-2.5 bg-gradient-to-br from-white/25 to-white/8 rounded-full shadow-lg"
+        className="hidden lg:block absolute top-1/2 left-1/3 w-2 h-2 bg-slate-300 rounded-full"
         animate={{
           scale: [1, 3, 1],
           opacity: [0.3, 0.7, 0.3],

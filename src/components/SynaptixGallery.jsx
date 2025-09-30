@@ -144,7 +144,7 @@ const SynaptixGallery = () => {
   };
 
   return (
-    <section className="relative min-h-screen bg-black text-white overflow-hidden py-24">
+    <section className="relative min-h-screen bg-slate-950 text-slate-50 overflow-hidden py-24">
       {/* Background Elements */}
       <div className="absolute inset-0 opacity-[0.02]">
         <div
@@ -169,21 +169,21 @@ const SynaptixGallery = () => {
         >
           {/* Title */}
           <div className="space-y-4">
-            <motion.div
-              className="inline-flex items-center space-x-3 px-5 py-2 border border-white/20 rounded-full"
-              whileHover={{ scale: 1.05, borderColor: "rgba(255,255,255,0.4)" }}
-            >
-              <Sparkles className="w-4 h-4 text-white/60" />
-              <span className="text-sm font-light tracking-wider text-white/60 uppercase">
-                Visual Journey
-              </span>
-            </motion.div>
+              <motion.div
+                className="inline-flex items-center space-x-3 px-5 py-2 border border-slate-600 rounded-full"
+                whileHover={{ scale: 1.05, borderColor: "rgb(100 116 139)" }}
+              >
+                <Sparkles className="w-4 h-4 text-slate-400" />
+                <span className="text-sm font-light tracking-wider text-slate-400 uppercase">
+                  Visual Journey
+                </span>
+              </motion.div>
 
-            <h1 className="text-6xl md:text-8xl font-light tracking-[0.2em] leading-none" style={{ fontFamily: 'var(--font-display)' }}>
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-light tracking-[0.15em] sm:tracking-[0.2em] leading-none" style={{ fontFamily: 'var(--font-display)' }}>
               GALLERY
             </h1>
 
-            <p className="text-lg font-light text-white/60 max-w-2xl mx-auto leading-relaxed">
+            <p className="text-base sm:text-lg font-light text-white/60 max-w-2xl mx-auto leading-relaxed px-4">
               Explore our robotics workshops, labs, and innovative technology
             </p>
           </div>
@@ -201,12 +201,12 @@ const SynaptixGallery = () => {
                 <motion.button
                   key={category.id}
                   onClick={() => setFilter(category.id)}
-                  className={cn(
-                    "group relative px-8 py-4 border rounded-full font-light tracking-wide transition-all duration-500 overflow-hidden",
-                    filter === category.id
-                      ? "border-white/50 bg-white/10 text-white"
-                      : "border-white/20 bg-transparent text-white/60 hover:border-white/40 hover:text-white"
-                  )}
+                    className={cn(
+                      "group relative px-8 py-4 border rounded-full font-light tracking-wide transition-all duration-500 overflow-hidden",
+                      filter === category.id
+                        ? "border-slate-500 bg-slate-900/30 text-slate-50"
+                        : "border-slate-600 bg-transparent text-slate-400 hover:border-slate-500 hover:text-slate-300"
+                    )}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
@@ -230,10 +230,10 @@ const SynaptixGallery = () => {
         </motion.div>
 
         {/* Gallery Grid */}
-        <motion.div
-          layout
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
-        >
+          <motion.div
+            layout
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8"
+          >
           <AnimatePresence mode="popLayout">
             {filteredItems.map((item, index) => (
               <motion.div
@@ -249,7 +249,7 @@ const SynaptixGallery = () => {
               >
                 {/* Main Card with Glare Effect */}
                 <motion.div
-                  className="relative h-[450px] rounded-3xl overflow-hidden border border-white/10 bg-gradient-to-br from-white/5 to-transparent cursor-pointer"
+                  className="relative h-[450px] rounded-3xl overflow-hidden border border-slate-700 bg-gradient-to-br from-slate-900/20 to-transparent cursor-pointer"
                   whileHover={{ y: -10 }}
                   onClick={() => setSelectedImage(item)}
                 >
@@ -258,7 +258,8 @@ const SynaptixGallery = () => {
                     <img
                       src={item.src}
                       alt={item.title}
-                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                      loading="lazy"
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                     />
                     {/* Gradient Overlay */}
                     <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent" />
@@ -284,7 +285,7 @@ const SynaptixGallery = () => {
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: 0.2 }}
                   >
-                    <div className="px-4 py-2 bg-white/10 backdrop-blur-xl border border-white/20 rounded-full">
+                    <div className="px-4 py-2 bg-slate-900/50 backdrop-blur-xl border border-slate-600 rounded-full">
                       <span className="text-xs font-light uppercase tracking-wider">
                         {item.category}
                       </span>
@@ -301,14 +302,14 @@ const SynaptixGallery = () => {
                         className="absolute top-4 right-4 z-20 flex items-center space-x-2"
                       >
                         <motion.button
-                          className="p-3 bg-white/10 backdrop-blur-xl border border-white/20 rounded-full hover:bg-white/20 transition-colors"
+                          className="p-3 bg-slate-900/50 backdrop-blur-xl border border-slate-600 rounded-full hover:bg-slate-800/50 transition-colors"
                           whileHover={{ scale: 1.1, rotate: 15 }}
                           whileTap={{ scale: 0.9 }}
                         >
                           <Maximize2 className="w-4 h-4" />
                         </motion.button>
                         <motion.button
-                          className="p-3 bg-white/10 backdrop-blur-xl border border-white/20 rounded-full hover:bg-white/20 transition-colors"
+                          className="p-3 bg-slate-900/50 backdrop-blur-xl border border-slate-600 rounded-full hover:bg-slate-800/50 transition-colors"
                           whileHover={{ scale: 1.1, rotate: -15 }}
                           whileTap={{ scale: 0.9 }}
                         >
@@ -358,7 +359,7 @@ const SynaptixGallery = () => {
                         {item.tags.map((tag, idx) => (
                           <span
                             key={idx}
-                            className="px-3 py-1 text-xs bg-white/5 backdrop-blur-sm border border-white/10 rounded-full"
+                            className="px-3 py-1 text-xs bg-slate-900/30 backdrop-blur-sm border border-slate-700 rounded-full"
                           >
                             {tag}
                           </span>
@@ -392,7 +393,7 @@ const SynaptixGallery = () => {
                       initial={{ opacity: 0, scale: 0, rotate: -180 }}
                       animate={{ opacity: 1, scale: 1, rotate: 0 }}
                       exit={{ opacity: 0, scale: 0, rotate: 180 }}
-                      className="absolute -bottom-4 left-1/2 -translate-x-1/2 z-30 p-4 bg-white text-black rounded-full shadow-2xl hover:scale-110 transition-transform"
+                      className="absolute -bottom-4 left-1/2 -translate-x-1/2 z-30 p-4 bg-slate-200 text-slate-900 rounded-full shadow-2xl hover:scale-110 transition-transform"
                       whileHover={{ y: -5 }}
                       onClick={() => setSelectedImage(item)}
                     >
@@ -413,12 +414,12 @@ const SynaptixGallery = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 flex items-center justify-center bg-black/95 backdrop-blur-2xl p-6"
+            className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/95 backdrop-blur-2xl p-6"
             onClick={() => setSelectedImage(null)}
           >
             {/* Close Button */}
             <motion.button
-              className="absolute top-6 right-6 p-4 bg-white/10 backdrop-blur-xl border border-white/20 rounded-full hover:bg-white/20 transition-colors z-50"
+              className="absolute top-6 right-6 p-4 bg-slate-900/50 backdrop-blur-xl border border-slate-600 rounded-full hover:bg-white/20 transition-colors z-50"
               whileHover={{ scale: 1.1, rotate: 90 }}
               whileTap={{ scale: 0.9 }}
               onClick={() => setSelectedImage(null)}
@@ -428,7 +429,7 @@ const SynaptixGallery = () => {
 
             {/* Navigation */}
             <motion.button
-              className="absolute left-6 top-1/2 -translate-y-1/2 p-4 bg-white/10 backdrop-blur-xl border border-white/20 rounded-full hover:bg-white/20 transition-colors z-50"
+              className="absolute left-6 top-1/2 -translate-y-1/2 p-4 bg-slate-900/50 backdrop-blur-xl border border-slate-600 rounded-full hover:bg-white/20 transition-colors z-50"
               whileHover={{ scale: 1.1, x: -5 }}
               whileTap={{ scale: 0.9 }}
               onClick={(e) => {
@@ -440,7 +441,7 @@ const SynaptixGallery = () => {
             </motion.button>
 
             <motion.button
-              className="absolute right-6 top-1/2 -translate-y-1/2 p-4 bg-white/10 backdrop-blur-xl border border-white/20 rounded-full hover:bg-white/20 transition-colors z-50"
+              className="absolute right-6 top-1/2 -translate-y-1/2 p-4 bg-slate-900/50 backdrop-blur-xl border border-slate-600 rounded-full hover:bg-white/20 transition-colors z-50"
               whileHover={{ scale: 1.1, x: 5 }}
               whileTap={{ scale: 0.9 }}
               onClick={(e) => {
@@ -461,17 +462,18 @@ const SynaptixGallery = () => {
             >
               <div className="grid lg:grid-cols-2 gap-8">
                 {/* Image */}
-                <div className="relative h-[500px] rounded-3xl overflow-hidden border border-white/20">
-                  <img
-                    src={selectedImage.src}
-                    alt={selectedImage.title}
-                    className="w-full h-full object-cover"
-                  />
+                <div className="relative h-[500px] rounded-3xl overflow-hidden border border-slate-600">
+                    <img
+                      src={selectedImage.src}
+                      alt={selectedImage.title}
+                      loading="lazy"
+                      className="w-full h-full object-cover"
+                    />
                 </div>
 
                 {/* Details */}
                 <div className="space-y-6 p-8">
-                  <div className="inline-block px-4 py-2 bg-white/10 backdrop-blur-xl border border-white/20 rounded-full">
+                  <div className="inline-block px-4 py-2 bg-slate-900/50 backdrop-blur-xl border border-slate-600 rounded-full">
                     <span className="text-xs font-light uppercase tracking-wider">
                       {selectedImage.category}
                     </span>
@@ -500,7 +502,7 @@ const SynaptixGallery = () => {
                     {selectedImage.tags.map((tag, idx) => (
                       <span
                         key={idx}
-                        className="px-4 py-2 bg-white/10 border border-white/20 rounded-full text-sm"
+                        className="px-4 py-2 bg-slate-900/50 border border-slate-600 rounded-full text-sm"
                       >
                         {tag}
                       </span>

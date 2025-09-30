@@ -57,9 +57,9 @@ const SynaptixLanding = () => {
   }, []);
 
   return (
-    <section ref={containerRef} className="relative min-h-screen bg-black text-white overflow-hidden" data-3d-section>
-      {/* Futuristic Grid Background */}
-      <div className="absolute inset-0" style={{ transformStyle: "preserve-3d", perspective: "2000px" }}>
+    <section ref={containerRef} className="relative min-h-screen bg-slate-950 text-slate-50 overflow-hidden" data-3d-section>
+      {/* Grid Background - 3D on desktop only */}
+      <div className="hidden lg:block absolute inset-0" style={{ transformStyle: "preserve-3d", perspective: "2000px" }}>
         {/* Animated grid with depth */}
         <div className="absolute inset-0 opacity-[0.03]">
           <div
@@ -115,13 +115,13 @@ const SynaptixLanding = () => {
         <motion.div
           style={{
             opacity,
-            rotateX,
-            rotateY,
-            z,
-            scale,
+            rotateX: typeof window !== 'undefined' && window.innerWidth >= 1024 ? rotateX : 0,
+            rotateY: typeof window !== 'undefined' && window.innerWidth >= 1024 ? rotateY : 0,
+            z: typeof window !== 'undefined' && window.innerWidth >= 1024 ? z : 0,
+            scale: typeof window !== 'undefined' && window.innerWidth >= 1024 ? scale : 1,
             transformStyle: "preserve-3d"
           }}
-          className="space-y-24"
+          className="space-y-16 sm:space-y-20 lg:space-y-24"
         >
           {/* Hero Title Section */}
           <div className="text-center space-y-12">
@@ -192,7 +192,7 @@ const SynaptixLanding = () => {
               transition={{ duration: 1, delay: 0.6 }}
               className="relative max-w-5xl mx-auto"
             >
-              <div className="grid md:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
                 {offerings.map((offering, index) => {
                   const Icon = offering.icon;
                   return (
@@ -200,7 +200,7 @@ const SynaptixLanding = () => {
                       key={index}
                       className={`relative p-8 border rounded-2xl cursor-pointer transition-all duration-500 ${
                         activeCard === index
-                          ? 'border-white/40 bg-white/5'
+                          ? 'border-slate-500 bg-slate-900/50'
                           : 'border-white/10 bg-transparent'
                       }`}
                       onMouseEnter={() => setActiveCard(index)}
@@ -211,7 +211,7 @@ const SynaptixLanding = () => {
                         {/* Icon */}
                         <motion.div
                           className={`w-14 h-14 flex items-center justify-center border rounded-xl transition-colors duration-500 ${
-                            activeCard === index ? 'border-white/50 bg-white/10' : 'border-white/20'
+                            activeCard === index ? 'border-slate-500 bg-slate-900/30' : 'border-white/20'
                           }`}
                           whileHover={{ rotate: 360 }}
                           transition={{ duration: 0.6 }}
@@ -233,7 +233,7 @@ const SynaptixLanding = () => {
                         <div className="flex items-center space-x-4 pt-4">
                           {offering.metrics.map((metric, idx) => (
                             <div key={idx} className="flex items-center space-x-2">
-                              <div className="w-1 h-1 bg-white/40 rounded-full" />
+                              <div className="w-1 h-1 bg-slate-400 rounded-full" />
                               <span className="text-xs text-white/40 uppercase tracking-wider">{metric}</span>
                             </div>
                           ))}
@@ -265,7 +265,7 @@ const SynaptixLanding = () => {
                     className="group relative"
                   >
                     <div className={`w-2 h-2 rounded-full transition-all duration-500 ${
-                      activeCard === index ? 'bg-white scale-125' : 'bg-white/20'
+                      activeCard === index ? 'bg-slate-400 scale-125' : 'bg-white/20'
                     }`} />
                   </button>
                 ))}
@@ -290,7 +290,7 @@ const SynaptixLanding = () => {
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </span>
                 <motion.div
-                  className="absolute inset-0 bg-white/5"
+                  className="absolute inset-0 bg-slate-800/30"
                   initial={{ x: "-100%" }}
                   whileHover={{ x: "100%" }}
                   transition={{ duration: 0.6 }}
@@ -341,7 +341,7 @@ const SynaptixLanding = () => {
           rotateX: layer2RotateX,
           transformStyle: "preserve-3d"
         }}
-        className="absolute top-1/4 right-20 w-4 h-4 bg-gradient-to-br from-white/35 to-white/10 rounded-full shadow-2xl"
+        className="hidden lg:block absolute top-1/4 right-20 w-3 h-3 bg-slate-500 rounded-full"
         animate={{
           scale: [1, 2, 1],
           opacity: [0.4, 0.9, 0.4],
@@ -359,7 +359,7 @@ const SynaptixLanding = () => {
           rotateZ: layer3RotateZ,
           transformStyle: "preserve-3d"
         }}
-        className="absolute bottom-1/3 left-20 w-3.5 h-3.5 bg-gradient-to-br from-white/40 to-white/15 rounded-full shadow-xl"
+        className="hidden lg:block absolute bottom-1/3 left-20 w-2.5 h-2.5 bg-slate-400 rounded-full"
         animate={{
           scale: [1, 2.5, 1],
           opacity: [0.5, 1, 0.5],
@@ -378,7 +378,7 @@ const SynaptixLanding = () => {
           rotateY: useTransform(scrollYProgress, [0, 1], [0, -200]),
           transformStyle: "preserve-3d"
         }}
-        className="absolute top-1/2 left-1/4 w-2.5 h-2.5 bg-gradient-to-br from-white/30 to-white/8 rounded-full shadow-lg"
+        className="hidden lg:block absolute top-1/2 left-1/4 w-2 h-2 bg-slate-300 rounded-full"
         animate={{
           scale: [1, 3, 1],
           opacity: [0.3, 0.8, 0.3],

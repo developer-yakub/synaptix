@@ -104,63 +104,63 @@ const IdeasSection = () => {
   }, [isVisible, steps.length]);
 
   return (
-    <section ref={containerRef} className="relative min-h-screen bg-black text-white overflow-hidden" data-3d-section>
-      {/* Exceptional 3D Background with Z-depth */}
-      <div className="absolute inset-0" style={{ transformStyle: "preserve-3d", perspective: "2000px" }}>
+    <section ref={containerRef} className="relative min-h-screen bg-slate-950 text-slate-50 overflow-hidden" data-3d-section>
+      {/* 3D Background - Desktop only for performance */}
+      <div className="hidden lg:block absolute inset-0" style={{ transformStyle: "preserve-3d", perspective: "2000px" }}>
         {/* Layer 1 - Closest with Z-depth */}
         <motion.div
-          style={{ 
+          style={{
             z: layer1Z,
             rotateX: layer1RotateX,
             rotateY: useTransform(scrollYProgress, [0, 1], [0, 45]),
             transformStyle: "preserve-3d"
           }}
-          className="absolute top-20 left-10 w-96 h-96 border-2 border-white/15 rotate-45 shadow-2xl"
+          className="absolute top-20 left-10 w-96 h-96 border-2 border-slate-700 rotate-45"
         />
         {/* Layer 2 - Middle depth */}
         <motion.div
-          style={{ 
+          style={{
             z: layer2Z,
             rotateY: layer2RotateY,
             rotateX: useTransform(scrollYProgress, [0, 1], [0, -30]),
             transformStyle: "preserve-3d"
           }}
-          className="absolute top-40 right-20 w-64 h-64 border-2 border-white/12 rotate-12 shadow-xl"
+          className="absolute top-40 right-20 w-64 h-64 border-2 border-slate-600 rotate-12"
         />
         {/* Layer 3 - Farthest depth */}
         <motion.div
-          style={{ 
+          style={{
             z: layer3Z,
             rotateZ: layer3RotateZ,
             rotateX: useTransform(scrollYProgress, [0, 1], [-20, 20]),
             transformStyle: "preserve-3d"
           }}
-          className="absolute bottom-40 left-1/4 w-48 h-48 border border-white/10 -rotate-30 shadow-lg"
+          className="absolute bottom-40 left-1/4 w-48 h-48 border border-slate-500 -rotate-30"
         />
+      </div>
 
-        {/* Grid pattern */}
-        <div className="absolute inset-0 opacity-[0.02]">
-          <div className="w-full h-full" style={{
-            backgroundImage: `
-              linear-gradient(to right, white 1px, transparent 1px),
-              linear-gradient(to bottom, white 1px, transparent 1px)
-            `,
-            backgroundSize: '50px 50px'
-          }} />
-        </div>
+      {/* Simple grid for mobile */}
+      <div className="absolute inset-0 opacity-[0.02]">
+        <div className="w-full h-full" style={{
+          backgroundImage: `
+            linear-gradient(to right, white 1px, transparent 1px),
+            linear-gradient(to bottom, white 1px, transparent 1px)
+          `,
+          backgroundSize: '50px 50px'
+        }} />
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-6 py-32">
         <motion.div 
           style={{ 
             opacity, 
-            rotateX, 
-            rotateY,
-            z,
-            scale,
+            rotateX: typeof window !== 'undefined' && window.innerWidth >= 1024 ? rotateX : 0, 
+            rotateY: typeof window !== 'undefined' && window.innerWidth >= 1024 ? rotateY : 0,
+            z: typeof window !== 'undefined' && window.innerWidth >= 1024 ? z : 0,
+            scale: typeof window !== 'undefined' && window.innerWidth >= 1024 ? scale : 1,
             transformStyle: "preserve-3d"
           }} 
-          className="text-center mb-24"
+          className="text-center mb-16 sm:mb-20 lg:mb-24"
         >
           {/* Minimalist Title */}
           <motion.div
@@ -169,17 +169,17 @@ const IdeasSection = () => {
             transition={{ duration: 1, ease: "easeOut" }}
             className="mb-8"
           >
-            <h1 className="text-6xl md:text-8xl font-light tracking-wider leading-none mb-4" style={{ fontFamily: 'var(--font-display)' }}>
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-light tracking-wider leading-none mb-4" style={{ fontFamily: 'var(--font-display)' }}>
               TURN YOUR
             </h1>
-            <div className="flex items-center justify-center space-x-8">
-              <div className="w-24 h-px bg-white/20" />
-              <h1 className="text-6xl md:text-8xl font-light tracking-wider leading-none" style={{ fontFamily: 'var(--font-display)' }}>
+            <div className="flex items-center justify-center space-x-4 sm:space-x-6 lg:space-x-8">
+              <div className="w-12 sm:w-16 lg:w-24 h-px bg-slate-600" />
+              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-light tracking-wider leading-none" style={{ fontFamily: 'var(--font-display)' }}>
                 IDEAS
               </h1>
-              <div className="w-24 h-px bg-white/20" />
+              <div className="w-12 sm:w-16 lg:w-24 h-px bg-slate-600" />
             </div>
-            <h1 className="text-6xl md:text-8xl font-light tracking-wider leading-none" style={{ fontFamily: 'var(--font-display)' }}>
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-light tracking-wider leading-none" style={{ fontFamily: 'var(--font-display)' }}>
               INTO REALITY
             </h1>
           </motion.div>
@@ -191,15 +191,15 @@ const IdeasSection = () => {
             transition={{ duration: 1, delay: 0.3 }}
             className="max-w-3xl mx-auto"
           >
-            <p className="text-xl font-normal text-white/70 leading-relaxed mb-8" style={{ fontFamily: 'var(--font-sans)' }}>
+            <p className="text-base sm:text-lg lg:text-xl font-normal text-slate-300 leading-relaxed mb-6 lg:mb-8 px-4" style={{ fontFamily: 'var(--font-sans)' }}>
               Every innovation begins with a single thought. We transform your vision
               into tangible reality through systematic development and expert guidance.
             </p>
 
-            <div className="flex items-center justify-center space-x-2 text-sm text-white/50 uppercase tracking-wider">
-              <Sparkles className="w-4 h-4" />
+            <div className="flex items-center justify-center space-x-2 text-xs sm:text-sm text-slate-400 uppercase tracking-wider">
+              <Sparkles className="w-3 h-3 sm:w-4 sm:h-4" />
               <span>Upload Your Vision</span>
-              <ArrowRight className="w-4 h-4" />
+              <ArrowRight className="w-3 h-3 sm:w-4 sm:h-4" />
             </div>
           </motion.div>
         </motion.div>
@@ -232,7 +232,7 @@ const IdeasSection = () => {
           </svg>
 
           {/* Steps */}
-          <div className="grid grid-cols-5 gap-8 relative z-10">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 sm:gap-6 lg:gap-8 relative z-10">
             {steps.map((step, index) => {
               const IconComponent = step.icon;
               const isActive = activeStep === index;
@@ -312,15 +312,15 @@ const IdeasSection = () => {
         >
           {/* Upload zone */}
           <motion.div
-            className="relative mx-auto w-80 h-40 border-2 border-dashed border-white/20 rounded-2xl flex flex-col items-center justify-center mb-12 cursor-pointer group hover:border-white/40 transition-colors duration-500"
+            className="relative mx-auto w-full max-w-xs sm:max-w-sm md:w-80 h-32 sm:h-36 md:h-40 border-2 border-dashed border-white/20 rounded-2xl flex flex-col items-center justify-center mb-8 sm:mb-10 lg:mb-12 cursor-pointer group hover:border-white/40 transition-colors duration-500 px-4"
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
           >
-            <Upload className="w-8 h-8 text-white/40 mb-4 group-hover:text-white/60 transition-colors duration-300" />
-            <p className="text-white/60 text-sm font-light">
+            <Upload className="w-6 h-6 sm:w-8 sm:h-8 text-white/40 mb-3 sm:mb-4 group-hover:text-white/60 transition-colors duration-300" />
+            <p className="text-white/60 text-xs sm:text-sm font-light text-center">
               Drag & drop your idea file here
             </p>
-            <p className="text-white/40 text-xs mt-1">
+            <p className="text-white/40 text-xs mt-1 text-center">
               or click to browse
             </p>
           </motion.div>
@@ -375,7 +375,7 @@ const IdeasSection = () => {
           rotateY: layer2RotateY,
           transformStyle: "preserve-3d"
         }}
-        className="absolute top-1/4 right-10 w-4 h-4 bg-gradient-to-br from-white/30 to-white/10 rounded-full shadow-2xl"
+        className="hidden lg:block absolute top-1/4 right-10 w-3 h-3 bg-slate-500 rounded-full"
         animate={{
           scale: [1, 1.8, 1],
           opacity: [0.4, 0.9, 0.4],
@@ -393,7 +393,7 @@ const IdeasSection = () => {
           rotateZ: layer3RotateZ,
           transformStyle: "preserve-3d"
         }}
-        className="absolute bottom-1/4 left-10 w-3 h-3 bg-gradient-to-br from-white/40 to-white/20 rounded-full shadow-xl"
+        className="hidden lg:block absolute bottom-1/4 left-10 w-2 h-2 bg-slate-400 rounded-full"
         animate={{
           scale: [1, 2.5, 1],
           opacity: [0.5, 1, 0.5],
@@ -412,10 +412,10 @@ const IdeasSection = () => {
           rotateZ: useTransform(scrollYProgress, [0, 1], [0, -180]),
           transformStyle: "preserve-3d"
         }}
-        className="absolute top-1/2 left-1/3 w-2 h-2 bg-gradient-to-br from-white/25 to-white/5 rounded-full shadow-lg"
+        className="hidden lg:block absolute top-1/2 left-1/3 w-2 h-2 bg-slate-300 rounded-full"
         animate={{
-          scale: [1, 3, 1],
-          opacity: [0.3, 0.7, 0.3],
+          scale: [1, 2, 1],
+          opacity: [0.2, 0.5, 0.2],
         }}
         transition={{
           duration: 8,

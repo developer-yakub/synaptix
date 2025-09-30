@@ -60,8 +60,8 @@ const AboutSection = () => {
   }, [metrics.length]);
 
   return (
-    <section ref={containerRef} className="relative min-h-screen bg-black text-white overflow-hidden" data-3d-section>
-      {/* Advanced geometric background */}
+    <section ref={containerRef} className="relative min-h-screen bg-slate-950 text-slate-50 overflow-hidden" data-3d-section>
+      {/* Simple grid for mobile, 3D for desktop */}
       <div className="absolute inset-0">
         {/* Primary grid */}
         <div className="absolute inset-0 opacity-[0.02]">
@@ -77,18 +77,18 @@ const AboutSection = () => {
           />
         </div>
 
-        {/* Rotating geometric shapes */}
+        {/* Rotating geometric shapes - Desktop only */}
         <motion.div
           style={{ rotateY }}
-          className="absolute top-32 left-16 w-80 h-80 border border-white/5"
+          className="hidden lg:block absolute top-32 left-16 w-80 h-80 border border-white/5"
         />
         <motion.div
           style={{ rotateY: useTransform(scrollYProgress, [0, 1], [10, -10]) }}
-          className="absolute top-40 right-24 w-64 h-64 border border-white/3 rotate-45"
+          className="hidden lg:block absolute top-40 right-24 w-64 h-64 border border-white/3 rotate-45"
         />
         <motion.div
           style={{ rotateY: useTransform(scrollYProgress, [0, 1], [-5, 20]) }}
-          className="absolute bottom-40 left-20 w-48 h-48 border border-white/2 -rotate-12"
+          className="hidden lg:block absolute bottom-40 left-20 w-48 h-48 border border-white/2 -rotate-12"
         />
       </div>
 
@@ -96,13 +96,13 @@ const AboutSection = () => {
         <motion.div 
           style={{ 
             opacity, 
-            rotateX, 
-            rotateY,
-            z,
-            scale,
+            rotateX: typeof window !== 'undefined' && window.innerWidth >= 1024 ? rotateX : 0, 
+            rotateY: typeof window !== 'undefined' && window.innerWidth >= 1024 ? rotateY : 0,
+            z: typeof window !== 'undefined' && window.innerWidth >= 1024 ? z : 0,
+            scale: typeof window !== 'undefined' && window.innerWidth >= 1024 ? scale : 1,
             transformStyle: "preserve-3d"
           }} 
-          className="text-center mb-32"
+          className="text-center mb-20 sm:mb-24 lg:mb-32"
         >
           {/* Minimalist title design */}
           <motion.div
@@ -112,11 +112,11 @@ const AboutSection = () => {
             className="mb-16"
           >
             <div className="flex items-center justify-center space-x-8 mb-8">
-              <Minus className="w-12 h-px bg-white/30" />
+              <Minus className="w-12 h-px bg-slate-600" />
               <h1 className="text-6xl md:text-8xl font-light tracking-widest leading-none" style={{ fontFamily: 'var(--font-display)' }}>
                 ABOUT
               </h1>
-              <Minus className="w-12 h-px bg-white/30" />
+              <Minus className="w-12 h-px bg-slate-600" />
             </div>
 
             <motion.div
@@ -133,7 +133,7 @@ const AboutSection = () => {
         </motion.div>
 
         {/* Core information grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 mb-32">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 sm:gap-16 lg:gap-24 mb-20 sm:mb-24 lg:mb-32">
           {/* Identity */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
@@ -315,7 +315,7 @@ const AboutSection = () => {
           rotateX: layer2RotateX,
           transformStyle: "preserve-3d"
         }}
-        className="absolute top-1/4 right-32 w-4 h-4 bg-gradient-to-br from-white/30 to-white/10 rounded-full shadow-2xl"
+        className="hidden lg:block absolute top-1/4 right-32 w-3 h-3 bg-slate-500 rounded-full"
         animate={{
           scale: [1, 1.8, 1],
           opacity: [0.4, 0.9, 0.4],
@@ -333,7 +333,7 @@ const AboutSection = () => {
           rotateZ: layer3RotateY,
           transformStyle: "preserve-3d"
         }}
-        className="absolute bottom-1/3 left-32 w-3 h-3 bg-gradient-to-br from-white/40 to-white/20 rounded-full shadow-xl"
+        className="hidden lg:block absolute bottom-1/3 left-32 w-2 h-2 bg-slate-400 rounded-full"
         animate={{
           scale: [1, 2.5, 1],
           opacity: [0.5, 1, 0.5],
@@ -352,7 +352,7 @@ const AboutSection = () => {
           rotateY: layer3RotateY,
           transformStyle: "preserve-3d"
         }}
-        className="absolute top-1/2 left-1/4 w-2.5 h-2.5 bg-gradient-to-br from-white/25 to-white/8 rounded-full shadow-lg"
+        className="hidden lg:block absolute top-1/2 left-1/4 w-2 h-2 bg-slate-300 rounded-full"
         animate={{
           scale: [1, 3, 1],
           opacity: [0.3, 0.7, 0.3],
