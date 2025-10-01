@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/resizable-navbar";
 import { useState } from "react";
 import { BackgroundRippleEffectDemo } from "./SectionOne";
+import Link from "next/link";
 
 export function NavbarDemo() {
   const navItems = [
@@ -81,12 +82,13 @@ export function NavbarDemo() {
               </a>
             ))}
             <div className="flex w-full flex-col gap-4">
-              <NavbarButton
+             <NavbarButton
+                asChild
                 onClick={() => setIsMobileMenuOpen(false)}
                 variant="primary"
                 className="w-full"
               >
-                Login
+              <Link href="/login">Login</Link>
               </NavbarButton>
               <NavbarButton
                 onClick={() => setIsMobileMenuOpen(false)}
