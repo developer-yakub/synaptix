@@ -2,6 +2,13 @@
 import React from "react";
 import { BackgroundBeams } from "@/components/ui/background-beams";
 import { BentoGridDemo } from "./CustomBentoGridDemo";
+import { Open_Sans } from "next/font/google";
+
+const openSans = Open_Sans({
+  subsets: ["latin"],
+  weight: ["300", "400", "700"], // available styles: Light 300, Regular 400, Bold 700
+});
+
 
 export function BackgroundBeamsDemo() {
   return (
@@ -12,7 +19,7 @@ export function BackgroundBeamsDemo() {
       </div>
 
       {/* Content */}
-      <h2 className="relative z-10 text-center font-bold text-5xl text-white mb-12">
+      <h2 className={`relative z-10 text-center font-bold text-5xl text-white mb-12 .  ${openSans.className}`}>
         OUR SERVICES
       </h2>
 
