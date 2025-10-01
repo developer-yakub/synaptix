@@ -83,13 +83,14 @@ export function NavbarDemo() {
             ))}
             <div className="flex w-full flex-col gap-4">
              <NavbarButton
-                asChild
                 onClick={() => setIsMobileMenuOpen(false)}
                 variant="primary"
                 className="w-full"
+                href={"/login"}
               >
-              <Link href="/login">Login</Link>
+                  Login
               </NavbarButton>
+
               <NavbarButton
                 onClick={() => setIsMobileMenuOpen(false)}
                 variant="primary"
@@ -114,3 +115,4 @@ const DummyContent = () => {
     </div>
   );
 };
+
