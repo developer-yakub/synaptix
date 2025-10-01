@@ -13,6 +13,7 @@ import {
   ArrowLeft,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 const AuthPage = () => {
   const router = useRouter();
@@ -159,7 +160,14 @@ const AuthPage = () => {
             whileHover={{ scale: 1.05 }}
             transition={{ duration: 0.2 }}
           >
-            <div className="text-black text-2xl font-bold">S</div>
+            <div className="text-black text-2xl font-bold">
+                <Image
+                src={"/logo.svg"}
+                height={70}
+                width={70}
+                alt="Synaptix Logo"
+                />
+            </div>
           </motion.div>
           <h1 className="text-3xl font-light tracking-tight mb-2" style={{ fontFamily: 'var(--font-display)' }}>
             Welcome to Synaptix
