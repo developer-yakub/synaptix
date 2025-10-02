@@ -2,30 +2,29 @@
 import React, { useRef, useState, useEffect } from "react";
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import { ArrowRight, Sparkles, Building2, FlaskConical, Users, BookOpen, Zap } from "lucide-react";
+import { isClient, isDesktop, conditional3DTransform } from "@/lib/utils";
+import { use3DScrollTransform } from "@/lib/hooks";
 
 const SynaptixLanding = () => {
   const containerRef = useRef(null);
   const [activeCard, setActiveCard] = useState(0);
 
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start end", "end start"]
-  });
+  const { scrollYProgress, createConditionalTransform, createValueTransform } = use3DScrollTransform(containerRef);
 
   // Exceptional 3D with Z-axis for Pasha Bhai (Manually Typed By the way)
-  const rotateX = useTransform(scrollYProgress, [0, 0.3, 0.5, 0.7, 1], [32, 9, 0, -9, -32]);
-  const rotateY = useTransform(scrollYProgress, [0, 0.25, 0.5, 0.75, 1], [-14, -3.5, 0, 3.5, 14]);
-  const z = useTransform(scrollYProgress, [0, 0.2, 0.5, 0.8, 1], [-280, -110, 0, -110, -280]);
-  const scale = useTransform(scrollYProgress, [0, 0.2, 0.5, 0.8, 1], [0.72, 0.92, 1.04, 0.92, 0.72]);
-  const opacity = useTransform(scrollYProgress, [0, 0.2, 0.5, 0.8, 1], [0, 0.9, 1, 0.9, 0]);
+  const rotateX = createConditionalTransform([0, 0.3, 0.5, 0.7, 1], [32, 9, 0, -9, -32]);
+  const rotateY = createConditionalTransform([0, 0.25, 0.5, 0.75, 1], [-14, -3.5, 0, 3.5, 14]);
+  const z = createConditionalTransform([0, 0.2, 0.5, 0.8, 1], [-280, -110, 0, -110, -280]);
+  const scale = createConditionalTransform([0, 0.2, 0.5, 0.8, 1], [0.72, 0.92, 1.04, 0.92, 0.72]);
+  const opacity = createConditionalTransform([0, 0.2, 0.5, 0.8, 1], [0, 0.9, 1, 0.9, 0]);
 
   // Z-depth parallax by Rayan Khan
-  const layer1Z = useTransform(scrollYProgress, [0, 1], [0, -180]);
-  const layer2Z = useTransform(scrollYProgress, [0, 1], [0, -400]);
-  const layer3Z = useTransform(scrollYProgress, [0, 1], [0, -620]);
-  const layer1RotateY = useTransform(scrollYProgress, [0, 1], [0, 330]);
-  const layer2RotateX = useTransform(scrollYProgress, [0, 1], [0, -330]);
-  const layer3RotateZ = useTransform(scrollYProgress, [0, 1], [0, 660]);
+  const layer1Z = createValueTransform([0, 1], [0, -180]);
+  const layer2Z = createValueTransform([0, 1], [0, -400]);
+  const layer3Z = createValueTransform([0, 1], [0, -620]);
+  const layer1RotateY = createValueTransform([0, 1], [0, 330]);
+  const layer2RotateX = createValueTransform([0, 1], [0, -330]);
+  const layer3RotateZ = createValueTransform([0, 1], [0, 660]);
 
   const offerings = [
     {
@@ -115,10 +114,10 @@ const SynaptixLanding = () => {
         <motion.div
           style={{
             opacity,
-            rotateX: typeof window !== 'undefined' && window.innerWidth >= 1024 ? rotateX : 0,
-            rotateY: typeof window !== 'undefined' && window.innerWidth >= 1024 ? rotateY : 0,
-            z: typeof window !== 'undefined' && window.innerWidth >= 1024 ? z : 0,
-            scale: typeof window !== 'undefined' && window.innerWidth >= 1024 ? scale : 1,
+            rotateX: conditional3DTransform(rotateX, 0),
+            rotateY: conditional3DTransform(rotateY, 0),
+            z: conditional3DTransform(z, 0),
+            scale: conditional3DTransform(scale, 1),
             transformStyle: "preserve-3d"
           }}
           className="space-y-16 sm:space-y-20 lg:space-y-24"

@@ -11,6 +11,7 @@ import {
   Minus,
   Plus,
 } from "lucide-react";
+import { isClient, isDesktop, conditional3DTransform } from "@/lib/utils";
 
 const AboutSection = () => {
   const [selectedMetric, setSelectedMetric] = useState(0);
@@ -79,7 +80,7 @@ const AboutSection = () => {
 
         {/* Rotating geometric shapes - Desktop only */}
         <motion.div
-          style={{ rotateY }}
+          style={{ rotateY: conditional3DTransform(rotateY, 0) }}
           className="hidden lg:block absolute top-32 left-16 w-80 h-80 border border-white/5"
         />
         <motion.div
@@ -96,10 +97,10 @@ const AboutSection = () => {
         <motion.div 
           style={{ 
             opacity, 
-            rotateX: typeof window !== 'undefined' && window.innerWidth >= 1024 ? rotateX : 0, 
-            rotateY: typeof window !== 'undefined' && window.innerWidth >= 1024 ? rotateY : 0,
-            z: typeof window !== 'undefined' && window.innerWidth >= 1024 ? z : 0,
-            scale: typeof window !== 'undefined' && window.innerWidth >= 1024 ? scale : 1,
+            rotateX: conditional3DTransform(rotateX, 0), 
+            rotateY: conditional3DTransform(rotateY, 0),
+            z: conditional3DTransform(z, 0),
+            scale: conditional3DTransform(scale, 1),
             transformStyle: "preserve-3d"
           }} 
           className="text-center mb-20 sm:mb-24 lg:mb-32"

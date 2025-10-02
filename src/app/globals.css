@@ -169,16 +169,16 @@
   /* Mobile optimizations - Disable 3D on mobile for performance */
   @media (max-width: 1024px) {
     [data-3d-section] {
-      perspective: none !important;
+      perspective: none;
     }
 
     * {
-      transform-style: flat !important;
+      transform-style: flat;
     }
 
     /* Faster transitions on mobile */
     * {
-      transition-duration: 0.2s !important;
+      transition-duration: 0.2s;
     }
 
     /* Optimize touch scrolling */
@@ -192,9 +192,9 @@
     *,
     *::before,
     *::after {
-      animation-duration: 0.01ms !important;
-      animation-iteration-count: 1 !important;
-      transition-duration: 0.01ms !important;
+      animation-duration: 0.01ms;
+      animation-iteration-count: 1;
+      transition-duration: 0.01ms;
     }
   }
 }
