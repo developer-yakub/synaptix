@@ -205,62 +205,80 @@ const WorkshopsHackathonsPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-black text-white relative overflow-hidden">
-      {/* Animated Background */}
+    <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-black text-white relative overflow-hidden">
+      {/* Enhanced Animated Background */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-gray-800/20 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-gray-700/20 rounded-full blur-3xl animate-pulse delay-1000"></div>
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-gradient-to-r from-gray-800/10 to-gray-600/10 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-gradient-to-r from-gray-700/10 to-gray-500/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gradient-to-r from-gray-600/5 to-gray-400/5 rounded-full blur-3xl animate-pulse delay-2000"></div>
       </div>
 
+      {/* Subtle Grid Pattern */}
+      <div className="absolute inset-0 opacity-5" style={{
+        backgroundImage: 'radial-gradient(circle, white 1px, transparent 1px)',
+        backgroundSize: '50px 50px'
+      }}></div>
+
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        {/* Header Section */}
+        {/* Enhanced Header Section */}
         <motion.div
           variants={headerVariants}
           initial="hidden"
           animate="visible"
-          className="text-center mb-16"
+          className="text-center mb-20"
         >
           <motion.div
-            initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
+            initial={{ scale: 0, rotate: -180 }}
+            animate={{ scale: 1, rotate: 0 }}
             transition={{ type: "spring", stiffness: 200, damping: 15 }}
-            className="inline-flex items-center gap-2 px-4 py-2 bg-gray-800/50 border border-gray-700 rounded-full mb-6"
+            className="inline-flex items-center gap-3 px-6 py-3 bg-gradient-to-r from-gray-800/60 to-gray-700/60 border border-gray-600/50 rounded-full mb-8 backdrop-blur-sm"
           >
-            <Sparkles className="w-4 h-4 text-gray-300" />
-            <span className="text-sm text-gray-400">Workshops & Hackathons</span>
+            <Sparkles className="w-5 h-5 text-gray-300" />
+            <span className="text-sm font-medium text-gray-200">Workshops & Hackathons</span>
           </motion.div>
 
-          <h1 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-white via-gray-300 to-gray-100 bg-clip-text text-transparent">
-            Programs for Schools, Colleges & Innovators 🚀✨
-          </h1>
+          <motion.h1 
+            className="text-6xl md:text-7xl lg:text-8xl font-bold mb-8 bg-gradient-to-r from-white via-gray-200 to-gray-400 bg-clip-text text-transparent leading-tight"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+          >
+            Programs for Schools, Colleges & Innovators
+          </motion.h1>
+          <motion.div
+            className="w-24 h-1 bg-gradient-to-r from-gray-400 to-gray-600 mx-auto mb-8 rounded-full"
+            initial={{ scaleX: 0 }}
+            animate={{ scaleX: 1 }}
+            transition={{ delay: 0.4, duration: 0.8 }}
+          ></motion.div>
 
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.3 }}
-            className="text-gray-400 text-lg max-w-4xl mx-auto leading-relaxed mb-4"
+            className="text-gray-300 text-xl max-w-5xl mx-auto leading-relaxed"
           >
             Synaptix Robotics runs hands-on workshops and high-energy hackathons designed to spark curiosity, develop practical skills, and convert ideas into working prototypes. 
             Our programs are delivered by experienced mentors and engineers who blend classroom theory with real project work—so participants learn by building, testing, and iterating.
           </motion.p>
         </motion.div>
 
-        {/* What We Offer */}
+        {/* Enhanced What We Offer */}
         <motion.section
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
-          className="mb-16"
+          className="mb-20"
         >
-          <h2 className="text-3xl font-bold mb-8 flex items-center gap-2 justify-center">
-            <Lightbulb className="w-6 h-6 text-gray-300" />
+          <motion.h2 className="text-3xl md:text-4xl font-bold mb-10 flex items-center gap-3 justify-center">
+            <Lightbulb className="w-8 h-8 text-gray-300" />
             What We Offer – Overview
-          </h2>
+          </motion.h2>
           <motion.div
             variants={containerVariants}
             initial="hidden"
             animate="visible"
-            className="grid md:grid-cols-2 lg:grid-cols-4 gap-6"
+            className="grid md:grid-cols-2 lg:grid-cols-4 gap-8"
           >
             {offerings.map((offering) => {
               const Icon = offering.icon;
@@ -273,28 +291,33 @@ const WorkshopsHackathonsPage = () => {
                   className="relative group"
                 >
                   <motion.div
-                    whileHover={{ scale: 1.02, y: -5 }}
+                    whileHover={{ scale: 1.03, y: -10, rotateY: 5 }}
                     transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                    className="relative h-full bg-gradient-to-br from-gray-900 to-gray-800 border border-gray-700 rounded-2xl p-6 cursor-pointer overflow-hidden"
+                    className="relative h-full bg-gradient-to-br from-gray-900/80 via-gray-800/60 to-gray-900/80 border border-gray-700/60 rounded-3xl p-8 cursor-pointer overflow-hidden backdrop-blur-sm"
                   >
-                    <div className={`absolute inset-0 bg-gradient-to-br ${offering.color} opacity-0 group-hover:opacity-100 transition-opacity duration-500`}></div>
+                    <div className={`absolute inset-0 bg-gradient-to-br ${offering.color} opacity-0 group-hover:opacity-20 transition-opacity duration-500`}></div>
+                    <div className="absolute inset-0 rounded-3xl bg-gradient-to-r from-gray-600/20 to-gray-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    
                     <div className="relative z-10">
-                      <div className="flex items-start justify-between mb-4">
+                      <div className="flex items-start justify-between mb-6">
                         <motion.div
-                          whileHover={{ rotate: 360 }}
+                          whileHover={{ rotate: 360, scale: 1.1 }}
                           transition={{ duration: 0.6 }}
-                          className={`p-3 bg-gray-800 rounded-xl ${offering.iconColor} group-hover:bg-gray-700 transition-colors`}
+                          className="p-4 bg-gradient-to-br from-gray-800/80 to-gray-700/80 rounded-2xl border border-gray-600/50 group-hover:border-gray-500/70 transition-all duration-300"
                         >
-                          <Icon className="w-6 h-6" />
+                          <Icon className="w-8 h-8 text-white" />
                         </motion.div>
-                        <span className="text-4xl font-bold text-gray-800 group-hover:text-gray-700 transition-colors">
+                        <motion.span 
+                          className="text-5xl font-bold bg-gradient-to-r from-gray-400 to-gray-600 bg-clip-text text-transparent group-hover:from-white group-hover:to-gray-200 transition-all duration-300"
+                          whileHover={{ scale: 1.1 }}
+                        >
                           {offering.id}
-                        </span>
+                        </motion.span>
                       </div>
-                      <h3 className="text-xl font-bold mb-3 text-white group-hover:text-white transition-colors">
+                      <h3 className="text-2xl font-bold mb-4 text-white group-hover:text-white transition-colors duration-300">
                         {offering.title}
                       </h3>
-                      <p className="text-gray-400 text-sm mb-4 group-hover:text-gray-300 transition-colors">
+                      <p className="text-gray-300 text-base mb-6 group-hover:text-gray-200 transition-colors duration-300 leading-relaxed">
                         {offering.description}
                       </p>
                       <AnimatePresence>
@@ -304,7 +327,7 @@ const WorkshopsHackathonsPage = () => {
                             animate={{ opacity: 1, height: 'auto' }}
                             exit={{ opacity: 0, height: 0 }}
                             transition={{ duration: 0.3 }}
-                            className="space-y-2 mb-4"
+                            className="space-y-3 mb-6"
                           >
                             {offering.details.map((detail, idx) => (
                               <motion.p
@@ -312,21 +335,24 @@ const WorkshopsHackathonsPage = () => {
                                 initial={{ opacity: 0, x: -10 }}
                                 animate={{ opacity: 1, x: 0 }}
                                 transition={{ delay: idx * 0.1 }}
-                                className="text-gray-400 text-sm flex items-start gap-2"
+                                className="text-gray-300 text-sm flex items-start gap-3 leading-relaxed"
                               >
-                                <ChevronRight className="w-4 h-4 flex-shrink-0 mt-0.5" />
+                                <ChevronRight className="w-4 h-4 text-gray-300 flex-shrink-0 mt-0.5" />
                                 <span>{detail}</span>
                               </motion.p>
                             ))}
                           </motion.div>
                         )}
                       </AnimatePresence>
-                      <div className="flex items-start gap-2 mb-4">
-                        <Lightbulb className="w-4 h-4 text-gray-300 flex-shrink-0 mt-0.5" />
-                        <p className="text-gray-300 text-sm font-medium">
+                      <motion.div 
+                        className="flex items-start gap-3 p-4 bg-gradient-to-r from-gray-400/10 to-gray-600/10 border border-gray-400/20 rounded-xl"
+                        whileHover={{ scale: 1.02 }}
+                      >
+                        <Lightbulb className="w-5 h-5 text-gray-300 flex-shrink-0 mt-0.5" />
+                        <p className="text-gray-200 text-sm font-medium leading-relaxed">
                           {offering.highlight}
                         </p>
-                      </div>
+                      </motion.div>
                     </div>
                   </motion.div>
                 </motion.div>
@@ -335,48 +361,48 @@ const WorkshopsHackathonsPage = () => {
           </motion.div>
         </motion.section>
 
-        {/* What Participants Learn */}
+        {/* Enhanced What Participants Learn */}
         <motion.section
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5 }}
-          className="mb-16"
+          className="mb-20"
         >
-          <h2 className="text-3xl font-bold mb-8 flex items-center gap-2 justify-center">
-            <Brain className="w-6 h-6 text-gray-300" />
+          <motion.h2 className="text-3xl md:text-4xl font-bold mb-10 flex items-center gap-3 justify-center">
+            <Brain className="w-8 h-8 text-gray-300" />
             What Participants Learn
-          </h2>
+          </motion.h2>
           <motion.div
             variants={containerVariants}
             initial="hidden"
             animate="visible"
-            className="grid md:grid-cols-2 lg:grid-cols-3 gap-6"
+            className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
           >
             {learningObjectives.map((objective, index) => (
               <motion.div
                 key={index}
                 variants={itemVariants}
-                className="bg-gradient-to-br from-gray-900 to-gray-800 border border-gray-700 rounded-2xl p-6"
+                className="bg-gradient-to-br from-gray-900/80 via-gray-800/60 to-gray-900/80 border border-gray-700/60 rounded-3xl p-8 backdrop-blur-sm hover:border-gray-600/70 transition-all duration-300 hover:scale-105"
               >
-                <h3 className="text-xl font-bold mb-3 text-white">{objective.title}</h3>
-                <p className="text-gray-400 text-sm">{objective.description}</p>
+                <h3 className="text-2xl font-bold mb-4 text-white">{objective.title}</h3>
+                <p className="text-gray-300 text-base leading-relaxed">{objective.description}</p>
               </motion.div>
             ))}
           </motion.div>
         </motion.section>
 
-        {/* Logistics & Inclusions */}
+        {/* Enhanced Logistics & Inclusions */}
         <motion.section
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.6 }}
-          className="mb-16"
+          className="mb-20"
         >
-          <h2 className="text-3xl font-bold mb-8 flex items-center gap-2 justify-center">
-            <MapPin className="w-6 h-6 text-gray-300" />
+          <motion.h2 className="text-3xl md:text-4xl font-bold mb-10 flex items-center gap-3 justify-center">
+            <MapPin className="w-8 h-8 text-gray-300" />
             Logistics & Inclusions
-          </h2>
-          <div className="grid md:grid-cols-2 gap-4">
+          </motion.h2>
+          <div className="grid md:grid-cols-2 gap-6">
             {[
               "Kits & Materials: Optional student kits available (components, sensors, microcontrollers). For institution bookings, kits can be provided per participant or per team.",
               "Venue Requirements (onsite): Classroom/lab with power outlets, tables for teams, projector/Wi-Fi (we can help set up).",
@@ -388,90 +414,91 @@ const WorkshopsHackathonsPage = () => {
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.7 + index * 0.1 }}
-                className="flex items-start gap-3 p-4 bg-gray-900/50 border border-gray-800 rounded-lg hover:border-gray-700 transition-colors"
+                whileHover={{ scale: 1.02, y: -5 }}
+                className="flex items-start gap-4 p-6 bg-gradient-to-br from-gray-900/60 to-gray-800/60 border border-gray-700/50 rounded-2xl backdrop-blur-sm hover:border-gray-600/70 transition-all duration-300"
               >
-                <ChevronRight className="w-5 h-5 text-gray-400 flex-shrink-0 mt-0.5" />
-                <span className="text-gray-300">{item}</span>
+                <ChevronRight className="w-6 h-6 text-gray-300 flex-shrink-0 mt-1" />
+                <span className="text-gray-200 leading-relaxed">{item}</span>
               </motion.div>
             ))}
           </div>
         </motion.section>
 
-        {/* Register/Request Form */}
+        {/* Enhanced Register/Request Form */}
         <motion.section
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.7 }}
-          className="mb-16"
+          className="mb-20"
         >
-          <h2 className="text-3xl font-bold mb-8 flex items-center gap-2 justify-center">
-            <Users className="w-6 h-6 text-gray-300" />
+          <motion.h2 className="text-3xl md:text-4xl font-bold mb-10 flex items-center gap-3 justify-center">
+            <Users className="w-8 h-8 text-gray-300" />
             Register / Request a Workshop or Hackathon
-          </h2>
-          <div className="max-w-3xl mx-auto">
-            <form onSubmit={handleSubmit} className="space-y-6 bg-gray-900/50 border border-gray-700 rounded-2xl p-8">
-              {/* Basic Info */}
+          </motion.h2>
+          <div className="max-w-4xl mx-auto">
+            <form onSubmit={handleSubmit} className="space-y-8 bg-gradient-to-br from-gray-900/60 to-gray-800/60 border border-gray-700/50 rounded-3xl p-12 backdrop-blur-sm">
+              {/* Enhanced Basic Info */}
               <div>
-                <label className="block text-sm font-medium mb-2 text-gray-300">Organization/School/College Name</label>
+                <label className="block text-sm font-semibold mb-3 text-gray-200">Organization/School/College Name</label>
                 <input
                   type="text"
                   name="organization"
                   value={formData.organization}
                   onChange={handleInputChange}
-                  className="w-full p-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:border-gray-500"
+                  className="w-full p-4 bg-gray-800/80 border border-gray-600/50 rounded-xl text-white placeholder-gray-400 focus:border-gray-500 focus:bg-gray-800/90 transition-all duration-300"
                   placeholder="Organization/School/College Name"
                   required
                 />
               </div>
 
-              <div className="grid md:grid-cols-2 gap-4">
+              <div className="grid md:grid-cols-2 gap-6">
                 <div>
-                  <label className="block text-sm font-medium mb-2 text-gray-300">Contact Person (Full Name)</label>
+                  <label className="block text-sm font-semibold mb-3 text-gray-200">Contact Person (Full Name)</label>
                   <input
                     type="text"
                     name="contactName"
                     value={formData.contactName}
                     onChange={handleInputChange}
-                    className="w-full p-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:border-gray-500"
+                    className="w-full p-4 bg-gray-800/80 border border-gray-600/50 rounded-xl text-white placeholder-gray-400 focus:border-gray-500 focus:bg-gray-800/90 transition-all duration-300"
                     placeholder="Full Name"
                     required
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium mb-2 text-gray-300">Role/Designation</label>
+                  <label className="block text-sm font-semibold mb-3 text-gray-200">Role/Designation</label>
                   <input
                     type="text"
                     name="role"
                     value={formData.role}
                     onChange={handleInputChange}
-                    className="w-full p-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:border-gray-500"
+                    className="w-full p-4 bg-gray-800/80 border border-gray-600/50 rounded-xl text-white placeholder-gray-400 focus:border-gray-500 focus:bg-gray-800/90 transition-all duration-300"
                     placeholder="e.g., Teacher, Principal, Coordinator"
                     required
                   />
                 </div>
               </div>
 
-              <div className="grid md:grid-cols-2 gap-4">
+              <div className="grid md:grid-cols-2 gap-6">
                 <div>
-                  <label className="block text-sm font-medium mb-2 text-gray-300">Email</label>
+                  <label className="block text-sm font-semibold mb-3 text-gray-200">Email</label>
                   <input
                     type="email"
                     name="email"
                     value={formData.email}
                     onChange={handleInputChange}
-                    className="w-full p-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:border-gray-500"
+                    className="w-full p-4 bg-gray-800/80 border border-gray-600/50 rounded-xl text-white placeholder-gray-400 focus:border-gray-500 focus:bg-gray-800/90 transition-all duration-300"
                     placeholder="your@email.com"
                     required
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium mb-2 text-gray-300">Phone/WhatsApp Number</label>
+                  <label className="block text-sm font-semibold mb-3 text-gray-200">Phone/WhatsApp Number</label>
                   <input
                     type="tel"
                     name="phone"
                     value={formData.phone}
                     onChange={handleInputChange}
-                    className="w-full p-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:border-gray-500"
+                    className="w-full p-4 bg-gray-800/80 border border-gray-600/50 rounded-xl text-white placeholder-gray-400 focus:border-gray-500 focus:bg-gray-800/90 transition-all duration-300"
                     placeholder="+91 12345 67890"
                     required
                   />
@@ -479,26 +506,26 @@ const WorkshopsHackathonsPage = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium mb-2 text-gray-300">City/State</label>
+                <label className="block text-sm font-semibold mb-3 text-gray-200">City/State</label>
                 <input
                   type="text"
                   name="cityState"
                   value={formData.cityState}
                   onChange={handleInputChange}
-                  className="w-full p-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:border-gray-500"
+                  className="w-full p-4 bg-gray-800/80 border border-gray-600/50 rounded-xl text-white placeholder-gray-400 focus:border-gray-500 focus:bg-gray-800/90 transition-all duration-300"
                   placeholder="City, State"
                   required
                 />
               </div>
 
-              {/* Program Type */}
+              {/* Enhanced Program Type */}
               <div>
-                <label className="block text-sm font-medium mb-2 text-gray-300">Preferred Program Type</label>
+                <label className="block text-sm font-semibold mb-3 text-gray-200">Preferred Program Type</label>
                 <select
                   name="programType"
                   value={formData.programType}
                   onChange={handleInputChange}
-                  className="w-full p-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:border-gray-500"
+                  className="w-full p-4 bg-gray-800/80 border border-gray-600/50 rounded-xl text-white focus:border-gray-500 focus:bg-gray-800/90 transition-all duration-300"
                   required
                 >
                   <option value="">Select Type</option>
@@ -509,25 +536,25 @@ const WorkshopsHackathonsPage = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium mb-2 text-gray-300">Target Audience/Class/Year</label>
+                <label className="block text-sm font-semibold mb-3 text-gray-200">Target Audience/Class/Year</label>
                 <input
                   type="text"
                   name="targetAudience"
                   value={formData.targetAudience}
                   onChange={handleInputChange}
-                  className="w-full p-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:border-gray-500"
+                  className="w-full p-4 bg-gray-800/80 border border-gray-600/50 rounded-xl text-white placeholder-gray-400 focus:border-gray-500 focus:bg-gray-800/90 transition-all duration-300"
                   placeholder="e.g., Class 6-8, Diploma students, College 2nd year"
                   required
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium mb-2 text-gray-300">Approximate Number of Participants</label>
+                <label className="block text-sm font-semibold mb-3 text-gray-200">Approximate Number of Participants</label>
                 <select
                   name="numParticipants"
                   value={formData.numParticipants}
                   onChange={handleInputChange}
-                  className="w-full p-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:border-gray-500"
+                  className="w-full p-4 bg-gray-800/80 border border-gray-600/50 rounded-xl text-white focus:border-gray-500 focus:bg-gray-800/90 transition-all duration-300"
                   required
                 >
                   <option value="">Select</option>
@@ -538,12 +565,12 @@ const WorkshopsHackathonsPage = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium mb-2 text-gray-300">Preferred Delivery Mode</label>
+                <label className="block text-sm font-semibold mb-3 text-gray-200">Preferred Delivery Mode</label>
                 <select
                   name="deliveryMode"
                   value={formData.deliveryMode}
                   onChange={handleInputChange}
-                  className="w-full p-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:border-gray-500"
+                  className="w-full p-4 bg-gray-800/80 border border-gray-600/50 rounded-xl text-white focus:border-gray-500 focus:bg-gray-800/90 transition-all duration-300"
                   required
                 >
                   <option value="">Select Mode</option>
@@ -554,25 +581,25 @@ const WorkshopsHackathonsPage = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium mb-2 text-gray-300">Preferred Dates</label>
+                <label className="block text-sm font-semibold mb-3 text-gray-200">Preferred Dates</label>
                 <input
                   type="text"
                   name="preferredDates"
                   value={formData.preferredDates}
                   onChange={handleInputChange}
-                  className="w-full p-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:border-gray-500"
+                  className="w-full p-4 bg-gray-800/80 border border-gray-600/50 rounded-xl text-white placeholder-gray-400 focus:border-gray-500 focus:bg-gray-800/90 transition-all duration-300"
                   placeholder="e.g., 15-17 Nov 2025 or Flexible"
                   required
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium mb-2 text-gray-300">Workshop Format Duration</label>
+                <label className="block text-sm font-semibold mb-3 text-gray-200">Workshop Format Duration</label>
                 <select
                   name="duration"
                   value={formData.duration}
                   onChange={handleInputChange}
-                  className="w-full p-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:border-gray-500"
+                  className="w-full p-4 bg-gray-800/80 border border-gray-600/50 rounded-xl text-white focus:border-gray-500 focus:bg-gray-800/90 transition-all duration-300"
                   required
                 >
                   <option value="">Select Duration</option>
@@ -585,12 +612,12 @@ const WorkshopsHackathonsPage = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium mb-2 text-gray-300">Kits & Materials</label>
+                <label className="block text-sm font-semibold mb-3 text-gray-200">Kits & Materials</label>
                 <select
                   name="kitsMaterials"
                   value={formData.kitsMaterials}
                   onChange={handleInputChange}
-                  className="w-full p-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:border-gray-500"
+                  className="w-full p-4 bg-gray-800/80 border border-gray-600/50 rounded-xl text-white focus:border-gray-500 focus:bg-gray-800/90 transition-all duration-300"
                   required
                 >
                   <option value="">Select</option>
@@ -600,92 +627,96 @@ const WorkshopsHackathonsPage = () => {
                 </select>
               </div>
 
-              {/* Focus Areas */}
+              {/* Enhanced Focus Areas */}
               <div>
-                <label className="block text-sm font-medium mb-2 text-gray-300">Robotics Program Basics Focus (select up to 2)</label>
-                {focusAreas.map((area) => (
-                  <label key={area} className="flex items-center gap-2 p-2">
-                    <input
-                      type="checkbox"
-                      name="focusAreas"
-                      value={area}
-                      checked={formData.focusAreas.includes(area)}
-                      onChange={handleInputChange}
-                      className="rounded"
-                    />
-                    <span className="text-gray-300">{area}</span>
-                  </label>
-                ))}
+                <label className="block text-sm font-semibold mb-4 text-gray-200">Robotics Program Basics Focus (select up to 2)</label>
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                  {focusAreas.map((area) => (
+                    <label key={area} className="flex items-center gap-3 p-4 bg-gray-800/60 border border-gray-700/50 rounded-xl hover:border-gray-600/70 transition-all duration-300 cursor-pointer">
+                      <input
+                        type="checkbox"
+                        name="focusAreas"
+                        value={area}
+                        checked={formData.focusAreas.includes(area)}
+                        onChange={handleInputChange}
+                        className="rounded text-gray-300"
+                      />
+                      <span className="text-gray-200 text-sm">{area}</span>
+                    </label>
+                  ))}
+                </div>
               </div>
 
               <div>
-                <label className="block text-sm font-medium mb-2 text-gray-300">Other - specify below</label>
+                <label className="block text-sm font-semibold mb-3 text-gray-200">Other - specify below</label>
                 <textarea
                   name="otherFocus"
                   value={formData.otherFocus}
                   onChange={handleInputChange}
-                  rows={2}
-                  className="w-full p-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:border-gray-500"
+                  rows={3}
+                  className="w-full p-4 bg-gray-800/80 border border-gray-600/50 rounded-xl text-white placeholder-gray-400 focus:border-gray-500 focus:bg-gray-800/90 transition-all duration-300"
                   placeholder="Specify other focus areas..."
                 />
               </div>
 
-              {/* Support Needed */}
+              {/* Enhanced Support Needed */}
               <div>
-                <label className="block text-sm font-medium mb-2 text-gray-300">Support Needed</label>
-                {supportOptions.map((support) => (
-                  <label key={support} className="flex items-center gap-2 p-2">
-                    <input
-                      type="checkbox"
-                      name="supportNeeded"
-                      value={support}
-                      checked={formData.supportNeeded.includes(support)}
-                      onChange={handleInputChange}
-                      className="rounded"
-                    />
-                    <span className="text-gray-300">{support}</span>
-                  </label>
-                ))}
+                <label className="block text-sm font-semibold mb-4 text-gray-200">Support Needed</label>
+                <div className="grid grid-cols-2 gap-4">
+                  {supportOptions.map((support) => (
+                    <label key={support} className="flex items-center gap-3 p-4 bg-gray-800/60 border border-gray-700/50 rounded-xl hover:border-gray-600/70 transition-all duration-300 cursor-pointer">
+                      <input
+                        type="checkbox"
+                        name="supportNeeded"
+                        value={support}
+                        checked={formData.supportNeeded.includes(support)}
+                        onChange={handleInputChange}
+                        className="rounded text-gray-300"
+                      />
+                      <span className="text-gray-200 text-sm">{support}</span>
+                    </label>
+                  ))}
+                </div>
               </div>
 
-              {/* File Uploads */}
+              {/* Enhanced File Uploads */}
               <div>
-                <label className="block text-sm font-medium mb-2 text-gray-300">Post-event mentorship (proposal/winners doc/student list)</label>
+                <label className="block text-sm font-semibold mb-3 text-gray-200">Post-event mentorship (proposal/winners doc/student list)</label>
                 <input
                   type="file"
                   name="fileUploads"
                   onChange={handleInputChange}
-                  className="w-full p-3 bg-gray-800 border border-gray-700 rounded-lg text-white"
+                  className="w-full p-4 bg-gray-800/80 border border-gray-600/50 rounded-xl text-white file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-gray-700 file:text-gray-200 hover:file:bg-gray-600 transition-all duration-300"
                 />
               </div>
 
-              <label className="flex items-center gap-2">
+              <label className="flex items-center gap-3 p-4 bg-gray-800/60 border border-gray-700/50 rounded-xl hover:border-gray-600/70 transition-all duration-300">
                 <input
                   type="checkbox"
                   name="agree"
                   checked={formData.agree}
                   onChange={handleInputChange}
-                  className="rounded"
+                  className="rounded text-gray-300"
                   required
                 />
-                <span className="text-gray-300 text-sm">I agree to be contacted by Synaptix Robotics regarding this enquiry.</span>
+                <span className="text-gray-200 text-sm">I agree to be contacted by Synaptix Robotics regarding this enquiry.</span>
               </label>
 
               <motion.button
-                whileHover={{ scale: 1.05 }}
+                whileHover={{ scale: 1.05, backgroundColor: '#ffffff' }}
                 whileTap={{ scale: 0.95 }}
                 type="submit"
-                className="w-full py-4 bg-white text-black rounded-lg font-bold text-lg flex items-center justify-center gap-2 hover:bg-gray-100 transition-colors"
+                className="w-full py-5 bg-gradient-to-r from-white to-gray-100 text-black rounded-xl font-bold text-xl flex items-center justify-center gap-3 hover:shadow-xl transition-all duration-300"
               >
-                {submitted ? 'Submitted!' : 'Submit Request – Our Program Manager Will Contact You (CTA)'}
-                <ArrowRight className="w-5 h-5" />
+                {submitted ? 'Submitted!' : 'Submit Request – Our Program Manager Will Contact You'}
+                <ArrowRight className="w-6 h-6" />
               </motion.button>
 
               {submitted && (
                 <motion.p
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  className="text-green-400 text-center"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="text-green-400 text-center text-lg leading-relaxed"
                 >
                   Synaptix Robotics delivers structured learning experiences that empower students to innovate confidently. Our workshops and hackathons are designed to be educational, 
                   interactive, and fun—producing measurable skills and tangible projects. Ready to run your next event? Fill the form above or click Talk to Our Expert to discuss a tailored program.
@@ -695,37 +726,43 @@ const WorkshopsHackathonsPage = () => {
           </div>
         </motion.section>
 
-        {/* Call to Action Section */}
+        {/* Enhanced Call to Action Section */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.8 }}
-          className="relative bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 border border-gray-700 rounded-2xl p-8 md:p-12 overflow-hidden text-center"
+          className="relative bg-gradient-to-br from-gray-900/90 via-gray-800/80 to-gray-900/90 border border-gray-700/60 rounded-3xl p-12 md:p-16 overflow-hidden backdrop-blur-sm text-center"
         >
-          <div className="absolute inset-0 opacity-5">
+          <div className="absolute inset-0 opacity-10">
             <div className="absolute inset-0" style={{
               backgroundImage: 'radial-gradient(circle, white 1px, transparent 1px)',
-              backgroundSize: '20px 20px'
+              backgroundSize: '30px 30px'
             }}></div>
           </div>
+          <div className="absolute inset-0 bg-gradient-to-r from-gray-600/5 via-gray-500/5 to-gray-400/5 opacity-0 hover:opacity-100 transition-opacity duration-700"></div>
+          
           <div className="relative z-10">
-            <div className="flex items-center gap-2 mb-4 justify-center">
-              <Zap className="w-6 h-6 text-gray-300" />
-              <h2 className="text-2xl font-bold">Ready to Spark Innovation?</h2>
-            </div>
-            <p className="text-gray-300 text-lg mb-6 max-w-2xl mx-auto">
+            <motion.div 
+              className="flex items-center justify-center gap-3 mb-6"
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              transition={{ delay: 0.9, type: "spring" }}
+            >
+              <Zap className="w-8 h-8 text-gray-300" />
+              <h2 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">Ready to Spark Innovation?</h2>
+            </motion.div>
+            <p className="text-gray-200 text-xl mb-8 max-w-3xl mx-auto leading-relaxed">
               <span className="font-semibold text-white">Please fill the form below and our program manager will contact you within 48 hours. (If you prefer WhatsApp, use the Talk to Expert button on the page.)</span>
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="px-8 py-4 bg-white text-black rounded-lg font-bold text-lg flex items-center gap-2 justify-center hover:bg-gray-100 transition-colors"
-              >
-                📱 Talk to Our Expert (WhatsApp)
-                <ArrowRight className="w-5 h-5" />
-              </motion.button>
-            </div>
+            <motion.button
+              whileHover={{ scale: 1.05, backgroundColor: '#ffffff' }}
+              whileTap={{ scale: 0.95 }}
+              className="px-10 py-5 bg-gradient-to-r from-white to-gray-100 text-black rounded-xl font-bold text-xl flex items-center gap-3 mx-auto hover:shadow-xl transition-all duration-300"
+            >
+            <Phone className="w-6 h-6" />
+            Talk to Our Expert (WhatsApp)
+              <ArrowRight className="w-6 h-6" />
+            </motion.button>
           </div>
         </motion.div>
       </div>

@@ -209,62 +209,80 @@ const DesignPrototypingPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-black text-white relative overflow-hidden">
-      {/* Animated Background */}
+    <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-black text-white relative overflow-hidden">
+      {/* Enhanced Animated Background */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-gray-800/20 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-gray-700/20 rounded-full blur-3xl animate-pulse delay-1000"></div>
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-gradient-to-r from-gray-800/10 to-gray-600/10 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-gradient-to-r from-gray-700/10 to-gray-500/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gradient-to-r from-gray-600/5 to-gray-400/5 rounded-full blur-3xl animate-pulse delay-2000"></div>
       </div>
 
+      {/* Subtle Grid Pattern */}
+      <div className="absolute inset-0 opacity-5" style={{
+        backgroundImage: 'radial-gradient(circle, white 1px, transparent 1px)',
+        backgroundSize: '50px 50px'
+      }}></div>
+
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        {/* Header Section */}
+        {/* Enhanced Header Section */}
         <motion.div
           variants={headerVariants}
           initial="hidden"
           animate="visible"
-          className="text-center mb-16"
+          className="text-center mb-20"
         >
           <motion.div
-            initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
+            initial={{ scale: 0, rotate: -180 }}
+            animate={{ scale: 1, rotate: 0 }}
             transition={{ type: "spring", stiffness: 200, damping: 15 }}
-            className="inline-flex items-center gap-2 px-4 py-2 bg-gray-800/50 border border-gray-700 rounded-full mb-6"
+            className="inline-flex items-center gap-3 px-6 py-3 bg-gradient-to-r from-gray-800/60 to-gray-700/60 border border-gray-600/50 rounded-full mb-8 backdrop-blur-sm"
           >
-            <Sparkles className="w-4 h-4 text-gray-300" />
-            <span className="text-sm text-gray-400">3D Design & Prototyping Services</span>
+            <Sparkles className="w-5 h-5 text-gray-300" />
+            <span className="text-sm font-medium text-gray-200">3D Design & Prototyping Services</span>
           </motion.div>
 
-          <h1 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-white via-gray-300 to-gray-100 bg-clip-text text-transparent">
-            Prototype Design. Print. Deliver—Built to Your Specs. 🖨️✨
-          </h1>
+          <motion.h1 
+            className="text-6xl md:text-7xl lg:text-8xl font-bold mb-8 bg-gradient-to-r from-white via-gray-200 to-gray-400 bg-clip-text text-transparent leading-tight"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+          >
+            Prototype Design. Print. Deliver—Built to Your Specs.
+          </motion.h1>
+          <motion.div
+            className="w-24 h-1 bg-gradient-to-r from-gray-400 to-gray-600 mx-auto mb-8 rounded-full"
+            initial={{ scaleX: 0 }}
+            animate={{ scaleX: 1 }}
+            transition={{ delay: 0.4, duration: 0.8 }}
+          ></motion.div>
 
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.3 }}
-            className="text-gray-400 text-lg max-w-4xl mx-auto leading-relaxed mb-4"
+            className="text-gray-300 text-xl max-w-5xl mx-auto leading-relaxed"
           >
             We design, print, and deliver—built to your specs. Exactly the way you need them—then print, finish, and deliver them anywhere in India. 
             From one-off models for student projects to small-batch production for functional parts and prototypes, we turn ideas into tangible reality.
           </motion.p>
         </motion.div>
 
-        {/* What We Offer */}
+        {/* Enhanced What We Offer */}
         <motion.section
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
-          className="mb-16"
+          className="mb-20"
         >
-          <h2 className="text-3xl font-bold mb-8 flex items-center gap-2 justify-center">
-            <Lightbulb className="w-6 h-6 text-gray-300" />
+          <motion.h2 className="text-3xl md:text-4xl font-bold mb-10 flex items-center gap-3 justify-center">
+            <Lightbulb className="w-8 h-8 text-gray-300" />
             What We Offer
-          </h2>
+          </motion.h2>
           <motion.div
             variants={containerVariants}
             initial="hidden"
             animate="visible"
-            className="grid md:grid-cols-2 lg:grid-cols-4 gap-6"
+            className="grid md:grid-cols-2 lg:grid-cols-4 gap-8"
           >
             {services.map((service, index) => {
               const Icon = service.icon;
@@ -277,28 +295,33 @@ const DesignPrototypingPage = () => {
                   className="relative group"
                 >
                   <motion.div
-                    whileHover={{ scale: 1.02, y: -5 }}
+                    whileHover={{ scale: 1.03, y: -10, rotateY: 5 }}
                     transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                    className="relative h-full bg-gradient-to-br from-gray-900 to-gray-800 border border-gray-700 rounded-2xl p-6 cursor-pointer overflow-hidden"
+                    className="relative h-full bg-gradient-to-br from-gray-900/80 via-gray-800/60 to-gray-900/80 border border-gray-700/60 rounded-3xl p-8 cursor-pointer overflow-hidden backdrop-blur-sm"
                   >
-                    <div className={`absolute inset-0 bg-gradient-to-br ${service.color} opacity-0 group-hover:opacity-100 transition-opacity duration-500`}></div>
+                    <div className={`absolute inset-0 bg-gradient-to-br ${service.color} opacity-0 group-hover:opacity-20 transition-opacity duration-500`}></div>
+                    <div className="absolute inset-0 rounded-3xl bg-gradient-to-r from-gray-600/20 to-gray-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    
                     <div className="relative z-10">
-                      <div className="flex items-start justify-between mb-4">
+                      <div className="flex items-start justify-between mb-6">
                         <motion.div
-                          whileHover={{ rotate: 360 }}
+                          whileHover={{ rotate: 360, scale: 1.1 }}
                           transition={{ duration: 0.6 }}
-                          className={`p-3 bg-gray-800 rounded-xl ${service.iconColor} group-hover:bg-gray-700 transition-colors`}
+                          className="p-4 bg-gradient-to-br from-gray-800/80 to-gray-700/80 rounded-2xl border border-gray-600/50 group-hover:border-gray-500/70 transition-all duration-300"
                         >
-                          <Icon className="w-6 h-6" />
+                          <Icon className="w-8 h-8 text-white" />
                         </motion.div>
-                        <span className="text-4xl font-bold text-gray-800 group-hover:text-gray-700 transition-colors">
+                        <motion.span 
+                          className="text-5xl font-bold bg-gradient-to-r from-gray-400 to-gray-600 bg-clip-text text-transparent group-hover:from-white group-hover:to-gray-200 transition-all duration-300"
+                          whileHover={{ scale: 1.1 }}
+                        >
                           {service.id}
-                        </span>
+                        </motion.span>
                       </div>
-                      <h3 className="text-xl font-bold mb-3 text-white group-hover:text-white transition-colors">
+                      <h3 className="text-2xl font-bold mb-4 text-white group-hover:text-white transition-colors duration-300">
                         {service.title}
                       </h3>
-                      <p className="text-gray-400 text-sm mb-4 group-hover:text-gray-300 transition-colors">
+                      <p className="text-gray-300 text-base mb-6 group-hover:text-gray-200 transition-colors duration-300 leading-relaxed">
                         {service.description}
                       </p>
                       <AnimatePresence>
@@ -308,7 +331,7 @@ const DesignPrototypingPage = () => {
                             animate={{ opacity: 1, height: 'auto' }}
                             exit={{ opacity: 0, height: 0 }}
                             transition={{ duration: 0.3 }}
-                            className="space-y-2 mb-4"
+                            className="space-y-3 mb-6"
                           >
                             {service.details.map((detail, idx) => (
                               <motion.p
@@ -316,21 +339,24 @@ const DesignPrototypingPage = () => {
                                 initial={{ opacity: 0, x: -10 }}
                                 animate={{ opacity: 1, x: 0 }}
                                 transition={{ delay: idx * 0.1 }}
-                                className="text-gray-400 text-sm flex items-start gap-2"
+                                className="text-gray-300 text-sm flex items-start gap-3 leading-relaxed"
                               >
-                                <ChevronRight className="w-4 h-4 flex-shrink-0 mt-0.5" />
+                                <ChevronRight className="w-4 h-4 text-gray-300 flex-shrink-0 mt-0.5" />
                                 <span>{detail}</span>
                               </motion.p>
                             ))}
                           </motion.div>
                         )}
                       </AnimatePresence>
-                      <div className="flex items-start gap-2 mb-4">
-                        <Lightbulb className="w-4 h-4 text-gray-300 flex-shrink-0 mt-0.5" />
-                        <p className="text-gray-300 text-sm font-medium">
+                      <motion.div 
+                        className="flex items-start gap-3 p-4 bg-gradient-to-r from-gray-400/10 to-gray-600/10 border border-gray-400/20 rounded-xl"
+                        whileHover={{ scale: 1.02 }}
+                      >
+                        <Lightbulb className="w-5 h-5 text-gray-300 flex-shrink-0 mt-0.5" />
+                        <p className="text-gray-200 text-sm font-medium leading-relaxed">
                           {service.highlight}
                         </p>
-                      </div>
+                      </motion.div>
                     </div>
                   </motion.div>
                 </motion.div>
@@ -339,25 +365,25 @@ const DesignPrototypingPage = () => {
           </motion.div>
         </motion.section>
 
-        {/* How It Works */}
+        {/* Enhanced How It Works */}
         <motion.section
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5 }}
-          className="mb-16"
+          className="mb-20"
         >
-          <h2 className="text-3xl font-bold mb-8 flex items-center gap-2 justify-center">
-            <Zap className="w-6 h-6 text-gray-300" />
+          <motion.h2 className="text-3xl md:text-4xl font-bold mb-10 flex items-center gap-3 justify-center">
+            <Zap className="w-8 h-8 text-gray-300" />
             How It Works (Simple 6-Step Process)
-          </h2>
+          </motion.h2>
           <motion.div
             variants={containerVariants}
             initial="hidden"
             animate="visible"
-            className="grid md:grid-cols-3 gap-6"
+            className="grid md:grid-cols-3 gap-8"
           >
             {steps.map((step, index) => {
-              const Icon = step.icon || ChevronRight; // Fallback icon for steps without one
+              const Icon = step.icon || ChevronRight;
               return (
                 <motion.div
                   key={step.id}
@@ -366,26 +392,26 @@ const DesignPrototypingPage = () => {
                   initial="hidden"
                   animate="visible"
                   onMouseEnter={() => setActiveStep(step.id - 1)}
-                  className={`relative bg-gradient-to-br from-gray-900 to-gray-800 border border-gray-700 rounded-2xl p-6 cursor-pointer overflow-hidden transition-all duration-300 ${
-                    activeStep === step.id - 1 ? 'ring-2 ring-gray-500 scale-105' : ''
-                  }`}
+                  className={`relative bg-gradient-to-br from-gray-900/80 via-gray-800/60 to-gray-900/80 border border-gray-700/60 rounded-3xl p-8 cursor-pointer overflow-hidden backdrop-blur-sm transition-all duration-300 hover:border-gray-600/70 hover:scale-105`}
                 >
-                  <div className="flex items-start gap-3 mb-4">
+                  <div className="flex items-start gap-4 mb-6">
                     <motion.div
                       animate={{ rotate: activeStep === step.id - 1 ? 180 : 0 }}
                       transition={{ duration: 0.3 }}
-                      className="p-2 bg-gray-800 rounded-xl text-gray-300 flex-shrink-0"
+                      className="p-3 bg-gradient-to-br from-gray-800/80 to-gray-700/80 rounded-2xl border border-gray-600/50 text-gray-300 flex-shrink-0"
                     >
-                      <Icon className="w-5 h-5" />
+                      <Icon className="w-6 h-6" />
                     </motion.div>
                     <div>
-                      <h3 className="text-xl font-bold mb-2 text-white">{step.title}</h3>
-                      <p className="text-gray-400 text-sm">{step.description}</p>
+                      <h3 className="text-2xl font-bold mb-3 text-white">{step.title}</h3>
+                      <p className="text-gray-300 text-base leading-relaxed">{step.description}</p>
                     </div>
                   </div>
                   <div className="flex justify-end">
-                    <span className={`text-sm font-medium px-3 py-1 rounded-full ${
-                      activeStep === step.id - 1 ? 'bg-gray-500 text-white' : 'bg-gray-800 text-gray-400'
+                    <span className={`text-sm font-semibold px-4 py-2 rounded-full transition-all duration-300 ${
+                      activeStep === step.id - 1 
+                        ? 'bg-gradient-to-r from-gray-500 to-gray-600 text-white shadow-lg' 
+                        : 'bg-gray-800/60 text-gray-400 border border-gray-700/50'
                     }`}>
                       Step {step.id}
                     </span>
@@ -396,22 +422,22 @@ const DesignPrototypingPage = () => {
           </motion.div>
         </motion.section>
 
-        {/* Materials */}
+        {/* Enhanced Materials */}
         <motion.section
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.6 }}
-          className="mb-16"
+          className="mb-20"
         >
-          <h2 className="text-3xl font-bold mb-8 flex items-center gap-2 justify-center">
-            <Settings className="w-6 h-6 text-gray-300" />
+          <motion.h2 className="text-3xl md:text-4xl font-bold mb-10 flex items-center gap-3 justify-center">
+            <Settings className="w-8 h-8 text-gray-300" />
             Materials & Technologies
-          </h2>
+          </motion.h2>
           <motion.div
             variants={containerVariants}
             initial="hidden"
             animate="visible"
-            className="grid md:grid-cols-2 lg:grid-cols-4 gap-6"
+            className="grid md:grid-cols-2 lg:grid-cols-4 gap-8"
           >
             {materials.map((material, index) => {
               const Icon = material.icon;
@@ -419,58 +445,59 @@ const DesignPrototypingPage = () => {
                 <motion.div
                   key={index}
                   variants={itemVariants}
-                  className="bg-gradient-to-br from-gray-900 to-gray-800 border border-gray-700 rounded-2xl p-6 text-center"
+                  className="bg-gradient-to-br from-gray-900/80 via-gray-800/60 to-gray-900/80 border border-gray-700/60 rounded-3xl p-8 text-center backdrop-blur-sm hover:border-gray-600/70 transition-all duration-300 hover:scale-105"
                 >
-                  <div className="p-3 bg-gray-800 rounded-xl mb-4 mx-auto w-fit">
-                    <Icon className="w-6 h-6 text-gray-300" />
+                  <div className="p-4 bg-gradient-to-br from-gray-800/80 to-gray-700/80 rounded-2xl mb-6 mx-auto w-fit border border-gray-600/50">
+                    <Icon className="w-8 h-8 text-gray-200" />
                   </div>
-                  <h3 className="text-xl font-bold mb-3 text-white">{material.title}</h3>
-                  <p className="text-gray-400 text-sm">{material.description}</p>
+                  <h3 className="text-2xl font-bold mb-4 text-white">{material.title}</h3>
+                  <p className="text-gray-300 text-base leading-relaxed">{material.description}</p>
                 </motion.div>
               );
             })}
           </motion.div>
         </motion.section>
 
-        {/* Guidelines */}
+        {/* Enhanced Guidelines */}
         <motion.section
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.7 }}
-          className="mb-16"
+          className="mb-20"
         >
-          <h2 className="text-3xl font-bold mb-8 flex items-center gap-2 justify-center">
-            <FileText className="w-6 h-6 text-gray-300" />
+          <motion.h2 className="text-3xl md:text-4xl font-bold mb-10 flex items-center gap-3 justify-center">
+            <FileText className="w-8 h-8 text-gray-300" />
             File & Submission Guidelines
-          </h2>
-          <div className="grid md:grid-cols-2 gap-4">
+          </motion.h2>
+          <div className="grid md:grid-cols-2 gap-6">
             {guidelines.map((guideline, index) => (
               <motion.div
                 key={index}
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.8 + index * 0.1 }}
-                className="flex items-start gap-3 p-4 bg-gray-900/50 border border-gray-800 rounded-lg hover:border-gray-700 transition-colors"
+                whileHover={{ scale: 1.02, y: -5 }}
+                className="flex items-start gap-4 p-6 bg-gradient-to-br from-gray-900/60 to-gray-800/60 border border-gray-700/50 rounded-2xl backdrop-blur-sm hover:border-gray-600/70 transition-all duration-300"
               >
-                <ChevronRight className="w-5 h-5 text-gray-400 flex-shrink-0 mt-0.5" />
-                <span className="text-gray-300">{guideline}</span>
+                <ChevronRight className="w-6 h-6 text-gray-300 flex-shrink-0 mt-1" />
+                <span className="text-gray-200 leading-relaxed">{guideline}</span>
               </motion.div>
             ))}
           </div>
         </motion.section>
 
-        {/* Delivery */}
+        {/* Enhanced Delivery */}
         <motion.section
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.9 }}
-          className="mb-16"
+          className="mb-20"
         >
-          <h2 className="text-3xl font-bold mb-8 flex items-center gap-2 justify-center">
-            <Package className="w-6 h-6 text-gray-300" />
+          <motion.h2 className="text-3xl md:text-4xl font-bold mb-10 flex items-center gap-3 justify-center">
+            <Package className="w-8 h-8 text-gray-300" />
             Delivery Across India
-          </h2>
-          <div className="grid md:grid-cols-2 gap-4">
+          </motion.h2>
+          <div className="grid md:grid-cols-2 gap-6">
             {[
               "We ship nationwide using trusted courier partners.",
               "Secure packaging for delicate parts.",
@@ -483,90 +510,114 @@ const DesignPrototypingPage = () => {
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 1 + index * 0.1 }}
-                className="flex items-start gap-3 p-4 bg-gray-900/50 border border-gray-800 rounded-lg hover:border-gray-700 transition-colors"
+                whileHover={{ scale: 1.02, y: -5 }}
+                className="flex items-start gap-4 p-6 bg-gradient-to-br from-gray-900/60 to-gray-800/60 border border-gray-700/50 rounded-2xl backdrop-blur-sm hover:border-gray-600/70 transition-all duration-300"
               >
-                <ChevronRight className="w-5 h-5 text-gray-400 flex-shrink-0 mt-0.5" />
-                <span className="text-gray-300">{item}</span>
+                <ChevronRight className="w-6 h-6 text-gray-300 flex-shrink-0 mt-1" />
+                <span className="text-gray-200 leading-relaxed">{item}</span>
               </motion.div>
             ))}
           </div>
         </motion.section>
 
-        {/* Pricing & Quotes + FAQs */}
+        {/* Enhanced Pricing & Quotes + FAQs */}
         <motion.section
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1.1 }}
-          className="mb-16"
+          className="mb-20"
         >
           <div className="grid lg:grid-cols-2 gap-12">
-            <div>
-              <h2 className="text-3xl font-bold mb-6">Pricing & Quotes</h2>
-              <div className="space-y-4 text-gray-400">
+            <motion.div 
+              className="bg-gradient-to-br from-gray-900/80 via-gray-800/60 to-gray-900/80 border border-gray-700/60 rounded-3xl p-10 backdrop-blur-sm"
+              whileHover={{ scale: 1.02 }}
+              transition={{ duration: 0.3 }}
+            >
+              <h2 className="text-3xl md:text-4xl font-bold mb-8 bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">Pricing & Quotes</h2>
+              <div className="space-y-6 text-gray-300 text-lg leading-relaxed">
                 <p>To get an accurate quote, click Talk to Expert and send your file or idea—we'll respond with a detailed estimate and timeline.</p>
-                <ul className="list-disc list-inside space-y-1">
-                  <li>Quality checks on every print to ensure dimensional accuracy and surface finish.</li>
-                  <li>Reprint policy: Our engineers are available to advise on material selection and design improvements for strength, fit, or function.</li>
+                <ul className="space-y-3">
+                  <li className="flex items-start gap-3">
+                    <ChevronRight className="w-5 h-5 text-gray-300 flex-shrink-0 mt-0.5" />
+                    Quality checks on every print to ensure dimensional accuracy and surface finish.
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <ChevronRight className="w-5 h-5 text-gray-300 flex-shrink-0 mt-0.5" />
+                    Our engineers are available to advise on material selection and design improvements for strength, fit, or function.
+                  </li>
                 </ul>
               </div>
-            </div>
-            <div>
-              <h2 className="text-3xl font-bold mb-6">Quick FAQs</h2>
-              <div className="space-y-4">
+            </motion.div>
+            <motion.div 
+              className="bg-gradient-to-br from-gray-900/80 via-gray-800/60 to-gray-900/80 border border-gray-700/60 rounded-3xl p-10 backdrop-blur-sm"
+              whileHover={{ scale: 1.02 }}
+              transition={{ duration: 0.3 }}
+            >
+              <h2 className="text-3xl md:text-4xl font-bold mb-8 bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">Quick FAQs</h2>
+              <div className="space-y-6">
                 {faqs.map((faq, index) => (
                   <motion.div
                     key={index}
                     initial={{ opacity: 0, height: 0 }}
                     animate={{ opacity: 1, height: 'auto' }}
                     transition={{ delay: 1.2 + index * 0.1 }}
-                    className="bg-gray-900/50 border border-gray-800 rounded-lg p-4"
+                    className="bg-gradient-to-br from-gray-800/60 to-gray-900/60 border border-gray-700/50 rounded-2xl p-8 hover:border-gray-600/70 transition-all duration-300"
                   >
-                    <h4 className="font-semibold mb-2 text-white">{faq.question}</h4>
-                    <p className="text-gray-400 text-sm">{faq.answer}</p>
+                    <h4 className="font-bold mb-3 text-white text-lg">{faq.question}</h4>
+                    <p className="text-gray-300 text-base leading-relaxed">{faq.answer}</p>
                   </motion.div>
                 ))}
               </div>
-            </div>
+            </motion.div>
           </div>
         </motion.section>
 
-        {/* Call to Action Section */}
+        {/* Enhanced Call to Action Section */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1.3 }}
-          className="relative bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 border border-gray-700 rounded-2xl p-8 md:p-12 overflow-hidden text-center"
+          className="relative bg-gradient-to-br from-gray-900/90 via-gray-800/80 to-gray-900/90 border border-gray-700/60 rounded-3xl p-12 md:p-16 overflow-hidden backdrop-blur-sm text-center"
         >
-          <div className="absolute inset-0 opacity-5">
+          <div className="absolute inset-0 opacity-10">
             <div className="absolute inset-0" style={{
               backgroundImage: 'radial-gradient(circle, white 1px, transparent 1px)',
-              backgroundSize: '20px 20px'
+              backgroundSize: '30px 30px'
             }}></div>
           </div>
+          <div className="absolute inset-0 bg-gradient-to-r from-gray-600/5 via-gray-500/5 to-gray-400/5 opacity-0 hover:opacity-100 transition-opacity duration-700"></div>
+          
           <div className="relative z-10">
-            <div className="flex items-center gap-2 mb-4 justify-center">
-              <Zap className="w-6 h-6 text-gray-300" />
-              <h2 className="text-2xl font-bold">Ready to Start?</h2>
-            </div>
-            <p className="text-gray-300 text-lg mb-6 max-w-2xl mx-auto">
+            <motion.div 
+              className="flex items-center justify-center gap-3 mb-6"
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              transition={{ delay: 1.4, type: "spring" }}
+            >
+              <Zap className="w-8 h-8 text-gray-300" />
+              <h2 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">Ready to Start?</h2>
+            </motion.div>
+            <p className="text-gray-200 text-xl mb-8 max-w-3xl mx-auto leading-relaxed">
               <span className="font-semibold text-white">Talk to Our Expert—click the button below to start a WhatsApp chat with us. Send your STL or idea and get a quote fast.</span>
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <div className="flex flex-col sm:flex-row gap-6 justify-center">
               <motion.button
-                whileHover={{ scale: 1.05 }}
+                whileHover={{ scale: 1.05, backgroundColor: '#ffffff' }}
                 whileTap={{ scale: 0.95 }}
-                className="px-8 py-4 bg-white text-black rounded-lg font-bold text-lg flex items-center gap-2 justify-center hover:bg-gray-100 transition-colors"
+                className="px-10 py-5 bg-gradient-to-r from-white to-gray-100 text-black rounded-xl font-bold text-xl flex items-center gap-3 hover:shadow-xl transition-all duration-300"
               >
-                📱 Talk to Expert (WhatsApp)
-                <ArrowRight className="w-5 h-5" />
+            <Phone className="w-6 h-6" />
+            Talk to Expert (WhatsApp)
+                <ArrowRight className="w-6 h-6" />
               </motion.button>
               <motion.button
-                whileHover={{ scale: 1.05 }}
+                whileHover={{ scale: 1.05, backgroundColor: '#f3f4f6' }}
                 whileTap={{ scale: 0.95 }}
-                className="px-8 py-4 border border-gray-600 text-gray-300 rounded-lg font-bold text-lg flex items-center gap-2 justify-center hover:border-gray-500 transition-colors"
+                className="px-10 py-5 border-2 border-gray-600/70 bg-gray-800/60 text-gray-200 rounded-xl font-bold text-xl flex items-center gap-3 hover:border-gray-500 hover:bg-gray-800/80 transition-all duration-300"
               >
-                📁 Upload File & Get Quote
-                <ArrowRight className="w-5 h-5" />
+            <Upload className="w-6 h-6" />
+            Upload File & Get Quote
+                <ArrowRight className="w-6 h-6" />
               </motion.button>
             </div>
           </div>

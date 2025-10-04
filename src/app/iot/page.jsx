@@ -127,40 +127,58 @@ const IotPortalPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-black text-white relative overflow-hidden">
-      {/* Animated Background */}
+    <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-black text-white relative overflow-hidden">
+      {/* Enhanced Animated Background */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-500/5 rounded-full blur-3xl animate-pulse delay-1000"></div>
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-gradient-to-r from-blue-500/10 to-purple-500/10 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-gradient-to-r from-purple-500/10 to-pink-500/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gradient-to-r from-cyan-500/5 to-blue-500/5 rounded-full blur-3xl animate-pulse delay-2000"></div>
       </div>
 
+      {/* Subtle Grid Pattern */}
+      <div className="absolute inset-0 opacity-5" style={{
+        backgroundImage: 'radial-gradient(circle, white 1px, transparent 1px)',
+        backgroundSize: '50px 50px'
+      }}></div>
+
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        {/* Header Section */}
+        {/* Enhanced Header Section */}
         <motion.div
           variants={headerVariants}
           initial="hidden"
           animate="visible"
-          className="text-center mb-16"
+          className="text-center mb-20"
         >
           <motion.div
-            initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
+            initial={{ scale: 0, rotate: -180 }}
+            animate={{ scale: 1, rotate: 0 }}
             transition={{ type: "spring", stiffness: 200, damping: 15 }}
-            className="inline-flex items-center gap-2 px-4 py-2 bg-gray-800/50 border border-gray-700 rounded-full mb-6"
+            className="inline-flex items-center gap-3 px-6 py-3 bg-gradient-to-r from-gray-800/60 to-gray-700/60 border border-gray-600/50 rounded-full mb-8 backdrop-blur-sm"
           >
-            <Sparkles className="w-4 h-4 text-yellow-400" />
-            <span className="text-sm text-gray-300">IoT Portal Services</span>
+            <Sparkles className="w-5 h-5 text-yellow-400" />
+            <span className="text-sm font-medium text-gray-200">IoT Portal Services</span>
           </motion.div>
 
-          <h1 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-white via-gray-300 to-gray-500 bg-clip-text text-transparent">
-            Welcome to the Synaptix Robotics IoT Portal 🤖⚡
-          </h1>
+          <motion.h1 
+            className="text-6xl md:text-7xl lg:text-8xl font-bold mb-8 bg-gradient-to-r from-white via-gray-200 to-gray-400 bg-clip-text text-transparent leading-tight"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+          >
+            Welcome to the Synaptix Robotics IoT Portal
+          </motion.h1>
+          <motion.div
+            className="w-24 h-1 bg-gradient-to-r from-yellow-400 to-orange-500 mx-auto mb-8 rounded-full"
+            initial={{ scaleX: 0 }}
+            animate={{ scaleX: 1 }}
+            transition={{ delay: 0.4, duration: 0.8 }}
+          ></motion.div>
 
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.3 }}
-            className="text-gray-400 text-lg max-w-4xl mx-auto leading-relaxed mb-4"
+            className="text-gray-300 text-xl max-w-5xl mx-auto leading-relaxed mb-6"
           >
             Your one-stop destination for exploring, learning, and building the technologies of tomorrow.
           </motion.p>
@@ -169,7 +187,7 @@ const IotPortalPage = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.4 }}
-            className="text-gray-400 max-w-4xl mx-auto leading-relaxed mb-6"
+            className="text-gray-400 max-w-5xl mx-auto leading-relaxed mb-6 text-lg"
           >
             At Synaptix Robotics, we believe innovation should be accessible to everyone — whether you're a student with a fresh idea, 
             an educator guiding young minds, or an innovator looking to bring concepts into reality. This portal is designed to provide 
@@ -181,7 +199,7 @@ const IotPortalPage = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.5 }}
-            className="text-gray-400 max-w-4xl mx-auto leading-relaxed"
+            className="text-gray-400 max-w-5xl mx-auto leading-relaxed text-lg"
           >
             Here, you'll not only discover cutting-edge projects, but also gain the skills to design, test, and deploy your own solutions. 
             With a focus on hands-on learning and practical application, our IoT Portal ensures that every idea moves beyond theory and 
@@ -189,18 +207,18 @@ const IotPortalPage = () => {
           </motion.p>
         </motion.div>
 
-        {/* What Makes This Portal Special */}
+        {/* Enhanced What Makes This Portal Special */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.6 }}
-          className="mb-12"
+          className="mb-16"
         >
-          <h2 className="text-2xl font-bold mb-6 flex items-center gap-2">
-            <Lightbulb className="w-6 h-6 text-yellow-400" />
+          <motion.h2 className="text-3xl md:text-4xl font-bold mb-10 flex items-center gap-3 justify-center">
+            <Lightbulb className="w-8 h-8 text-yellow-400" />
             What Makes This Portal Special?
-          </h2>
-          <div className="grid md:grid-cols-2 gap-4">
+          </motion.h2>
+          <div className="grid md:grid-cols-2 gap-6">
             {[
               "A diverse collection of projects covering Electrical & Electronics, IoT, Web, Simulation, and EV technologies.",
               "Access to step-by-step guides, components, and real-time support to help you through your innovation journey.",
@@ -212,10 +230,11 @@ const IotPortalPage = () => {
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.7 + index * 0.1 }}
-                className="flex items-start gap-3 p-4 bg-gray-900/50 border border-gray-800 rounded-lg hover:border-gray-700 transition-colors"
+                whileHover={{ scale: 1.02, y: -5 }}
+                className="flex items-start gap-4 p-6 bg-gradient-to-br from-gray-900/60 to-gray-800/60 border border-gray-700/50 rounded-2xl backdrop-blur-sm hover:border-gray-600/70 transition-all duration-300"
               >
-                <ChevronRight className="w-5 h-5 text-gray-400 flex-shrink-0 mt-0.5" />
-                <span className="text-gray-300">{item}</span>
+                <ChevronRight className="w-6 h-6 text-yellow-400 flex-shrink-0 mt-1" />
+                <span className="text-gray-200 leading-relaxed">{item}</span>
               </motion.div>
             ))}
           </div>
@@ -225,33 +244,44 @@ const IotPortalPage = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1.1 }}
-          className="text-gray-400 mb-4"
+          className="text-gray-300 text-center text-lg mb-16 max-w-4xl mx-auto leading-relaxed"
         >
           Whether you're working on circuit designs, IoT automation, custom websites, virtual simulations, or electric mobility innovations, 
           the Synaptix IoT Portal has you covered with practical knowledge, mentorship, and complete project support.
         </motion.p>
 
-        {/* Category Selection */}
+        {/* Enhanced Category Selection */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1.2 }}
-          className="mb-16"
+          className="mb-20"
         >
-          <div className="flex items-center gap-3 mb-8">
-            <Sparkles className="w-6 h-6 text-yellow-400" />
-            <h2 className="text-3xl font-bold">
-              Choose a category below and take the first step toward building your innovation today! 🚀
+          <motion.div 
+            className="text-center mb-12"
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 1.3 }}
+          >
+            <Sparkles className="w-8 h-8 text-yellow-400 mx-auto mb-4" />
+            <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
+              Choose a category below and take the first step toward building your innovation today!
             </h2>
-          </div>
+            <motion.div
+              className="w-16 h-1 bg-gradient-to-r from-yellow-400 to-orange-500 mx-auto rounded-full"
+              initial={{ scaleX: 0 }}
+              animate={{ scaleX: 1 }}
+              transition={{ delay: 1.4, duration: 0.8 }}
+            ></motion.div>
+          </motion.div>
         </motion.div>
 
-        {/* Categories Grid */}
+        {/* Enhanced Categories Grid */}
         <motion.div
           variants={containerVariants}
           initial="hidden"
           animate="visible"
-          className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16"
+          className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-20"
         >
           {categories.map((category) => {
             const Icon = category.icon;
@@ -264,40 +294,46 @@ const IotPortalPage = () => {
                 className="relative group"
               >
                 <motion.div
-                  whileHover={{ scale: 1.02, y: -5 }}
+                  whileHover={{ scale: 1.03, y: -10, rotateY: 5 }}
                   transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                  className="relative h-full bg-gradient-to-br from-gray-900 to-gray-800 border border-gray-700 rounded-2xl p-6 cursor-pointer overflow-hidden"
+                  className="relative h-full bg-gradient-to-br from-gray-900/80 via-gray-800/60 to-gray-900/80 border border-gray-700/60 rounded-3xl p-8 cursor-pointer overflow-hidden backdrop-blur-sm"
                 >
-                  {/* Gradient Overlay */}
-                  <div className={`absolute inset-0 bg-gradient-to-br ${category.color} opacity-0 group-hover:opacity-100 transition-opacity duration-500`}></div>
+                  {/* Enhanced Gradient Overlay */}
+                  <div className={`absolute inset-0 bg-gradient-to-br ${category.color} opacity-0 group-hover:opacity-20 transition-opacity duration-500`}></div>
+                  
+                  {/* Animated Border */}
+                  <div className="absolute inset-0 rounded-3xl bg-gradient-to-r from-gray-600/20 to-gray-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                   
                   {/* Content */}
                   <div className="relative z-10">
                     {/* Icon and Number */}
-                    <div className="flex items-start justify-between mb-4">
+                    <div className="flex items-start justify-between mb-6">
                       <motion.div
-                        whileHover={{ rotate: 360 }}
+                        whileHover={{ rotate: 360, scale: 1.1 }}
                         transition={{ duration: 0.6 }}
-                        className={`p-3 bg-gray-800 rounded-xl ${category.iconColor} group-hover:bg-gray-700 transition-colors`}
+                        className="p-4 bg-gradient-to-br from-gray-800/80 to-gray-700/80 rounded-2xl border border-gray-600/50 group-hover:border-gray-500/70 transition-all duration-300"
                       >
-                        <Icon className="w-6 h-6" />
+                        <Icon className="w-8 h-8 text-white" />
                       </motion.div>
-                      <span className="text-4xl font-bold text-gray-800 group-hover:text-gray-700 transition-colors">
+                      <motion.span 
+                        className="text-5xl font-bold bg-gradient-to-r from-gray-400 to-gray-600 bg-clip-text text-transparent group-hover:from-white group-hover:to-gray-200 transition-all duration-300"
+                        whileHover={{ scale: 1.1 }}
+                      >
                         {category.id}
-                      </span>
+                      </motion.span>
                     </div>
 
                     {/* Title */}
-                    <h3 className="text-xl font-bold mb-3 text-white group-hover:text-white transition-colors">
+                    <h3 className="text-2xl font-bold mb-4 text-white group-hover:text-white transition-colors duration-300">
                       {category.title}
                     </h3>
 
                     {/* Description */}
-                    <p className="text-gray-400 text-sm mb-4 group-hover:text-gray-300 transition-colors">
+                    <p className="text-gray-300 text-base mb-6 group-hover:text-gray-200 transition-colors duration-300 leading-relaxed">
                       {category.description}
                     </p>
 
-                    {/* Details */}
+                    {/* Enhanced Details */}
                     <AnimatePresence>
                       {hoveredCard === category.id && (
                         <motion.div
@@ -305,7 +341,7 @@ const IotPortalPage = () => {
                           animate={{ opacity: 1, height: 'auto' }}
                           exit={{ opacity: 0, height: 0 }}
                           transition={{ duration: 0.3 }}
-                          className="space-y-2 mb-4"
+                          className="space-y-3 mb-6"
                         >
                           {category.details.map((detail, idx) => (
                             <motion.p
@@ -313,9 +349,9 @@ const IotPortalPage = () => {
                               initial={{ opacity: 0, x: -10 }}
                               animate={{ opacity: 1, x: 0 }}
                               transition={{ delay: idx * 0.1 }}
-                              className="text-gray-400 text-sm flex items-start gap-2"
+                              className="text-gray-300 text-sm flex items-start gap-3 leading-relaxed"
                             >
-                              <ChevronRight className="w-4 h-4 flex-shrink-0 mt-0.5" />
+                              <ChevronRight className="w-4 h-4 text-yellow-400 flex-shrink-0 mt-0.5" />
                               <span>{detail}</span>
                             </motion.p>
                           ))}
@@ -323,22 +359,25 @@ const IotPortalPage = () => {
                       )}
                     </AnimatePresence>
 
-                    {/* Highlight */}
-                    <div className="flex items-start gap-2 mb-4">
-                      <Lightbulb className="w-4 h-4 text-yellow-400 flex-shrink-0 mt-0.5" />
-                      <p className="text-yellow-400 text-sm font-medium">
+                    {/* Enhanced Highlight */}
+                    <motion.div 
+                      className="flex items-start gap-3 mb-8 p-4 bg-gradient-to-r from-yellow-400/10 to-orange-500/10 border border-yellow-400/20 rounded-xl"
+                      whileHover={{ scale: 1.02 }}
+                    >
+                      <Lightbulb className="w-5 h-5 text-yellow-400 flex-shrink-0 mt-0.5" />
+                      <p className="text-yellow-300 text-sm font-medium leading-relaxed">
                         {category.highlight}
                       </p>
-                    </div>
+                    </motion.div>
 
-                    {/* Explore Button */}
+                    {/* Enhanced Explore Button */}
                     <motion.button
-                      whileHover={{ scale: 1.05 }}
+                      whileHover={{ scale: 1.05, backgroundColor: '#ffffff' }}
                       whileTap={{ scale: 0.95 }}
-                      className="w-full py-3 bg-white text-black rounded-lg font-semibold flex items-center justify-center gap-2 group-hover:bg-gray-100 transition-colors"
+                      className="w-full py-4 bg-gradient-to-r from-white to-gray-100 text-black rounded-xl font-bold text-lg flex items-center justify-center gap-3 group-hover:shadow-lg transition-all duration-300"
                     >
                       Explore Projects
-                      <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                      <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                     </motion.button>
                   </div>
                 </motion.div>
@@ -347,36 +386,45 @@ const IotPortalPage = () => {
           })}
         </motion.div>
 
-        {/* Call to Action Section */}
+        {/* Enhanced Call to Action Section */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1.5 }}
-          className="relative bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 border border-gray-700 rounded-2xl p-8 md:p-12 overflow-hidden"
+          className="relative bg-gradient-to-br from-gray-900/90 via-gray-800/80 to-gray-900/90 border border-gray-700/60 rounded-3xl p-12 md:p-16 overflow-hidden backdrop-blur-sm"
         >
-          {/* Background Pattern */}
-          <div className="absolute inset-0 opacity-5">
+          {/* Enhanced Background Pattern */}
+          <div className="absolute inset-0 opacity-10">
             <div className="absolute inset-0" style={{
               backgroundImage: 'radial-gradient(circle, white 1px, transparent 1px)',
-              backgroundSize: '20px 20px'
+              backgroundSize: '30px 30px'
             }}></div>
           </div>
 
-          <div className="relative z-10">
-            <div className="flex items-center gap-2 mb-4">
-              <Zap className="w-6 h-6 text-yellow-400" />
-              <h2 className="text-2xl font-bold">Call-to-Action Section</h2>
-            </div>
-            <p className="text-gray-300 text-lg mb-6">
+          {/* Animated Gradient Overlay */}
+          <div className="absolute inset-0 bg-gradient-to-r from-blue-500/5 via-purple-500/5 to-pink-500/5 opacity-0 hover:opacity-100 transition-opacity duration-700"></div>
+
+          <div className="relative z-10 text-center">
+            <motion.div 
+              className="flex items-center justify-center gap-3 mb-6"
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              transition={{ delay: 1.6, type: "spring" }}
+            >
+              <Zap className="w-8 h-8 text-yellow-400" />
+              <h2 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">Call-to-Action Section</h2>
+            </motion.div>
+            <p className="text-gray-200 text-xl mb-8 max-w-3xl mx-auto leading-relaxed">
               <span className="font-semibold text-white">At Synaptix Robotics, each project isn't just theory — it's hands-on, practical, and future-ready.</span>
             </p>
             <motion.button
-              whileHover={{ scale: 1.05 }}
+              whileHover={{ scale: 1.05, backgroundColor: '#ffffff' }}
               whileTap={{ scale: 0.95 }}
-              className="px-8 py-4 bg-white text-black rounded-lg font-bold text-lg flex items-center gap-2 hover:bg-gray-100 transition-colors"
+              className="px-10 py-5 bg-gradient-to-r from-white to-gray-100 text-black rounded-xl font-bold text-xl flex items-center gap-3 mx-auto hover:shadow-xl transition-all duration-300"
             >
-              💡 Explore a category now, upload your idea, or talk to our expert to start building.
-              <ArrowRight className="w-5 h-5" />
+            <Lightbulb className="w-6 h-6" />
+            Explore a category now, upload your idea, or talk to our expert to start building.
+              <ArrowRight className="w-6 h-6" />
             </motion.button>
           </div>
         </motion.div>

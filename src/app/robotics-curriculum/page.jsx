@@ -295,40 +295,58 @@ const RoboticsCurriculumPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-black text-white relative overflow-hidden">
-      {/* Animated Background */}
+    <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-black text-white relative overflow-hidden">
+      {/* Enhanced Animated Background */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-gray-800/20 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-gray-700/20 rounded-full blur-3xl animate-pulse delay-1000"></div>
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-gradient-to-r from-gray-800/10 to-gray-600/10 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-gradient-to-r from-gray-700/10 to-gray-500/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gradient-to-r from-gray-600/5 to-gray-400/5 rounded-full blur-3xl animate-pulse delay-2000"></div>
       </div>
 
+      {/* Subtle Grid Pattern */}
+      <div className="absolute inset-0 opacity-5" style={{
+        backgroundImage: 'radial-gradient(circle, white 1px, transparent 1px)',
+        backgroundSize: '50px 50px'
+      }}></div>
+
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        {/* Header Section */}
+        {/* Enhanced Header Section */}
         <motion.div
           variants={headerVariants}
           initial="hidden"
           animate="visible"
-          className="text-center mb-16"
+          className="text-center mb-20"
         >
           <motion.div
-            initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
+            initial={{ scale: 0, rotate: -180 }}
+            animate={{ scale: 1, rotate: 0 }}
             transition={{ type: "spring", stiffness: 200, damping: 15 }}
-            className="inline-flex items-center gap-2 px-4 py-2 bg-gray-800/50 border border-gray-700 rounded-full mb-6"
+            className="inline-flex items-center gap-3 px-6 py-3 bg-gradient-to-r from-gray-800/60 to-gray-700/60 border border-gray-600/50 rounded-full mb-8 backdrop-blur-sm"
           >
-            <Sparkles className="w-4 h-4 text-gray-300" />
-            <span className="text-sm text-gray-400">Robotics Curriculum</span>
+            <Sparkles className="w-5 h-5 text-gray-300" />
+            <span className="text-sm font-medium text-gray-200">Robotics Curriculum</span>
           </motion.div>
 
-          <h1 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-white via-gray-300 to-gray-100 bg-clip-text text-transparent">
-            Future-Ready Curriculum – End-to-End for Schools & Institutions 🤖✨
-          </h1>
+          <motion.h1 
+            className="text-6xl md:text-7xl lg:text-8xl font-bold mb-8 bg-gradient-to-r from-white via-gray-200 to-gray-400 bg-clip-text text-transparent leading-tight"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+          >
+            Future-Ready Curriculum – End-to-End for Schools & Institutions
+          </motion.h1>
+          <motion.div
+            className="w-24 h-1 bg-gradient-to-r from-gray-400 to-gray-600 mx-auto mb-8 rounded-full"
+            initial={{ scaleX: 0 }}
+            animate={{ scaleX: 1 }}
+            transition={{ delay: 0.4, duration: 0.8 }}
+          ></motion.div>
 
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.3 }}
-            className="text-gray-400 text-lg max-w-4xl mx-auto leading-relaxed mb-4"
+            className="text-gray-300 text-xl max-w-5xl mx-auto leading-relaxed"
           >
             Build a future-ready curriculum—end-to-end, classroom-ready, and teacher-friendly. Synaptix Robotics partners with schools and institutions to deliver a full robotics 
             curriculum that is age-appropriate, standards-aligned, and easy for teachers to implement. We provide everything from lesson plans and textbooks to hands-on kits 
@@ -336,22 +354,22 @@ const RoboticsCurriculumPage = () => {
           </motion.p>
         </motion.div>
 
-        {/* What We Provide */}
+        {/* Enhanced What We Provide */}
         <motion.section
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
-          className="mb-16"
+          className="mb-20"
         >
-          <h2 className="text-3xl font-bold mb-8 flex items-center gap-2 justify-center">
-            <Lightbulb className="w-6 h-6 text-gray-300" />
+          <motion.h2 className="text-3xl md:text-4xl font-bold mb-10 flex items-center gap-3 justify-center">
+            <Lightbulb className="w-8 h-8 text-gray-300" />
             What We Provide (End-to-End)
-          </h2>
+          </motion.h2>
           <motion.div
             variants={containerVariants}
             initial="hidden"
             animate="visible"
-            className="grid md:grid-cols-2 lg:grid-cols-4 gap-6"
+            className="grid md:grid-cols-2 lg:grid-cols-4 gap-8"
           >
             {provisions.map((provision) => {
               const Icon = provision.icon;
@@ -364,28 +382,33 @@ const RoboticsCurriculumPage = () => {
                   className="relative group"
                 >
                   <motion.div
-                    whileHover={{ scale: 1.02, y: -5 }}
+                    whileHover={{ scale: 1.03, y: -10, rotateY: 5 }}
                     transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                    className="relative h-full bg-gradient-to-br from-gray-900 to-gray-800 border border-gray-700 rounded-2xl p-6 cursor-pointer overflow-hidden"
+                    className="relative h-full bg-gradient-to-br from-gray-900/80 via-gray-800/60 to-gray-900/80 border border-gray-700/60 rounded-3xl p-8 cursor-pointer overflow-hidden backdrop-blur-sm"
                   >
-                    <div className={`absolute inset-0 bg-gradient-to-br ${provision.color} opacity-0 group-hover:opacity-100 transition-opacity duration-500`}></div>
+                    <div className={`absolute inset-0 bg-gradient-to-br ${provision.color} opacity-0 group-hover:opacity-20 transition-opacity duration-500`}></div>
+                    <div className="absolute inset-0 rounded-3xl bg-gradient-to-r from-gray-600/20 to-gray-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    
                     <div className="relative z-10">
-                      <div className="flex items-start justify-between mb-4">
+                      <div className="flex items-start justify-between mb-6">
                         <motion.div
-                          whileHover={{ rotate: 360 }}
+                          whileHover={{ rotate: 360, scale: 1.1 }}
                           transition={{ duration: 0.6 }}
-                          className={`p-3 bg-gray-800 rounded-xl ${provision.iconColor} group-hover:bg-gray-700 transition-colors`}
+                          className="p-4 bg-gradient-to-br from-gray-800/80 to-gray-700/80 rounded-2xl border border-gray-600/50 group-hover:border-gray-500/70 transition-all duration-300"
                         >
-                          <Icon className="w-6 h-6" />
+                          <Icon className="w-8 h-8 text-white" />
                         </motion.div>
-                        <span className="text-4xl font-bold text-gray-800 group-hover:text-gray-700 transition-colors">
+                        <motion.span 
+                          className="text-5xl font-bold bg-gradient-to-r from-gray-400 to-gray-600 bg-clip-text text-transparent group-hover:from-white group-hover:to-gray-200 transition-all duration-300"
+                          whileHover={{ scale: 1.1 }}
+                        >
                           {provision.id}
-                        </span>
+                        </motion.span>
                       </div>
-                      <h3 className="text-xl font-bold mb-3 text-white group-hover:text-white transition-colors">
+                      <h3 className="text-2xl font-bold mb-4 text-white group-hover:text-white transition-colors duration-300">
                         {provision.title}
                       </h3>
-                      <p className="text-gray-400 text-sm mb-4 group-hover:text-gray-300 transition-colors">
+                      <p className="text-gray-300 text-base mb-6 group-hover:text-gray-200 transition-colors duration-300 leading-relaxed">
                         {provision.description}
                       </p>
                     </div>
@@ -396,88 +419,89 @@ const RoboticsCurriculumPage = () => {
           </motion.div>
         </motion.section>
 
-        {/* Curriculum Levels */}
+        {/* Enhanced Curriculum Levels */}
         <motion.section
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5 }}
-          className="mb-16"
+          className="mb-20"
         >
-          <h2 className="text-3xl font-bold mb-8 flex items-center gap-2 justify-center">
-            <BookOpen className="w-6 h-6 text-gray-300" />
+          <motion.h2 className="text-3xl md:text-4xl font-bold mb-10 flex items-center gap-3 justify-center">
+            <BookOpen className="w-8 h-8 text-gray-300" />
             Curriculum Levels & Example Outcomes
-          </h2>
+          </motion.h2>
           <motion.div
             variants={containerVariants}
             initial="hidden"
             animate="visible"
-            className="grid md:grid-cols-2 lg:grid-cols-4 gap-6"
+            className="grid md:grid-cols-2 lg:grid-cols-4 gap-8"
           >
             {levels.map((level, index) => (
               <motion.div
                 key={index}
                 variants={itemVariants}
-                className="bg-gradient-to-br from-gray-900 to-gray-800 border border-gray-700 rounded-2xl p-6"
+                className="bg-gradient-to-br from-gray-900/80 via-gray-800/60 to-gray-900/80 border border-gray-700/60 rounded-3xl p-8 backdrop-blur-sm hover:border-gray-600/70 transition-all duration-300 hover:scale-105"
               >
-                <h3 className="text-xl font-bold mb-3 text-white">{level.title}</h3>
-                <p className="text-gray-400 text-sm">{level.description}</p>
+                <h3 className="text-2xl font-bold mb-4 text-white">{level.title}</h3>
+                <p className="text-gray-300 text-base leading-relaxed">{level.description}</p>
               </motion.div>
             ))}
           </motion.div>
         </motion.section>
 
-        {/* Why Schools Choose Synaptix */}
+        {/* Enhanced Why Schools Choose Synaptix */}
         <motion.section
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.6 }}
-          className="mb-16"
+          className="mb-20"
         >
-          <h2 className="text-3xl font-bold mb-8 flex items-center gap-2 justify-center">
-            <Award className="w-6 h-6 text-gray-300" />
+          <motion.h2 className="text-3xl md:text-4xl font-bold mb-10 flex items-center gap-3 justify-center">
+            <Award className="w-8 h-8 text-gray-300" />
             Why Schools Choose Synaptix
-          </h2>
-          <div className="grid md:grid-cols-2 gap-4">
+          </motion.h2>
+          <div className="grid md:grid-cols-2 gap-6">
             {whyChoose.map((item, index) => (
               <motion.div
                 key={index}
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.7 + index * 0.1 }}
-                className="flex items-start gap-3 p-4 bg-gray-900/50 border border-gray-800 rounded-lg hover:border-gray-700 transition-colors"
+                whileHover={{ scale: 1.02, y: -5 }}
+                className="flex items-start gap-4 p-6 bg-gradient-to-br from-gray-900/60 to-gray-800/60 border border-gray-700/50 rounded-2xl backdrop-blur-sm hover:border-gray-600/70 transition-all duration-300"
               >
-                <ChevronRight className="w-5 h-5 text-gray-400 flex-shrink-0 mt-0.5" />
-                <span className="text-gray-300">{item}</span>
+                <ChevronRight className="w-6 h-6 text-gray-300 flex-shrink-0 mt-1" />
+                <span className="text-gray-200 leading-relaxed">{item}</span>
               </motion.div>
             ))}
           </div>
         </motion.section>
 
-        {/* Implementation Roadmap */}
+        {/* Enhanced Implementation Roadmap */}
         <motion.section
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.7 }}
-          className="mb-16"
+          className="mb-20"
         >
-          <h2 className="text-3xl font-bold mb-8 flex items-center gap-2 justify-center">
-            <Calendar className="w-6 h-6 text-gray-300" />
+          <motion.h2 className="text-3xl md:text-4xl font-bold mb-10 flex items-center gap-3 justify-center">
+            <Calendar className="w-8 h-8 text-gray-300" />
             Implementation Roadmap (Typical)
-          </h2>
+          </motion.h2>
           <motion.div
             variants={containerVariants}
             initial="hidden"
             animate="visible"
-            className="grid md:grid-cols-2 gap-6"
+            className="grid md:grid-cols-2 gap-8"
           >
             {roadmap.map((step, index) => (
               <motion.div
                 key={index}
                 variants={itemVariants}
-                className="bg-gradient-to-br from-gray-900 to-gray-800 border border-gray-700 rounded-2xl p-6"
+                className="bg-gradient-to-br from-gray-900/80 via-gray-800/60 to-gray-900/80 border border-gray-700/60 rounded-3xl p-8 backdrop-blur-sm hover:border-gray-600/70 transition-all duration-300 hover:scale-105"
               >
-                <h3 className="text-xl font-bold mb-3 text-white">{step.title}</h3>
-                <p className="text-gray-400 text-sm">{step.description}</p>
+                <h3 className="text-2xl font-bold mb-4 text-white">{step.title}</h3>
+                <p className="text-gray-300 text-base leading-relaxed">{step.description}</p>
               </motion.div>
             ))}
           </motion.div>
@@ -485,113 +509,114 @@ const RoboticsCurriculumPage = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.9 }}
-            className="text-center text-gray-400 mt-8 max-w-2xl mx-auto"
+            className="text-center text-gray-300 mt-12 max-w-3xl mx-auto text-lg leading-relaxed"
           >
             (We adapt timelines to your academic calendar)
           </motion.p>
         </motion.section>
 
-        {/* Optional Add-Ons */}
+        {/* Enhanced Optional Add-Ons */}
         <motion.section
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.8 }}
-          className="mb-16"
+          className="mb-20"
         >
-          <h2 className="text-3xl font-bold mb-8 flex items-center gap-2 justify-center">
-            <Sparkles className="w-6 h-6 text-gray-300" />
+          <motion.h2 className="text-3xl md:text-4xl font-bold mb-10 flex items-center gap-3 justify-center">
+            <Sparkles className="w-8 h-8 text-gray-300" />
             Optional Add-Ons
-          </h2>
-          <div className="grid md:grid-cols-2 gap-4">
+          </motion.h2>
+          <div className="grid md:grid-cols-2 gap-6">
             {addOns.map((addOn, index) => (
               <motion.div
                 key={index}
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 1.0 + index * 0.1 }}
-                className="flex items-start gap-3 p-4 bg-gray-900/50 border border-gray-800 rounded-lg hover:border-gray-700 transition-colors"
+                whileHover={{ scale: 1.02, y: -5 }}
+                className="flex items-start gap-4 p-6 bg-gradient-to-br from-gray-900/60 to-gray-800/60 border border-gray-700/50 rounded-2xl backdrop-blur-sm hover:border-gray-600/70 transition-all duration-300"
               >
-                <ChevronRight className="w-5 h-5 text-gray-400 flex-shrink-0 mt-0.5" />
-                <span className="text-gray-300">{addOn}</span>
+                <ChevronRight className="w-6 h-6 text-gray-300 flex-shrink-0 mt-1" />
+                <span className="text-gray-200 leading-relaxed">{addOn}</span>
               </motion.div>
             ))}
           </div>
         </motion.section>
 
-        {/* Request Form */}
+        {/* Enhanced Request Form */}
         <motion.section
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.9 }}
-          className="mb-16"
+          className="mb-20"
         >
-          <h2 className="text-3xl font-bold mb-8 flex items-center gap-2 justify-center">
-            <FileText className="w-6 h-6 text-gray-300" />
+          <motion.h2 className="text-3xl md:text-4xl font-bold mb-10 flex items-center gap-3 justify-center">
+            <FileText className="w-8 h-8 text-gray-300" />
             How to Request a Curriculum / Teacher Training
-          </h2>
-          <div className="max-w-3xl mx-auto">
-            <form onSubmit={handleSubmit} className="space-y-6 bg-gray-900/50 border border-gray-700 rounded-2xl p-8">
+          </motion.h2>
+          <div className="max-w-4xl mx-auto">
+            <form onSubmit={handleSubmit} className="space-y-8 bg-gradient-to-br from-gray-900/60 to-gray-800/60 border border-gray-700/50 rounded-3xl p-12 backdrop-blur-sm">
               <div>
-                <label className="block text-sm font-medium mb-2 text-gray-300">School/Institution Name</label>
+                <label className="block text-sm font-semibold mb-3 text-gray-200">School/Institution Name</label>
                 <input
                   type="text"
                   name="schoolName"
                   value={formData.schoolName}
                   onChange={handleInputChange}
-                  className="w-full p-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:border-gray-500"
+                  className="w-full p-4 bg-gray-800/80 border border-gray-600/50 rounded-xl text-white placeholder-gray-400 focus:border-gray-500 focus:bg-gray-800/90 transition-all duration-300"
                   placeholder="School/Institution Name"
                   required
                 />
               </div>
 
-              <div className="grid md:grid-cols-2 gap-4">
+              <div className="grid md:grid-cols-2 gap-6">
                 <div>
-                  <label className="block text-sm font-medium mb-2 text-gray-300">Contact Person (Full Name & Role)</label>
+                  <label className="block text-sm font-semibold mb-3 text-gray-200">Contact Person (Full Name & Role)</label>
                   <input
                     type="text"
                     name="contactPerson"
                     value={formData.contactPerson}
                     onChange={handleInputChange}
-                    className="w-full p-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:border-gray-500"
+                    className="w-full p-4 bg-gray-800/80 border border-gray-600/50 rounded-xl text-white placeholder-gray-400 focus:border-gray-500 focus:bg-gray-800/90 transition-all duration-300"
                     placeholder="Full Name & Role"
                     required
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium mb-2 text-gray-300">Email</label>
+                  <label className="block text-sm font-semibold mb-3 text-gray-200">Email</label>
                   <input
                     type="email"
                     name="email"
                     value={formData.email}
                     onChange={handleInputChange}
-                    className="w-full p-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:border-gray-500"
+                    className="w-full p-4 bg-gray-800/80 border border-gray-600/50 rounded-xl text-white placeholder-gray-400 focus:border-gray-500 focus:bg-gray-800/90 transition-all duration-300"
                     placeholder="your@email.com"
                     required
                   />
                 </div>
               </div>
 
-              <div className="grid md:grid-cols-2 gap-4">
+              <div className="grid md:grid-cols-2 gap-6">
                 <div>
-                  <label className="block text-sm font-medium mb-2 text-gray-300">Phone/WhatsApp</label>
+                  <label className="block text-sm font-semibold mb-3 text-gray-200">Phone/WhatsApp</label>
                   <input
                     type="tel"
                     name="phone"
                     value={formData.phone}
                     onChange={handleInputChange}
-                    className="w-full p-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:border-gray-500"
+                    className="w-full p-4 bg-gray-800/80 border border-gray-600/50 rounded-xl text-white placeholder-gray-400 focus:border-gray-500 focus:bg-gray-800/90 transition-all duration-300"
                     placeholder="Phone/WhatsApp"
                     required
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium mb-2 text-gray-300">City/State</label>
+                  <label className="block text-sm font-semibold mb-3 text-gray-200">City/State</label>
                   <input
                     type="text"
                     name="cityState"
                     value={formData.cityState}
                     onChange={handleInputChange}
-                    className="w-full p-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:border-gray-500"
+                    className="w-full p-4 bg-gray-800/80 border border-gray-600/50 rounded-xl text-white placeholder-gray-400 focus:border-gray-500 focus:bg-gray-800/90 transition-all duration-300"
                     placeholder="City/State"
                     required
                   />
@@ -599,69 +624,73 @@ const RoboticsCurriculumPage = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium mb-2 text-gray-300">Type of Request (select one or more)</label>
-                {requestTypes.map((type) => (
-                  <label key={type} className="flex items-center gap-2 p-2">
-                    <input
-                      type="checkbox"
-                      name="requestType"
-                      value={type}
-                      checked={formData.requestType.includes(type)}
-                      onChange={handleInputChange}
-                      className="rounded"
-                    />
-                    <span className="text-gray-300">{type}</span>
-                  </label>
-                ))}
+                <label className="block text-sm font-semibold mb-4 text-gray-200">Type of Request (select one or more)</label>
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                  {requestTypes.map((type) => (
+                    <label key={type} className="flex items-center gap-3 p-4 bg-gray-800/60 border border-gray-700/50 rounded-xl hover:border-gray-600/70 transition-all duration-300 cursor-pointer">
+                      <input
+                        type="checkbox"
+                        name="requestType"
+                        value={type}
+                        checked={formData.requestType.includes(type)}
+                        onChange={handleInputChange}
+                        className="rounded text-gray-300"
+                      />
+                      <span className="text-gray-200 text-sm">{type}</span>
+                    </label>
+                  ))}
+                </div>
               </div>
 
               <div>
-                <label className="block text-sm font-medium mb-2 text-gray-300">If Other, specify</label>
+                <label className="block text-sm font-semibold mb-3 text-gray-200">If Other, specify</label>
                 <input
                   type="text"
                   name="otherRequest"
                   value={formData.otherRequest || ''}
                   onChange={handleInputChange}
-                  className="w-full p-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:border-gray-500"
+                  className="w-full p-4 bg-gray-800/80 border border-gray-600/50 rounded-xl text-white placeholder-gray-400 focus:border-gray-500 focus:bg-gray-800/90 transition-all duration-300"
                   placeholder="Specify other request..."
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium mb-2 text-gray-300">Grades/Classes to Cover (select)</label>
-                {grades.map((grade) => (
-                  <label key={grade} className="flex items-center gap-2 p-2">
-                    <input
-                      type="checkbox"
-                      name="grades"
-                      value={grade}
-                      checked={formData.grades.includes(grade)}
-                      onChange={handleInputChange}
-                      className="rounded"
-                    />
-                    <span className="text-gray-300">{grade}</span>
-                  </label>
-                ))}
+                <label className="block text-sm font-semibold mb-4 text-gray-200">Grades/Classes to Cover (select)</label>
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                  {grades.map((grade) => (
+                    <label key={grade} className="flex items-center gap-3 p-4 bg-gray-800/60 border border-gray-700/50 rounded-xl hover:border-gray-600/70 transition-all duration-300 cursor-pointer">
+                      <input
+                        type="checkbox"
+                        name="grades"
+                        value={grade}
+                        checked={formData.grades.includes(grade)}
+                        onChange={handleInputChange}
+                        className="rounded text-gray-300"
+                      />
+                      <span className="text-gray-200 text-sm">{grade}</span>
+                    </label>
+                  ))}
+                </div>
               </div>
 
-              <div>
-                <label className="block text-sm font-medium mb-2 text-gray-300">All of the above</label>
+              <label className="flex items-center gap-3 p-4 bg-gray-800/60 border border-gray-700/50 rounded-xl hover:border-gray-600/70 transition-all duration-300 cursor-pointer">
                 <input
                   type="checkbox"
                   name="allGrades"
                   checked={formData.allGrades || false}
                   onChange={handleInputChange}
-                  className="rounded"
+                  className="rounded text-gray-300"
                 />
-              </div>
+                <span className="text-gray-200 text-sm font-medium">All of the above</span>
+              </label>
 
               <div>
-                <label className="block text-sm font-medium mb-2 text-gray-300">Preferred Mode</label>
+                <label className="block text-sm font-semibold mb-3 text-gray-200">Preferred Mode</label>
                 <select
                   name="mode"
                   value={formData.mode}
                   onChange={handleInputChange}
-                  className="w-full p-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:border-gray-500"
+                  className="w-full p-4 bg-gray-800/80 border border-gray-600/50 rounded-xl text-white focus:border-gray-500 focus:bg-gray-800/90 transition-all duration-300"
                   required
                 >
                   <option value="">Select Mode</option>
@@ -671,27 +700,27 @@ const RoboticsCurriculumPage = () => {
                 </select>
               </div>
 
-              <div className="grid md:grid-cols-2 gap-4">
+              <div className="grid md:grid-cols-2 gap-6">
                 <div>
-                  <label className="block text-sm font-medium mb-2 text-gray-300">Number of Teachers to be Trained</label>
+                  <label className="block text-sm font-semibold mb-3 text-gray-200">Number of Teachers to be Trained</label>
                   <input
                     type="number"
                     name="numTeachers"
                     value={formData.numTeachers}
                     onChange={handleInputChange}
-                    className="w-full p-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:border-gray-500"
+                    className="w-full p-4 bg-gray-800/80 border border-gray-600/50 rounded-xl text-white placeholder-gray-400 focus:border-gray-500 focus:bg-gray-800/90 transition-all duration-300"
                     placeholder="Number Field"
                     required
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium mb-2 text-gray-300">Number of Students (approx)</label>
+                  <label className="block text-sm font-semibold mb-3 text-gray-200">Number of Students (approx)</label>
                   <input
                     type="number"
                     name="numStudents"
                     value={formData.numStudents}
                     onChange={handleInputChange}
-                    className="w-full p-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:border-gray-500"
+                    className="w-full p-4 bg-gray-800/80 border border-gray-600/50 rounded-xl text-white placeholder-gray-400 focus:border-gray-500 focus:bg-gray-800/90 transition-all duration-300"
                     placeholder="Number Field (approx)"
                     required
                   />
@@ -699,12 +728,12 @@ const RoboticsCurriculumPage = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium mb-2 text-gray-300">Do you need kits supplied by Synaptix?</label>
+                <label className="block text-sm font-semibold mb-3 text-gray-200">Do you need kits supplied by Synaptix?</label>
                 <select
                   name="kits"
                   value={formData.kits}
                   onChange={handleInputChange}
-                  className="w-full p-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:border-gray-500"
+                  className="w-full p-4 bg-gray-800/80 border border-gray-600/50 rounded-xl text-white focus:border-gray-500 focus:bg-gray-800/90 transition-all duration-300"
                   required
                 >
                   <option value="">Select</option>
@@ -715,25 +744,25 @@ const RoboticsCurriculumPage = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium mb-2 text-gray-300">Preferred Start Date (Academic Term)</label>
+                <label className="block text-sm font-semibold mb-3 text-gray-200">Preferred Start Date (Academic Term)</label>
                 <input
                   type="text"
                   name="startDate"
                   value={formData.startDate}
                   onChange={handleInputChange}
-                  className="w-full p-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:border-gray-500"
+                  className="w-full p-4 bg-gray-800/80 border border-gray-600/50 rounded-xl text-white placeholder-gray-400 focus:border-gray-500 focus:bg-gray-800/90 transition-all duration-300"
                   placeholder="Text Field—e.g., July 2025/ASAP/Flexible"
                   required
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium mb-2 text-gray-300">Duration</label>
+                <label className="block text-sm font-semibold mb-3 text-gray-200">Duration</label>
                 <select
                   name="duration"
                   value={formData.duration}
                   onChange={handleInputChange}
-                  className="w-full p-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:border-gray-500 mb-2"
+                  className="w-full p-4 bg-gray-800/80 border border-gray-600/50 rounded-xl text-white focus:border-gray-500 focus:bg-gray-800/90 transition-all duration-300 mb-4"
                   required
                 >
                   <option value="">Select Duration</option>
@@ -747,19 +776,19 @@ const RoboticsCurriculumPage = () => {
                     name="customDuration"
                     value={formData.customDuration}
                     onChange={handleInputChange}
-                    className="w-full p-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:border-gray-500"
+                    className="w-full p-4 bg-gray-800/80 border border-gray-600/50 rounded-xl text-white placeholder-gray-400 focus:border-gray-500 focus:bg-gray-800/90 transition-all duration-300"
                     placeholder="If Custom duration, specify"
                   />
                 )}
               </div>
 
               <div>
-                <label className="block text-sm font-medium mb-2 text-gray-300">Budget Range (approx)</label>
+                <label className="block text-sm font-semibold mb-3 text-gray-200">Budget Range (approx)</label>
                 <select
                   name="budget"
                   value={formData.budget}
                   onChange={handleInputChange}
-                  className="w-full p-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:border-gray-500"
+                  className="w-full p-4 bg-gray-800/80 border border-gray-600/50 rounded-xl text-white focus:border-gray-500 focus:bg-gray-800/90 transition-all duration-300"
                   required
                 >
                   <option value="">Select</option>
@@ -770,12 +799,12 @@ const RoboticsCurriculumPage = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium mb-2 text-gray-300">Do you require lab setup support (tables, power, storage)?</label>
+                <label className="block text-sm font-semibold mb-3 text-gray-200">Do you require lab setup support (tables, power, storage)?</label>
                 <select
                   name="labSetup"
                   value={formData.labSetup}
                   onChange={handleInputChange}
-                  className="w-full p-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:border-gray-500"
+                  className="w-full p-4 bg-gray-800/80 border border-gray-600/50 rounded-xl text-white focus:border-gray-500 focus:bg-gray-800/90 transition-all duration-300"
                 >
                   <option value="">Select</option>
                   <option value="yes">Yes – full setup support</option>
@@ -784,68 +813,68 @@ const RoboticsCurriculumPage = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium mb-2 text-gray-300">Learning Goals / Learning Outcomes you want & training</label>
+                <label className="block text-sm font-semibold mb-3 text-gray-200">Learning Goals / Learning Outcomes you want & training</label>
                 <textarea
                   name="learningGoals"
                   value={formData.learningGoals}
                   onChange={handleInputChange}
-                  rows={3}
-                  className="w-full p-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:border-gray-500"
+                  rows={4}
+                  className="w-full p-4 bg-gray-800/80 border border-gray-600/50 rounded-xl text-white placeholder-gray-400 focus:border-gray-500 focus:bg-gray-800/90 transition-all duration-300"
                   placeholder="Multi-line Text—e.g., build student projects, competition entries, teacher capacity building"
                   required
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium mb-2 text-gray-300">Any existing curriculum or constraints (timings, exam schedules)?</label>
+                <label className="block text-sm font-semibold mb-3 text-gray-200">Any existing curriculum or constraints (timings, exam schedules)?</label>
                 <textarea
                   name="constraints"
                   value={formData.constraints}
                   onChange={handleInputChange}
-                  rows={3}
-                  className="w-full p-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:border-gray-500"
+                  rows={4}
+                  className="w-full p-4 bg-gray-800/80 border border-gray-600/50 rounded-xl text-white placeholder-gray-400 focus:border-gray-500 focus:bg-gray-800/90 transition-all duration-300"
                   placeholder="Multi-line Text"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium mb-2 text-gray-300">Upload any relevant documents (optional)—school brochure, lab photos, student lists (pdf/jpg)</label>
+                <label className="block text-sm font-semibold mb-3 text-gray-200">Upload any relevant documents (optional)—school brochure, lab photos, student lists (pdf/jpg)</label>
                 <input
                   type="file"
                   name="fileUploads"
                   multiple
                   onChange={handleInputChange}
-                  className="w-full p-3 bg-gray-800 border border-gray-700 rounded-lg text-white"
+                  className="w-full p-4 bg-gray-800/80 border border-gray-600/50 rounded-xl text-white file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-gray-700 file:text-gray-200 hover:file:bg-gray-600 transition-all duration-300"
                 />
               </div>
 
-              <label className="flex items-center gap-2">
+              <label className="flex items-center gap-3 p-4 bg-gray-800/60 border border-gray-700/50 rounded-xl hover:border-gray-600/70 transition-all duration-300">
                 <input
                   type="checkbox"
                   name="agree"
                   checked={formData.agree}
                   onChange={handleInputChange}
-                  className="rounded"
+                  className="rounded text-gray-300"
                   required
                 />
-                <span className="text-gray-300 text-sm">I agree to be contacted by Synaptix Robotics regarding this enquiry.</span>
+                <span className="text-gray-200 text-sm">I agree to be contacted by Synaptix Robotics regarding this enquiry.</span>
               </label>
 
               <motion.button
-                whileHover={{ scale: 1.05 }}
+                whileHover={{ scale: 1.05, backgroundColor: '#ffffff' }}
                 whileTap={{ scale: 0.95 }}
                 type="submit"
-                className="w-full py-4 bg-white text-black rounded-lg font-bold text-lg flex items-center justify-center gap-2 hover:bg-gray-100 transition-colors"
+                className="w-full py-5 bg-gradient-to-r from-white to-gray-100 text-black rounded-xl font-bold text-xl flex items-center justify-center gap-3 hover:shadow-xl transition-all duration-300"
               >
                 {submitted ? 'Submitted!' : 'Submit Request – School Partnership Manager will contact you'}
-                <ArrowRight className="w-5 h-5" />
+                <ArrowRight className="w-6 h-6" />
               </motion.button>
 
               {submitted && (
                 <motion.p
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  className="text-green-400 text-center"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="text-green-400 text-center text-lg leading-relaxed"
                 >
                   Next Steps (after submission): We will contact you within 48 hours to schedule a consultation call. A tailored curriculum proposal and quote will be delivered within 7-10 business days after the call. Pilot rollouts and teacher training dates are scheduled to match your school calendar.
                 </motion.p>
@@ -854,37 +883,43 @@ const RoboticsCurriculumPage = () => {
           </div>
         </motion.section>
 
-        {/* Call to Action Section */}
+        {/* Enhanced Call to Action Section */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1.0 }}
-          className="relative bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 border border-gray-700 rounded-2xl p-8 md:p-12 overflow-hidden text-center"
+          className="relative bg-gradient-to-br from-gray-900/90 via-gray-800/80 to-gray-900/90 border border-gray-700/60 rounded-3xl p-12 md:p-16 overflow-hidden backdrop-blur-sm text-center"
         >
-          <div className="absolute inset-0 opacity-5">
+          <div className="absolute inset-0 opacity-10">
             <div className="absolute inset-0" style={{
               backgroundImage: 'radial-gradient(circle, white 1px, transparent 1px)',
-              backgroundSize: '20px 20px'
+              backgroundSize: '30px 30px'
             }}></div>
           </div>
+          <div className="absolute inset-0 bg-gradient-to-r from-gray-600/5 via-gray-500/5 to-gray-400/5 opacity-0 hover:opacity-100 transition-opacity duration-700"></div>
+          
           <div className="relative z-10">
-            <div className="flex items-center gap-2 mb-4 justify-center">
-              <Zap className="w-6 h-6 text-gray-300" />
-              <h2 className="text-2xl font-bold">Ready to Empower Your Students?</h2>
-            </div>
-            <p className="text-gray-300 text-lg mb-6 max-w-2xl mx-auto">
+            <motion.div 
+              className="flex items-center justify-center gap-3 mb-6"
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              transition={{ delay: 1.1, type: "spring" }}
+            >
+              <Zap className="w-8 h-8 text-gray-300" />
+              <h2 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">Ready to Empower Your Students?</h2>
+            </motion.div>
+            <p className="text-gray-200 text-xl mb-8 max-w-3xl mx-auto leading-relaxed">
               <span className="font-semibold text-white">Fill the request form below—Robotics Curriculum & Teacher Training. Our School Partnership Manager will contact you within 48 hours with a tailored proposal and quote.</span>
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="px-8 py-4 bg-white text-black rounded-lg font-bold text-lg flex items-center gap-2 justify-center hover:bg-gray-100 transition-colors"
-              >
-                📱 Talk to Our Expert (WhatsApp)
-                <ArrowRight className="w-5 h-5" />
-              </motion.button>
-            </div>
+            <motion.button
+              whileHover={{ scale: 1.05, backgroundColor: '#ffffff' }}
+              whileTap={{ scale: 0.95 }}
+              className="px-10 py-5 bg-gradient-to-r from-white to-gray-100 text-black rounded-xl font-bold text-xl flex items-center gap-3 mx-auto hover:shadow-xl transition-all duration-300"
+            >
+            <Phone className="w-6 h-6" />
+            Talk to Our Expert (WhatsApp)
+              <ArrowRight className="w-6 h-6" />
+            </motion.button>
           </div>
         </motion.div>
       </div>
