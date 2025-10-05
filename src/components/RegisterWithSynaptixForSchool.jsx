@@ -8,6 +8,7 @@ import { use3DScrollTransform } from "@/lib/hooks";
 const SynaptixLanding = () => {
   const containerRef = useRef(null);
   const [activeCard, setActiveCard] = useState(0);
+  const [hasMounted, setHasMounted] = useState(false);
 
   const { scrollYProgress, createConditionalTransform, createValueTransform } = use3DScrollTransform(containerRef);
 
@@ -16,7 +17,7 @@ const SynaptixLanding = () => {
   const rotateY = createConditionalTransform([0, 0.25, 0.5, 0.75, 1], [-14, -3.5, 0, 3.5, 14]);
   const z = createConditionalTransform([0, 0.2, 0.5, 0.8, 1], [-280, -110, 0, -110, -280]);
   const scale = createConditionalTransform([0, 0.2, 0.5, 0.8, 1], [0.72, 0.92, 1.04, 0.92, 0.72]);
-  const opacity = createConditionalTransform([0, 0.2, 0.5, 0.8, 1], [0, 0.9, 1, 0.9, 0]);
+  const opacity = createConditionalTransform([0, 0.2, 0.5, 0.8, 1], [0, 0.9, 1, 0.9, 0], 1);
 
   // Z-depth parallax by Rayan Khan
   const layer1Z = createValueTransform([0, 1], [0, -180]);
@@ -49,6 +50,7 @@ const SynaptixLanding = () => {
 
   // Auto-rotate cards by Rayan Khan
   useEffect(() => {
+    setHasMounted(true);
     const interval = setInterval(() => {
       setActiveCard((prev) => (prev + 1) % offerings.length);
     }, 4000);
@@ -78,8 +80,8 @@ const SynaptixLanding = () => {
         {/* 3D Floating geometric layer */}
         <motion.div
           style={{
-            z: layer1Z,
-            rotateY: layer1RotateY,
+            z: hasMounted ? layer1Z : 0,
+            rotateY: hasMounted ? layer1RotateY : 0,
             transformStyle: "preserve-3d"
           }}
           className="absolute top-20 right-20 w-96 h-96"
@@ -89,8 +91,8 @@ const SynaptixLanding = () => {
 
         <motion.div
           style={{
-            z: layer2Z,
-            rotateX: layer2RotateX,
+            z: hasMounted ? layer2Z : 0,
+            rotateX: hasMounted ? layer2RotateX : 0,
             transformStyle: "preserve-3d"
           }}
           className="absolute bottom-32 left-20 w-80 h-80"
@@ -100,8 +102,8 @@ const SynaptixLanding = () => {
 
         <motion.div
           style={{
-            z: layer3Z,
-            rotateZ: layer3RotateZ,
+            z: hasMounted ? layer3Z : 0,
+            rotateZ: hasMounted ? layer3RotateZ : 0,
             transformStyle: "preserve-3d"
           }}
           className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64"
@@ -113,11 +115,11 @@ const SynaptixLanding = () => {
       <div className="relative z-10 max-w-7xl mx-auto px-6 py-32">
         <motion.div
           style={{
-            opacity,
-            rotateX: conditional3DTransform(rotateX, 0),
-            rotateY: conditional3DTransform(rotateY, 0),
-            z: conditional3DTransform(z, 0),
-            scale: conditional3DTransform(scale, 1),
+            opacity: hasMounted ? opacity : 0,
+            rotateX: hasMounted ? conditional3DTransform(rotateX, 0) : 0,
+            rotateY: hasMounted ? conditional3DTransform(rotateY, 0) : 0,
+            z: hasMounted ? conditional3DTransform(z, 0) : 0,
+            scale: hasMounted ? conditional3DTransform(scale, 1) : 1,
             transformStyle: "preserve-3d"
           }}
           className="space-y-16 sm:space-y-20 lg:space-y-24"
