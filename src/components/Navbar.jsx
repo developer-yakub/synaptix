@@ -66,26 +66,30 @@ export function NavbarDemo() {
       <Navbar>
         {/* Desktop Navigation */}
         <NavBody>
-          <NavbarLogo />
-          <NavItems items={navItems} />
-          <div className="flex items-center gap-4">
-            {user ? (
-              <>
-                <span className="text-sm font-medium text-white/80">Hi {getDisplayName()}</span>
-                <NavbarButton variant="secondary" onClick={handleLogout}>
-                  Logout
-                </NavbarButton>
-              </>
-            ) : (
-              <>
-                <NavbarButton variant="secondary" href="/login">
-                  Login
-                </NavbarButton>
-                <NavbarButton variant="primary" href="/login">
-                  Sign up
-                </NavbarButton>
-              </>
-            )}
+          <div className="flex items-center w-full">
+            <NavbarLogo className="flex-shrink-0" />
+            <div className="flex-1 flex justify-center">
+              <NavItems items={navItems} />
+            </div>
+            <div className="flex items-center gap-4 flex-shrink-0">
+              {user ? (
+                <>
+                  <span className="text-sm font-medium text-neutral-600 dark:text-neutral-300">Hi {getDisplayName()}</span>
+                  <NavbarButton variant="secondary" onClick={handleLogout}>
+                    Logout
+                  </NavbarButton>
+                </>
+              ) : (
+                <>
+                  <NavbarButton variant="secondary" href="/login">
+                    Login
+                  </NavbarButton>
+                  <NavbarButton variant="primary" href="/login">
+                    Sign up
+                  </NavbarButton>
+                </>
+              )}
+            </div>
           </div>
         </NavBody>
 
