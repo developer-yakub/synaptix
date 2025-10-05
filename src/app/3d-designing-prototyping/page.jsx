@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useRouter } from 'next/navigation';
 import { 
   Settings, 
   Printer,
@@ -15,12 +16,14 @@ import {
   Code,
   ArrowRight,
   ChevronRight,
+  ChevronLeft,
   Lightbulb,
   Upload,
   Phone
 } from 'lucide-react';
 
 const DesignPrototypingPage = () => {
+  const router = useRouter();
   const [hoveredCard, setHoveredCard] = useState(null);
   const [activeStep, setActiveStep] = useState(0);
 
@@ -224,6 +227,20 @@ const DesignPrototypingPage = () => {
       }}></div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        {/* Back Button */}
+        <motion.button
+          onClick={() => router.push('/')}
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
+          whileHover={{ scale: 1.05, x: -2 }}
+          whileTap={{ scale: 0.95 }}
+          className="fixed top-6 left-6 z-20 flex items-center space-x-2 px-4 py-2 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 rounded-full text-white/60 hover:text-white transition-all duration-300 backdrop-blur-xl"
+        >
+          <ChevronLeft className="w-4 h-4" />
+          <span className="text-sm font-medium">Home</span>
+        </motion.button>
+
         {/* Enhanced Header Section */}
         <motion.div
           variants={headerVariants}

@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { 
   Lightbulb, 
@@ -10,6 +11,7 @@ import {
   Monitor, 
   Car, 
   ChevronRight,
+  ChevronLeft,
   Sparkles,
   Users,
   Building2,
@@ -133,10 +135,6 @@ const IotPortalPage = () => {
     }
   };
 
-  const handleCardClick = (path) => {
-    router.push(path);
-  };
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-black text-white relative overflow-hidden">
       {/* Enhanced Animated Background */}
@@ -152,7 +150,21 @@ const IotPortalPage = () => {
         backgroundSize: '50px 50px'
       }}></div>
 
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div className="sticky z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        {/* Back Button */}
+        <motion.button
+          onClick={() => router.push('/')}
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
+          whileHover={{ scale: 1.05, x: -2 }}
+          whileTap={{ scale: 0.95 }}
+          className="fixed top-6 left-6 z-20 flex items-center space-x-2 px-4 py-2 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 rounded-full text-white/60 hover:text-white transition-all duration-300 backdrop-blur-xl"
+        >
+          <ChevronLeft className="w-4 h-4" />
+          <span className="text-sm font-medium">Home</span>
+        </motion.button>
+
         {/* Enhanced Header Section */}
         <motion.div
           variants={headerVariants}
@@ -307,8 +319,7 @@ const IotPortalPage = () => {
                 <motion.div
                   whileHover={{ scale: 1.03, y: -10, rotateY: 5 }}
                   transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                  onClick={() => handleCardClick(category.path)}
-                  className="relative h-full bg-gradient-to-br from-gray-900/80 via-gray-800/60 to-gray-900/80 border border-gray-700/60 rounded-3xl p-8 cursor-pointer overflow-hidden backdrop-blur-sm"
+                  className="relative h-full bg-gradient-to-br from-gray-900/80 via-gray-800/60 to-gray-900/80 border border-gray-700/60 rounded-3xl p-8 overflow-hidden backdrop-blur-sm"
                 >
                   {/* Enhanced Gradient Overlay */}
                   <div className={`absolute inset-0 bg-gradient-to-br ${category.color} opacity-0 group-hover:opacity-20 transition-opacity duration-500`}></div>
@@ -383,14 +394,16 @@ const IotPortalPage = () => {
                     </motion.div>
 
                     {/* Enhanced Explore Button */}
-                    <motion.button
-                      whileHover={{ scale: 1.05, backgroundColor: '#ffffff' }}
-                      whileTap={{ scale: 0.95 }}
-                      className="w-full py-4 bg-gradient-to-r from-white to-gray-100 text-black rounded-xl font-bold text-lg flex items-center justify-center gap-3 group-hover:shadow-lg transition-all duration-300"
-                    >
-                      Explore Projects
-                      <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                    </motion.button>
+                    <Link href={category.path}>
+                      <motion.button
+                        whileHover={{ scale: 1.05, backgroundColor: '#ffffff' }}
+                        whileTap={{ scale: 0.95 }}
+                        className="w-full py-4 bg-gradient-to-r from-white to-gray-100 text-black rounded-xl font-bold text-lg flex items-center justify-center gap-3 group-hover:shadow-lg transition-all duration-300"
+                      >
+                        Explore Projects
+                        <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                      </motion.button>
+                    </Link>
                   </div>
                 </motion.div>
               </motion.div>
