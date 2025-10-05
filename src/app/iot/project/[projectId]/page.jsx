@@ -256,12 +256,12 @@ const ProjectDetailPage = () => {
                   className="flex flex-wrap gap-4"
                 >
                   <a
-                    href={`https://wa.me/1234567890?text=${encodeURIComponent(
+                    href={`https://wa.me/917893768080?text=${encodeURIComponent(
                       `Hi! I'm interested in starting the "${project.title}" project. Can you help me get started?`
                     )}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="px-8 py-4 bg-green-600 hover:bg-green-700 text-white rounded-xl font-semibold hover:shadow-xl transition-all duration-300 flex items-center gap-3"
+                    className="inline-flex items-center gap-2 px-6 py-3 bg-green-600 text-white rounded-lg font-medium text-sm hover:bg-green-700 transition-all duration-200 shadow-lg hover:shadow-xl"
                   >
                     <MessageCircle className="w-5 h-5" />
                     Start Building
