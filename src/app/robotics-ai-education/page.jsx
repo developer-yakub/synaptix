@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
+import {
   BookOpen,
   Code,
   Brain,
@@ -21,6 +21,7 @@ import {
   Sparkles,
   Rocket
 } from 'lucide-react';
+import { createInquiry } from '@/lib/adminService';
 
 const RoboticsAIEducationPage = () => {
   const [hoveredCard, setHoveredCard] = useState(null);
@@ -182,12 +183,33 @@ const RoboticsAIEducationPage = () => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (formData.agree) {
       setSubmitted(true);
-      // Here you would typically send the form data to a backend
-      console.log('Form submitted:', formData);
+      try {
+        await createInquiry({
+          inquiryType: 'robotics-ai-education',
+          name: formData.fullName,
+          ageClass: formData.ageClass,
+          parentName: formData.parentName,
+          school: formData.school,
+          email: formData.email,
+          phone: formData.phone,
+          cityState: formData.cityState,
+          mode: formData.mode,
+          interests: formData.interests,
+          schedule: formData.schedule,
+          enrollmentType: formData.enrollmentType,
+          referral: formData.referral,
+          message: `Robotics & AI Education enrollment request from ${formData.fullName}`,
+          subject: `Course Enrollment Request - ${formData.fullName}`
+        });
+      } catch (error) {
+        console.error('Error submitting form:', error);
+        alert('There was an error submitting your request. Please try again.');
+        setSubmitted(false);
+      }
     }
   };
 
@@ -744,15 +766,17 @@ const RoboticsAIEducationPage = () => {
           >
             For any queries, demo requests, or school partnerships – click Talk to Our Expert (WhatsApp) or fill the form above and we will reach out to you.
           </motion.p>
-          <motion.button
-            whileHover={{ scale: 1.05, backgroundColor: '#ffffff' }}
+          <motion.a
+            whileHover={{ scale: 1.05, backgroundColor: '#f8fafc' }}
             whileTap={{ scale: 0.95 }}
-            className="px-10 py-5 bg-gradient-to-r from-white to-gray-100 text-black rounded-xl font-bold text-xl flex items-center gap-3 mx-auto hover:shadow-xl transition-all duration-300"
+            className="px-8 py-4 bg-white text-black rounded-lg font-medium text-lg flex items-center gap-3 mx-auto hover:bg-gray-50 transition-colors duration-300 shadow-sm hover:shadow-md"
+            href="https://wa.me/917893768080?text=Hi%21%20I%27m%20interested%20in%20your%20robotics%20and%20AI%20education%20services.%20Can%20we%20discuss%20my%20project%3F"
+            target="_blank"
+            rel="noopener noreferrer"
           >
-            <Phone className="w-6 h-6" />
-            Talk to Our Expert (WhatsApp)
-            <ArrowRight className="w-6 h-6" />
-          </motion.button>
+            <Phone className="w-5 h-5" />
+            Chat on WhatsApp
+          </motion.a>
         </motion.section>
 
         {/* Enhanced Call to Action Section */}

@@ -755,15 +755,17 @@ const InnovationSupportPage = () => {
             <p className="text-gray-200 text-xl mb-8 max-w-3xl mx-auto leading-relaxed">
               <span className="font-semibold text-white">Submit your idea today and let's build the future together.</span>
             </p>
-            <motion.button
-              whileHover={{ scale: 1.05, backgroundColor: '#ffffff' }}
+            <motion.a
+              whileHover={{ scale: 1.05, backgroundColor: '#f8fafc' }}
               whileTap={{ scale: 0.95 }}
-              className="px-10 py-5 bg-gradient-to-r from-white to-gray-100 text-black rounded-xl font-bold text-xl flex items-center gap-3 mx-auto hover:shadow-xl transition-all duration-300"
+              className="px-8 py-4 bg-white text-black rounded-lg font-medium text-lg flex items-center gap-3 mx-auto hover:bg-gray-50 transition-colors duration-300 shadow-sm hover:shadow-md"
+              href="https://wa.me/917893768080?text=Hi%21%20I%27m%20interested%20in%20your%20innovation%20support%20services.%20Can%20we%20discuss%20my%20project%3F"
+              target="_blank"
+              rel="noopener noreferrer"
             >
-            <Phone className="w-6 h-6" />
-            Talk to Our Expert (WhatsApp)
-              <ArrowRight className="w-6 h-6" />
-            </motion.button>
+            <Phone className="w-5 h-5" />
+            Chat on WhatsApp
+            </motion.a>
           </div>
         </motion.div>
       </div>

@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
+import {
   Code2,
   Globe,
   Zap,
@@ -24,6 +24,7 @@ import {
   ShoppingCart,
   Database
 } from 'lucide-react';
+import { createInquiry } from '@/lib/adminService';
 
 const SoftwareWebDevelopmentPage = () => {
   const [hoveredCard, setHoveredCard] = useState(null);
@@ -49,6 +50,8 @@ const SoftwareWebDevelopmentPage = () => {
     agree: false
   });
   const [submitted, setSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitMessage, setSubmitMessage] = useState("");
 
   const whyChoose = [
     {
@@ -103,12 +106,70 @@ const SoftwareWebDevelopmentPage = () => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (formData.agree) {
+    if (!formData.agree) return;
+
+    setIsSubmitting(true);
+    setSubmitMessage("");
+
+    try {
+      await createInquiry({
+        name: formData.fullName,
+        email: formData.email,
+        subject: `Web Development Project - ${formData.fullName}`,
+        message: `
+Company/Business Name: ${formData.fullName}
+Full Name: ${formData.fullName}
+Email: ${formData.email}
+Phone: ${formData.phone}
+City/State: ${formData.cityState}
+Services: ${formData.services.join(', ')}
+Project Description: ${formData.projectDescription}
+Features: ${formData.features.join(', ')}
+Tech Stack: ${formData.techStack || 'Not specified'}
+Target Users: ${formData.targetUsers}
+Expected Users: ${formData.expectedUsers}
+Design Preferences: ${formData.designPreferences || 'None specified'}
+Logo/Brand Assets: ${formData.logoBrand ? 'Yes - ready' : 'No - need help'}
+Hosting: ${formData.hosting || 'Not specified'}
+Timeline: ${formData.timeline}
+Budget: ${formData.budget}
+Maintenance: ${formData.maintenance || 'Not specified'}
+Referral: ${formData.referral}
+        `,
+        inquiryType: 'web-development',
+        cityState: formData.cityState
+      });
+
+      setSubmitMessage("Thank you for your project inquiry! We've received your web development request and will contact you within 48 hours with a detailed proposal.");
       setSubmitted(true);
-      // Here you would typically send the form data to a backend
-      console.log('Form submitted:', formData);
+      setFormData({
+        fullName: '',
+        email: '',
+        phone: '',
+        cityState: '',
+        services: [],
+        projectDescription: '',
+        features: [],
+        techStack: '',
+        targetUsers: '',
+        expectedUsers: '',
+        designPreferences: '',
+        logoBrand: false,
+        hosting: '',
+        timeline: '',
+        budget: '',
+        maintenance: '',
+        files: null,
+        referral: '',
+        agree: false
+      });
+    } catch (error) {
+      console.error("Error submitting web development inquiry:", error);
+      setSubmitMessage("Failed to submit your request. Please try again.");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -621,14 +682,33 @@ const SoftwareWebDevelopmentPage = () => {
                 <span className="text-gray-200 text-sm">I agree to be contacted by Synaptix Robotics regarding this enquiry.</span>
               </label>
 
+              {submitMessage && (
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className={`px-4 py-3 rounded-lg text-sm ${
+                    submitMessage.includes("Thank you")
+                      ? "bg-green-500/10 border border-green-500/30 text-green-300"
+                      : "bg-red-500/10 border border-red-500/30 text-red-300"
+                  }`}
+                >
+                  {submitMessage}
+                </motion.div>
+              )}
+
               <motion.button
-                whileHover={{ scale: 1.05, backgroundColor: '#ffffff' }}
+                whileHover={{ scale: 1.05, backgroundColor: '#ffffff', disabled: isSubmitting }}
                 whileTap={{ scale: 0.95 }}
                 type="submit"
-                className="w-full py-5 bg-gradient-to-r from-white to-gray-100 text-black rounded-xl font-bold text-xl flex items-center justify-center gap-3 hover:shadow-xl transition-all duration-300"
+                disabled={isSubmitting}
+                className="w-full py-5 bg-gradient-to-r from-white to-gray-100 text-black rounded-xl font-bold text-xl flex items-center justify-center gap-3 hover:shadow-xl transition-all duration-300 disabled:bg-gray-600 disabled:text-gray-400"
               >
-                {submitted ? 'Submitted!' : 'Submit & Talk to Our Expert'}
-                <ArrowRight className="w-6 h-6" />
+                {isSubmitting ? 'Submitting...' : submitted ? 'Submitted!' : 'Submit & Talk to Our Expert'}
+                {isSubmitting ? (
+                  <div className="w-5 h-5 border-2 border-black border-t-transparent rounded-full animate-spin" />
+                ) : (
+                  <ArrowRight className="w-6 h-6" />
+                )}
               </motion.button>
 
               {submitted && (
@@ -672,15 +752,17 @@ const SoftwareWebDevelopmentPage = () => {
             <p className="text-gray-200 text-xl mb-8 max-w-3xl mx-auto leading-relaxed">
               <span className="font-semibold text-white">For a quick chat, click below to start a WhatsApp conversation with our expert.</span>
             </p>
-            <motion.button
-              whileHover={{ scale: 1.05, backgroundColor: '#ffffff' }}
+            <motion.a
+              whileHover={{ scale: 1.05, backgroundColor: '#f8fafc' }}
               whileTap={{ scale: 0.95 }}
-              className="px-10 py-5 bg-gradient-to-r from-white to-gray-100 text-black rounded-xl font-bold text-xl flex items-center gap-3 mx-auto hover:shadow-xl transition-all duration-300"
+              className="px-8 py-4 bg-white text-black rounded-lg font-medium text-lg flex items-center gap-3 mx-auto hover:bg-gray-50 transition-colors duration-300 shadow-sm hover:shadow-md"
+              href="https://wa.me/917893768080?text=Hi%21%20I%27m%20interested%20in%20your%20software%20and%20web%20development%20services.%20Can%20we%20discuss%20my%20project%3F"
+              target="_blank"
+              rel="noopener noreferrer"
             >
-            <Phone className="w-6 h-6" />
-            WhatsApp/Talk to Us
-              <ArrowRight className="w-6 h-6" />
-            </motion.button>
+            <Phone className="w-5 h-5" />
+            Chat on WhatsApp
+            </motion.a>
           </div>
         </motion.div>
       </div>

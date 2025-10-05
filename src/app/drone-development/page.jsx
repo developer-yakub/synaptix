@@ -18,6 +18,7 @@ import {
   Sparkles,
   FileText
 } from 'lucide-react';
+import { createInquiry } from '@/lib/adminService';
 
 const DroneDevelopmentPage = () => {
   const [hoveredCard, setHoveredCard] = useState(null);
@@ -37,6 +38,8 @@ const DroneDevelopmentPage = () => {
     agree: false
   });
   const [submitted, setSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitMessage, setSubmitMessage] = useState("");
 
   const services = [
     {
@@ -152,12 +155,58 @@ const DroneDevelopmentPage = () => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (formData.agree) {
+    if (!formData.agree) return;
+
+    setIsSubmitting(true);
+    setSubmitMessage("");
+
+    try {
+      await createInquiry({
+        name: formData.fullName,
+        email: formData.email,
+        subject: `Drone Development Request - ${formData.fullName}`,
+        message: `
+Full Name: ${formData.fullName}
+Email: ${formData.email}
+Phone: ${formData.phone}
+Organization: ${formData.organization || 'Not specified'}
+City/State: ${formData.cityState}
+Purpose: ${purposes.find(p => p.value === formData.purpose)?.label || 'Not specified'}
+Drone Types: ${formData.droneTypes.join(', ')}
+Payload: ${formData.payload || 'Not specified'}
+Flight Time: ${formData.flightTime}
+Budget: ${formData.budget}
+Timeline: ${formData.timeline}
+Notes: ${formData.notes || 'No additional notes'}
+        `,
+        inquiryType: 'drone-development',
+        cityState: formData.cityState
+      });
+
+      setSubmitMessage("Thank you for your drone development inquiry! We've received your requirements and will design a drone that matches your vision.");
       setSubmitted(true);
-      // Here you would typically send the form data to a backend
-      console.log('Form submitted:', formData);
+      setFormData({
+        fullName: '',
+        email: '',
+        phone: '',
+        organization: '',
+        cityState: '',
+        purpose: '',
+        droneTypes: [],
+        payload: '',
+        flightTime: '',
+        budget: '',
+        timeline: '',
+        notes: '',
+        agree: false
+      });
+    } catch (error) {
+      console.error("Error submitting drone development inquiry:", error);
+      setSubmitMessage("Failed to submit your request. Please try again.");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -574,14 +623,33 @@ const DroneDevelopmentPage = () => {
                 <span className="text-gray-200 text-sm">I agree to be contacted by Synaptix Robotics regarding my enquiry.</span>
               </label>
 
+              {submitMessage && (
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className={`px-4 py-3 rounded-lg text-sm ${
+                    submitMessage.includes("Thank you")
+                      ? "bg-green-500/10 border border-green-500/30 text-green-300"
+                      : "bg-red-500/10 border border-red-500/30 text-red-300"
+                  }`}
+                >
+                  {submitMessage}
+                </motion.div>
+              )}
+
               <motion.button
-                whileHover={{ scale: 1.05, backgroundColor: '#ffffff' }}
+                whileHover={{ scale: 1.05, backgroundColor: '#ffffff', disabled: isSubmitting }}
                 whileTap={{ scale: 0.95 }}
                 type="submit"
-                className="w-full py-5 bg-gradient-to-r from-white to-gray-100 text-black rounded-xl font-bold text-xl flex items-center justify-center gap-3 hover:shadow-xl transition-all duration-300"
+                disabled={isSubmitting}
+                className="w-full py-5 bg-gradient-to-r from-white to-gray-100 text-black rounded-xl font-bold text-xl flex items-center justify-center gap-3 hover:shadow-xl transition-all duration-300 disabled:bg-gray-600 disabled:text-gray-400"
               >
-                {submitted ? 'Submitted!' : 'Submit & Talk to Our Expert'}
-                <ArrowRight className="w-6 h-6" />
+                {isSubmitting ? 'Submitting...' : submitted ? 'Submitted!' : 'Submit & Talk to Our Expert'}
+                {isSubmitting ? (
+                  <div className="w-5 h-5 border-2 border-black border-t-transparent rounded-full animate-spin" />
+                ) : (
+                  <ArrowRight className="w-6 h-6" />
+                )}
               </motion.button>
 
               {submitted && (
@@ -625,15 +693,17 @@ const DroneDevelopmentPage = () => {
             <p className="text-gray-200 text-xl mb-8 max-w-3xl mx-auto leading-relaxed">
               <span className="font-semibold text-white">For a quick chat, click below to start a WhatsApp conversation with our expert.</span>
             </p>
-            <motion.button
-              whileHover={{ scale: 1.05, backgroundColor: '#ffffff' }}
+            <motion.a
+              whileHover={{ scale: 1.05, backgroundColor: '#f8fafc' }}
               whileTap={{ scale: 0.95 }}
-              className="px-10 py-5 bg-gradient-to-r from-white to-gray-100 text-black rounded-xl font-bold text-xl flex items-center gap-3 mx-auto hover:shadow-xl transition-all duration-300"
+              className="px-8 py-4 bg-white text-black rounded-lg font-medium text-lg flex items-center gap-3 mx-auto hover:bg-gray-50 transition-colors duration-300 shadow-sm hover:shadow-md"
+              href="https://wa.me/917893768080?text=Hi%21%20I%27m%20interested%20in%20your%20drone%20development%20services.%20Can%20we%20discuss%20my%20project%3F"
+              target="_blank"
+              rel="noopener noreferrer"
             >
-            <Phone className="w-6 h-6" />
-            WhatsApp/Talk to Us
-              <ArrowRight className="w-6 h-6" />
-            </motion.button>
+            <Phone className="w-5 h-5" />
+            Chat on WhatsApp
+            </motion.a>
           </div>
         </motion.div>
       </div>

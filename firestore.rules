@@ -2,8 +2,57 @@ rules_version = '2';
 
 service cloud.firestore {
   match /databases/{database}/documents {
-    match /{document=**} {
-      allow read, write: if false;
+
+    // Helper functions
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isAdmin() {
+      return isAuthenticated() &&
+             get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+    }
+
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    // Users collection - allow users to read/write their own data, admins can read/write all
+    match /users/{userId} {
+      allow read: if isAuthenticated() && (isOwner(userId) || isAdmin());
+      allow write: if isAuthenticated() && (isOwner(userId) || (isAdmin() && resource == null) ||
+                   (isAdmin() && request.resource.data.role == resource.data.role));
+      allow create: if isAuthenticated();
+    }
+
+    // Projects collection - admins can read/write all projects
+    match /projects/{projectId} {
+      allow read: if isAuthenticated();
+      allow write: if isAdmin();
+      allow create: if isAdmin();
+      allow delete: if isAdmin();
+    }
+
+    // Settings collection - only admins can read/write settings
+    match /settings/{settingId} {
+      allow read: if isAdmin();
+      allow write: if isAdmin();
+      allow create: if isAdmin();
+      allow update: if isAdmin();
+      allow delete: if isAdmin();
+    }
+
+    // Inquiries collection - anyone can create (for contact forms), admins can read/write all
+    match /inquiries/{inquiryId} {
+      allow read: if isAuthenticated();
+      allow write: if isAdmin();
+      allow create: if true;  // Allow anyone to submit contact forms
+      allow delete: if isAdmin();
+    }
+
+    // Allow authenticated users to read project data for the public portal
+    match /projects/{projectId} {
+      allow read: if isAuthenticated();
     }
   }
 }

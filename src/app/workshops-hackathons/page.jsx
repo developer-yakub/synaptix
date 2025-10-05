@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
+import {
   Users,
   Code,
   Brain,
@@ -21,6 +21,7 @@ import {
   FileText,
   GraduationCap
 } from 'lucide-react';
+import { createInquiry } from '@/lib/adminService';
 
 const WorkshopsHackathonsPage = () => {
   const [hoveredCard, setHoveredCard] = useState(null);
@@ -157,12 +158,37 @@ const WorkshopsHackathonsPage = () => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (formData.agree) {
       setSubmitted(true);
-      // Here you would typically send the form data to a backend
-      console.log('Form submitted:', formData);
+      try {
+        await createInquiry({
+          inquiryType: 'workshops-hackathons',
+          name: formData.contactName,
+          email: formData.email,
+          phone: formData.phone,
+          organization: formData.organization,
+          role: formData.role,
+          cityState: formData.cityState,
+          programType: formData.programType,
+          targetAudience: formData.targetAudience,
+          numParticipants: formData.numParticipants,
+          deliveryMode: formData.deliveryMode,
+          preferredDates: formData.preferredDates,
+          duration: formData.duration,
+          kitsMaterials: formData.kitsMaterials,
+          focusAreas: formData.focusAreas,
+          otherFocus: formData.otherFocus,
+          supportNeeded: formData.supportNeeded,
+          message: `Workshops/Hackathons inquiry from ${formData.organization}`,
+          subject: `Workshop/Hackathon Request - ${formData.organization}`
+        });
+      } catch (error) {
+        console.error('Error submitting form:', error);
+        alert('There was an error submitting your request. Please try again.');
+        setSubmitted(false);
+      }
     }
   };
 
@@ -754,15 +780,17 @@ const WorkshopsHackathonsPage = () => {
             <p className="text-gray-200 text-xl mb-8 max-w-3xl mx-auto leading-relaxed">
               <span className="font-semibold text-white">Please fill the form below and our program manager will contact you within 48 hours. (If you prefer WhatsApp, use the Talk to Expert button on the page.)</span>
             </p>
-            <motion.button
-              whileHover={{ scale: 1.05, backgroundColor: '#ffffff' }}
+            <motion.a
+              whileHover={{ scale: 1.05, backgroundColor: '#f8fafc' }}
               whileTap={{ scale: 0.95 }}
-              className="px-10 py-5 bg-gradient-to-r from-white to-gray-100 text-black rounded-xl font-bold text-xl flex items-center gap-3 mx-auto hover:shadow-xl transition-all duration-300"
+              className="px-8 py-4 bg-white text-black rounded-lg font-medium text-lg flex items-center gap-3 mx-auto hover:bg-gray-50 transition-colors duration-300 shadow-sm hover:shadow-md"
+              href="https://wa.me/917893768080?text=Hi%21%20I%27m%20interested%20in%20your%20workshops%20and%20hackathons%20services.%20Can%20we%20discuss%20my%20project%3F"
+              target="_blank"
+              rel="noopener noreferrer"
             >
-            <Phone className="w-6 h-6" />
-            Talk to Our Expert (WhatsApp)
-              <ArrowRight className="w-6 h-6" />
-            </motion.button>
+            <Phone className="w-5 h-5" />
+            Chat on WhatsApp
+            </motion.a>
           </div>
         </motion.div>
       </div>

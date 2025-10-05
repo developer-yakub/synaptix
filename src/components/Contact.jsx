@@ -15,10 +15,18 @@ import {
   Minus,
 } from "lucide-react";
 import { isClient, isDesktop, conditional3DTransform } from "@/lib/utils";
+import { createInquiry } from "@/lib/adminService";
 
 const ContactPage = () => {
   const [selectedInquiry, setSelectedInquiry] = useState("general");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitMessage, setSubmitMessage] = useState("");
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    subject: '',
+    message: ''
+  });
   const containerRef = useRef(null);
 
   const { scrollYProgress } = useScroll({
@@ -82,10 +90,41 @@ const ContactPage = () => {
     return () => clearInterval(interval);
   }, []);
 
+  const handleFormChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-    setTimeout(() => setIsSubmitting(false), 2000);
+    setSubmitMessage("");
+
+    try {
+      await createInquiry({
+        name: formData.name,
+        email: formData.email,
+        subject: formData.subject,
+        message: formData.message,
+        inquiryType: selectedInquiry
+      });
+
+      setSubmitMessage("Thank you for your message! We'll get back to you soon.");
+      setFormData({
+        name: '',
+        email: '',
+        subject: '',
+        message: ''
+      });
+      setSelectedInquiry("general");
+    } catch (error) {
+      console.error("Error submitting inquiry:", error);
+      setSubmitMessage("Failed to send message. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -253,6 +292,9 @@ const ContactPage = () => {
                   <div>
                     <input
                       type="text"
+                      name="name"
+                      value={formData.name}
+                      onChange={handleFormChange}
                       placeholder="Name"
                       className="w-full px-4 py-3 bg-transparent border border-white/20 rounded-lg text-white placeholder-white/40 focus:border-white/40 focus:outline-none transition-colors duration-300"
                       required
@@ -261,6 +303,9 @@ const ContactPage = () => {
                   <div>
                     <input
                       type="email"
+                      name="email"
+                      value={formData.email}
+                      onChange={handleFormChange}
                       placeholder="Email"
                       className="w-full px-4 py-3 bg-transparent border border-white/20 rounded-lg text-white placeholder-white/40 focus:border-white/40 focus:outline-none transition-colors duration-300"
                       required
@@ -271,6 +316,9 @@ const ContactPage = () => {
                 <div>
                   <input
                     type="text"
+                    name="subject"
+                    value={formData.subject}
+                    onChange={handleFormChange}
                     placeholder="Subject"
                     className="w-full px-4 py-3 bg-transparent border border-white/20 rounded-lg text-white placeholder-white/40 focus:border-white/40 focus:outline-none transition-colors duration-300"
                     required
@@ -280,11 +328,28 @@ const ContactPage = () => {
                 <div>
                   <textarea
                     rows={6}
+                    name="message"
+                    value={formData.message}
+                    onChange={handleFormChange}
                     placeholder="Your message"
                     className="w-full px-4 py-3 bg-transparent border border-white/20 rounded-lg text-white placeholder-white/40 focus:border-white/40 focus:outline-none transition-colors duration-300 resize-none"
                     required
                   />
                 </div>
+
+                {submitMessage && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className={`px-4 py-3 rounded-lg text-sm ${
+                      submitMessage.includes("Thank you")
+                        ? "bg-green-500/10 border border-green-500/30 text-green-300"
+                        : "bg-red-500/10 border border-red-500/30 text-red-300"
+                    }`}
+                  >
+                    {submitMessage}
+                  </motion.div>
+                )}
 
                   <motion.button
                     type="submit"

@@ -1,9 +1,9 @@
 'use client';
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useRouter, usePathname } from 'next/navigation';
-import { 
+import {
   ChevronLeft,
   Zap,
   Lightbulb,
@@ -13,12 +13,17 @@ import {
   Car,
   Cpu
 } from 'lucide-react';
+import { getProjects, PROJECT_CATEGORIES } from '@/lib/adminService';
 
 const ProjectsListingPage = () => {
   const router = useRouter();
   const pathname = usePathname();
+  const [projects, setProjects] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
 
-  // Determine category based on pathname
+  // Determine category based on pathname and map to Firebase category ID
   const getCategoryConfig = () => {
     switch (pathname) {
       case '/iot/electricalProjects':
@@ -26,57 +31,73 @@ const ProjectsListingPage = () => {
           title: "Electrical & Electronics Projects",
           description: "Explore a comprehensive collection of hands-on electrical and electronics projects designed to build foundational skills and innovative solutions.",
           icon: Zap,
-          projects: generateDummyProjects("Electrical & Electronics", 50) // Up to 100, demo with 50
+          categoryId: 'electricalProjects'
         };
       case '/iot/iotProjects':
         return {
           title: "IoT Projects",
           description: "Discover interconnected solutions that bridge the physical and digital worlds with smart, real-time IoT innovations.",
           icon: Sparkles,
-          projects: generateDummyProjects("IoT", 50)
+          categoryId: 'iotProjects'
         };
       case '/iot/webProjects':
         return {
           title: "Web Projects",
           description: "Dive into modern web development with dynamic applications, dashboards, and user-centric platforms.",
           icon: Lightbulb,
-          projects: generateDummyProjects("Web", 50)
+          categoryId: 'webProjects'
         };
       case '/iot/simulationProjects':
         return {
           title: "Simulation Projects",
           description: "Simulate and validate ideas in virtual environments, from circuits to AI models, before real-world deployment.",
           icon: Cpu,
-          projects: generateDummyProjects("Simulation", 50)
+          categoryId: 'simulationProjects'
         };
       case '/iot/evProjects':
         return {
           title: "EV (Electric Vehicle) Projects",
           description: "Innovate in sustainable mobility with projects on motors, batteries, and charging systems for the future of EVs.",
           icon: Car,
-          projects: generateDummyProjects("EV", 50)
+          categoryId: 'evProjects'
         };
       default:
         return {
           title: "Projects",
           description: "Explore innovative projects across various domains.",
           icon: Zap,
-          projects: []
+          categoryId: null
         };
     }
   };
 
   const categoryConfig = useMemo(() => getCategoryConfig(), [pathname]);
-  const { title, description, icon: CategoryIcon, projects } = categoryConfig;
+  const { title, description, icon: CategoryIcon, categoryId } = categoryConfig;
 
-  const [searchQuery, setSearchQuery] = useState('');
-  const [currentPage, setCurrentPage] = useState(1);
+  // Load projects from Firebase
+  useEffect(() => {
+    const loadProjects = async () => {
+      try {
+        setLoading(true);
+        const projectsData = await getProjects(categoryId);
+        setProjects(projectsData);
+      } catch (error) {
+        console.error('Error loading projects:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadProjects();
+  }, [categoryId]);
 
   const itemsPerPage = 10;
 
   const filteredProjects = useMemo(() => {
     return projects.filter(project =>
-      project.title.toLowerCase().includes(searchQuery.toLowerCase())
+      project.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      project.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      project.tags?.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()))
     );
   }, [searchQuery, projects]);
 
@@ -88,6 +109,11 @@ const ProjectsListingPage = () => {
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
+  };
+
+  const handleProjectClick = (projectId) => {
+    // Navigate to individual project page - could be project details
+    router.push(`/iot/project/${projectId}`);
   };
 
   const containerVariants = {
@@ -127,6 +153,14 @@ const ProjectsListingPage = () => {
       }
     }
   };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-black text-white flex items-center justify-center">
+        <div className="w-8 h-8 border-2 border-white/20 border-t-white rounded-full animate-spin" />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-black text-white relative overflow-hidden">
@@ -171,7 +205,7 @@ const ProjectsListingPage = () => {
             <span className="text-sm font-medium text-gray-200">Project Listings</span>
           </motion.div>
 
-          <motion.h1 
+          <motion.h1
             className="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 bg-gradient-to-r from-white via-gray-200 to-gray-400 bg-clip-text text-transparent leading-tight"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -227,19 +261,20 @@ const ProjectsListingPage = () => {
               <motion.div
                 key={project.id}
                 variants={itemVariants}
-                whileHover={{ 
-                  x: 10, 
-                  scale: 1.02, 
-                  backgroundColor: 'rgba(255,255,255,0.05)' 
+                whileHover={{
+                  x: 10,
+                  scale: 1.02,
+                  backgroundColor: 'rgba(255,255,255,0.05)'
                 }}
                 transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                onClick={() => handleProjectClick(project.id)}
                 className="group relative bg-gradient-to-br from-gray-900/60 to-gray-800/60 border border-gray-700/50 rounded-2xl p-6 cursor-pointer overflow-hidden backdrop-blur-sm hover:border-gray-600/70 transition-all duration-300"
               >
                 {/* Subtle Gradient Overlay on Hover */}
                 <div className="absolute inset-0 bg-gradient-to-r from-blue-500/5 to-cyan-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                
+
                 {/* Number Badge */}
-                <motion.div 
+                <motion.div
                   className="absolute -left-4 top-6 w-12 h-12 bg-gradient-to-br from-blue-500/20 to-cyan-500/20 border border-blue-500/30 rounded-full flex items-center justify-center"
                   whileHover={{ scale: 1.1, rotate: 5 }}
                 >
@@ -250,15 +285,52 @@ const ProjectsListingPage = () => {
 
                 {/* Content */}
                 <div className="relative z-10 pl-16">
-                  <h3 className="text-xl font-bold text-white mb-2 group-hover:text-blue-300 transition-colors duration-300">
-                    {project.title}
-                  </h3>
-                  <p className="text-gray-400 text-sm leading-relaxed">
-                    {project.subtitle}
+                  <div className="flex items-center gap-4 mb-3">
+                    {project.imageUrl && (
+                      <img
+                        src={project.imageUrl}
+                        alt={project.title}
+                        className="w-16 h-16 rounded-lg object-cover border border-gray-600/50"
+                      />
+                    )}
+                    <div className="flex-1">
+                      <h3 className="text-xl font-bold text-white mb-2 group-hover:text-blue-300 transition-colors duration-300">
+                        {project.title}
+                      </h3>
+                      <div className="flex items-center gap-2 mb-2">
+                        <span className="px-3 py-1 bg-gray-700/50 rounded-lg text-sm text-gray-300">
+                          {PROJECT_CATEGORIES[project.category]?.name || project.category}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <p className="text-gray-400 text-sm leading-relaxed mb-2">
+                    {project.description}
                   </p>
-                  
+                  {project.technicalSpecs && project.technicalSpecs.length > 0 && (
+                    <div className="flex flex-wrap gap-2 mb-3">
+                      {project.technicalSpecs.slice(0, 3).map((spec, idx) => (
+                        <span key={idx} className="px-2 py-1 bg-blue-500/20 text-blue-300 rounded text-xs">
+                          {spec}
+                        </span>
+                      ))}
+                      {project.technicalSpecs.length > 3 && (
+                        <span className="text-xs text-gray-500">+{project.technicalSpecs.length - 3} more</span>
+                      )}
+                    </div>
+                  )}
+                  {project.tags && project.tags.length > 0 && (
+                    <div className="flex flex-wrap gap-2">
+                      {project.tags.slice(0, 3).map((tag, idx) => (
+                        <span key={idx} className="px-2 py-1 bg-gray-600/30 text-gray-300 rounded text-xs">
+                          #{tag}
+                        </span>
+                      ))}
+                    </div>
+                  )}
+
                   {/* Explore Arrow */}
-                  <motion.div 
+                  <motion.div
                     className="absolute right-6 top-1/2 transform -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
                     initial={{ x: 20 }}
                     animate={{ x: 0 }}
@@ -340,9 +412,10 @@ const ProjectsListingPage = () => {
         >
           <p className="text-gray-400 text-sm mb-2">
             Showing {startIndex + 1} to {Math.min(endIndex, totalProjects)} of {totalProjects} projects
+            {categoryId && ` in ${PROJECT_CATEGORIES[categoryId]?.name || categoryId}`}
           </p>
           <div className="flex justify-center items-center gap-4 text-gray-500">
-            <button 
+            <button
               onClick={() => router.back()}
               className="flex items-center gap-2 px-6 py-3 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl transition-all duration-300"
             >
@@ -354,40 +427,6 @@ const ProjectsListingPage = () => {
       </div>
     </div>
   );
-};
-
-// Dummy data generator
-const generateDummyProjects = (category, count) => {
-  const baseTitles = [
-    "Basic Circuit Design Fundamentals",
-    "Embedded Systems Integration Guide",
-    "Smart Sensor Network Implementation",
-    "Power Supply Optimization Techniques",
-    "Microcontroller Programming Essentials",
-    "Analog to Digital Conversion Projects",
-    "Wireless Communication Modules",
-    "LED Display Controller Build",
-    "Voltage Regulator Design Challenge",
-    "Capacitor Discharge Experiments"
-  ];
-  const extensions = [
-    "with Arduino Integration",
-    "Using Raspberry Pi",
-    "Advanced Simulation Model",
-    "Real-World Application Case",
-    "Step-by-Step Tutorial",
-    "Hands-On Prototype Guide",
-    "Efficiency Optimization",
-    "Troubleshooting Common Issues",
-    "Scalable Architecture Design",
-    "Future-Proof Enhancements"
-  ];
-
-  return Array.from({ length: count }, (_, i) => ({
-    id: i + 1,
-    title: `${baseTitles[i % baseTitles.length]} ${extensions[Math.floor(i / baseTitles.length) % extensions.length]}`,
-    subtitle: `A comprehensive project exploring ${category.toLowerCase()} concepts with practical implementation steps and code examples.`
-  }));
 };
 
 export default ProjectsListingPage;

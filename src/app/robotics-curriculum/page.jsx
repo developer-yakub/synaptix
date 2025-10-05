@@ -16,7 +16,7 @@
 
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
+import {
   BookOpen,
   Users,
   Award,
@@ -34,6 +34,7 @@ import {
   FileText,
   GraduationCap
 } from 'lucide-react';
+import { createInquiry } from '@/lib/adminService';
 
 const RoboticsCurriculumPage = () => {
   const [hoveredCard, setHoveredCard] = useState(null);
@@ -60,6 +61,8 @@ const RoboticsCurriculumPage = () => {
     agree: false
   });
   const [submitted, setSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitMessage, setSubmitMessage] = useState("");
 
   const provisions = [
     {
@@ -247,12 +250,70 @@ const RoboticsCurriculumPage = () => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (formData.agree) {
+    if (!formData.agree) return;
+
+    setIsSubmitting(true);
+    setSubmitMessage("");
+
+    try {
+      await createInquiry({
+        name: formData.contactPerson,
+        email: formData.email,
+        subject: `Curriculum Request - ${formData.schoolName}`,
+        message: `
+School: ${formData.schoolName}
+Contact: ${formData.contactPerson}
+Phone: ${formData.phone}
+City/State: ${formData.cityState}
+Request Types: ${formData.requestType.join(', ')}
+Grades: ${formData.allGrades ? 'All grades' : formData.grades.join(', ')}
+Mode: ${formData.mode}
+Teachers to train: ${formData.numTeachers}
+Students: ${formData.numStudents}
+Kits needed: ${formData.kits}
+Start date: ${formData.startDate}
+Duration: ${formData.duration}${formData.customDuration ? ` - ${formData.customDuration}` : ''}
+Budget: ${formData.budget}
+Lab setup: ${formData.labSetup || 'Not specified'}
+Learning goals: ${formData.learningGoals}
+Constraints: ${formData.constraints || 'None specified'}
+        `,
+        inquiryType: 'curriculum',
+        schoolName: formData.schoolName,
+        cityState: formData.cityState
+      });
+
+      setSubmitMessage("Thank you for your inquiry! We've received your curriculum request and will contact you within 48 hours.");
       setSubmitted(true);
-      // Here you would typically send the form data to a backend
-      console.log('Form submitted:', formData);
+      setFormData({
+        schoolName: '',
+        contactPerson: '',
+        email: '',
+        phone: '',
+        cityState: '',
+        requestType: [],
+        grades: [],
+        mode: '',
+        numTeachers: '',
+        numStudents: '',
+        kits: '',
+        startDate: '',
+        duration: '',
+        customDuration: '',
+        budget: '',
+        labSetup: '',
+        learningGoals: '',
+        constraints: '',
+        fileUploads: null,
+        agree: false
+      });
+    } catch (error) {
+      console.error("Error submitting curriculum inquiry:", error);
+      setSubmitMessage("Failed to submit your request. Please try again.");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -860,14 +921,33 @@ const RoboticsCurriculumPage = () => {
                 <span className="text-gray-200 text-sm">I agree to be contacted by Synaptix Robotics regarding this enquiry.</span>
               </label>
 
+              {submitMessage && (
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className={`px-4 py-3 rounded-lg text-sm ${
+                    submitMessage.includes("Thank you")
+                      ? "bg-green-500/10 border border-green-500/30 text-green-300"
+                      : "bg-red-500/10 border border-red-500/30 text-red-300"
+                  }`}
+                >
+                  {submitMessage}
+                </motion.div>
+              )}
+
               <motion.button
-                whileHover={{ scale: 1.05, backgroundColor: '#ffffff' }}
+                whileHover={{ scale: 1.05, backgroundColor: '#ffffff', disabled: isSubmitting }}
                 whileTap={{ scale: 0.95 }}
                 type="submit"
-                className="w-full py-5 bg-gradient-to-r from-white to-gray-100 text-black rounded-xl font-bold text-xl flex items-center justify-center gap-3 hover:shadow-xl transition-all duration-300"
+                disabled={isSubmitting}
+                className="w-full py-5 bg-gradient-to-r from-white to-gray-100 text-black rounded-xl font-bold text-xl flex items-center justify-center gap-3 hover:shadow-xl transition-all duration-300 disabled:bg-gray-600 disabled:text-gray-400"
               >
-                {submitted ? 'Submitted!' : 'Submit Request – School Partnership Manager will contact you'}
-                <ArrowRight className="w-6 h-6" />
+                {isSubmitting ? 'Submitting...' : submitted ? 'Submitted!' : 'Submit Request – School Partnership Manager will contact you'}
+                {isSubmitting ? (
+                  <div className="w-5 h-5 border-2 border-black border-t-transparent rounded-full animate-spin" />
+                ) : (
+                  <ArrowRight className="w-6 h-6" />
+                )}
               </motion.button>
 
               {submitted && (
@@ -911,15 +991,17 @@ const RoboticsCurriculumPage = () => {
             <p className="text-gray-200 text-xl mb-8 max-w-3xl mx-auto leading-relaxed">
               <span className="font-semibold text-white">Fill the request form below—Robotics Curriculum & Teacher Training. Our School Partnership Manager will contact you within 48 hours with a tailored proposal and quote.</span>
             </p>
-            <motion.button
-              whileHover={{ scale: 1.05, backgroundColor: '#ffffff' }}
+            <motion.a
+              whileHover={{ scale: 1.05, backgroundColor: '#f8fafc' }}
               whileTap={{ scale: 0.95 }}
-              className="px-10 py-5 bg-gradient-to-r from-white to-gray-100 text-black rounded-xl font-bold text-xl flex items-center gap-3 mx-auto hover:shadow-xl transition-all duration-300"
+              className="px-8 py-4 bg-white text-black rounded-lg font-medium text-lg flex items-center gap-3 mx-auto hover:bg-gray-50 transition-colors duration-300 shadow-sm hover:shadow-md"
+              href="https://wa.me/917893768080?text=Hi%21%20I%27m%20interested%20in%20your%20robotics%20curriculum%20services.%20Can%20we%20discuss%20my%20project%3F"
+              target="_blank"
+              rel="noopener noreferrer"
             >
-            <Phone className="w-6 h-6" />
-            Talk to Our Expert (WhatsApp)
-              <ArrowRight className="w-6 h-6" />
-            </motion.button>
+            <Phone className="w-5 h-5" />
+            Chat on WhatsApp
+            </motion.a>
           </div>
         </motion.div>
       </div>

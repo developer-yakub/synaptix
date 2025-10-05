@@ -196,20 +196,17 @@ const ProjectDetailPage = () => {
           transition={{ delay: 1.5 }}
           className="text-center"
         >
-          <a
-            href="https://wa.me/1234567890?text=Hi! I'm interested in the Basic Circuit Design Fundamentals with Arduino Integration project. Can you provide more details?"
+          <motion.a
+            whileHover={{ scale: 1.05, backgroundColor: '#f8fafc' }}
+            whileTap={{ scale: 0.95 }}
+            className="px-8 py-4 bg-white text-black rounded-lg font-medium text-lg flex items-center gap-3 mx-auto hover:bg-gray-50 transition-colors duration-300 shadow-sm hover:shadow-md"
+            href="https://wa.me/917893768080?text=Hi%21%20I%27m%20interested%20in%20your%20electrical%20and%20electronics%20projects.%20Can%20we%20discuss%20my%20project%3F"
             target="_blank"
             rel="noopener noreferrer"
           >
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="px-10 py-5 bg-green-500 hover:bg-green-600 text-white rounded-xl font-bold text-xl flex items-center gap-3 mx-auto transition-all duration-300"
-            >
-              <Phone className="w-6 h-6" />
-              Talk to Us via WhatsApp
-            </motion.button>
-          </a>
+            <Phone className="w-5 h-5" />
+            Chat on WhatsApp
+          </motion.a>
         </motion.div>
       </div>
     </div>
