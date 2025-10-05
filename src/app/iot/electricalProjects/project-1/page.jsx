@@ -6,12 +6,10 @@ import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { 
   ChevronLeft,
-  ChevronRight,
   Zap,
   Lightbulb,
   ArrowLeft,
-  Download,
-  Share2
+  Phone
 } from 'lucide-react';
 
 const ProjectDetailPage = () => {
@@ -53,49 +51,8 @@ const ProjectDetailPage = () => {
     { src: "/images/project1-1.jpg", alt: "Circuit schematic diagram" },
     { src: "/images/project1-2.jpg", alt: "Breadboard setup overview" },
     { src: "/images/project1-3.jpg", alt: "LED and button integration" },
-    { src: "/images/project1-4.jpg", alt: "Potentiometer analog input" },
-    { src: "/images/project1-5.jpg", alt: "Final assembled prototype" },
-    { src: "/images/project1-6.jpg", alt: "Arduino code snippet" }
-  ]; // Assume these images exist in public/images
-
-  const materials = [
-    { name: 'Arduino Uno', description: 'Main microcontroller board', quantity: '1 unit' },
-    { name: 'Breadboard', description: 'Prototype wiring platform', quantity: '1 pc' },
-    { name: 'Jumper Wires', description: 'Male-to-male connections', quantity: '40 pcs' },
-    { name: 'LED (Red)', description: 'Output indicator light', quantity: '5 pcs' },
-    { name: '220Ω Resistor', description: 'Current limiting for LED', quantity: '10 pcs' },
-    { name: 'Push Button', description: 'Digital input switch', quantity: '2 pcs' },
-    { name: '10kΩ Potentiometer', description: 'Analog input variable resistor', quantity: '1 pc' }
-  ];
-
-  const steps = [
-    { title: 'Gather Components', description: 'Assemble all hardware items and review the schematic diagram.' },
-    { title: 'Wire Basic LED Circuit', description: 'Connect LED and resistor to pin 13 and GND; upload blink sketch.' },
-    { title: 'Add Button Control', description: 'Wire button to pin 2 with pull-up; modify code for input reading.' },
-    { title: 'Implement Analog Input', description: 'Connect potentiometer to A0; use map() function for PWM output.' },
-    { title: 'Test and Debug', description: 'Use Serial Monitor to verify readings; adjust for stability.' },
-    { title: 'Document and Expand', description: 'Record observations and brainstorm additions like multiple LEDs.' }
-  ];
-
-  const resources = [
-    { name: 'Arduino Blink Sketch', description: 'Basic code template for LED control', type: 'Download .ino' },
-    { name: 'Circuit Schematic PDF', description: 'Detailed wiring diagram', type: 'Download PDF' },
-    { name: 'Video Walkthrough', description: 'Step-by-step assembly guide', type: 'Watch Video' },
-    { name: 'Component Datasheet', description: 'Specs for resistors and sensors', type: 'Read PDF' }
-  ];
-
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const imagesPerView = 4;
-  const totalImages = images.length;
-  const visibleImages = images.slice(currentImageIndex, currentImageIndex + imagesPerView);
-
-  const handleNextImages = () => {
-    setCurrentImageIndex((prev) => (prev + imagesPerView) % totalImages);
-  };
-
-  const handlePrevImages = () => {
-    setCurrentImageIndex((prev) => (prev - imagesPerView + totalImages) % totalImages);
-  };
+    { src: "/images/project1-4.jpg", alt: "Potentiometer analog input" }
+  ]; // Static 4 images
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -185,7 +142,7 @@ const ProjectDetailPage = () => {
           </motion.p>
         </motion.div>
 
-        {/* Image Gallery */}
+        {/* Image Gallery - Static 4 Images */}
         <motion.section
           variants={containerVariants}
           initial="hidden"
@@ -195,55 +152,25 @@ const ProjectDetailPage = () => {
           <h2 className="text-3xl font-bold mb-8 text-center bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
             Project Visuals
           </h2>
-          <div className="relative">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-              <AnimatePresence mode="wait">
-                {visibleImages.map((image, idx) => (
-                  <motion.div
-                    key={image.src}
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.9 }}
-                    transition={{ duration: 0.3 }}
-                    className="relative overflow-hidden rounded-2xl bg-gray-800/50 border border-gray-700/50 hover:border-gray-600/70 transition-all duration-300 cursor-pointer"
-                  >
-                    <Image
-                      src={image.src}
-                      alt={image.alt}
-                      width={300}
-                      height={200}
-                      className="w-full h-48 object-cover hover:scale-110 transition-transform duration-500"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
-                      <span className="text-white text-sm font-medium">View Full Image</span>
-                    </div>
-                  </motion.div>
-                ))}
-              </AnimatePresence>
-            </div>
-            {totalImages > imagesPerView && (
-              <div className="flex justify-center items-center gap-4">
-                <motion.button
-                  onClick={handlePrevImages}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="p-2 bg-white/5 hover:bg-white/10 border border-white/10 rounded-full transition-all duration-300"
-                >
-                  <ChevronLeft className="w-6 h-6 text-white/70" />
-                </motion.button>
-                <span className="text-gray-400 text-sm">
-                  {currentImageIndex + 1}-{Math.min(currentImageIndex + imagesPerView, totalImages)} of {totalImages}
-                </span>
-                <motion.button
-                  onClick={handleNextImages}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="p-2 bg-white/5 hover:bg-white/10 border border-white/10 rounded-full transition-all duration-300"
-                >
-                  <ChevronRight className="w-6 h-6 text-white/70" />
-                </motion.button>
-              </div>
-            )}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            {images.map((image, idx) => (
+              <motion.div
+                key={idx}
+                variants={itemVariants}
+                className="relative overflow-hidden rounded-2xl bg-gray-800/50 border border-gray-700/50 hover:border-gray-600/70 transition-all duration-300 cursor-pointer"
+              >
+                <Image
+                  src={image.src}
+                  alt={image.alt}
+                  width={300}
+                  height={200}
+                  className="w-full h-48 object-cover hover:scale-110 transition-transform duration-500"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
+                  <span className="text-white text-sm font-medium">View Full Image</span>
+                </div>
+              </motion.div>
+            ))}
           </div>
         </motion.section>
 
@@ -262,113 +189,27 @@ const ProjectDetailPage = () => {
           </div>
         </motion.section>
 
-        {/* Materials Section */}
-        <motion.section
-          variants={containerVariants}
-          initial="hidden"
-          animate="visible"
-          className="mb-16"
-        >
-          <h2 className="text-3xl font-bold mb-8 text-center bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
-            Required Materials
-          </h2>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {materials.map((material, idx) => (
-              <motion.div
-                key={idx}
-                variants={itemVariants}
-                className="bg-gradient-to-br from-gray-900/60 to-gray-800/60 border border-gray-700/50 rounded-2xl p-6 backdrop-blur-sm"
-              >
-                <h4 className="text-xl font-bold mb-3 text-white">{material.name}</h4>
-                <p className="text-gray-300 mb-2">{material.description}</p>
-                <span className="text-sm text-blue-400 font-medium">{material.quantity}</span>
-              </motion.div>
-            ))}
-          </div>
-        </motion.section>
-
-        {/* Steps Section */}
-        <motion.section
-          variants={containerVariants}
-          initial="hidden"
-          animate="visible"
-          className="mb-16"
-        >
-          <h2 className="text-3xl font-bold mb-8 text-center bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
-            Step-by-Step Guide
-          </h2>
-          <div className="space-y-6">
-            {steps.map((step, idx) => (
-              <motion.div
-                key={idx}
-                variants={itemVariants}
-                className="flex gap-4 p-6 bg-gradient-to-br from-gray-900/60 to-gray-800/60 border border-gray-700/50 rounded-2xl backdrop-blur-sm"
-              >
-                <div className="flex-shrink-0 w-8 h-8 bg-blue-500/20 rounded-full flex items-center justify-center mt-1">
-                  <span className="text-blue-400 font-bold text-sm">{idx + 1}</span>
-                </div>
-                <div>
-                  <h4 className="text-xl font-bold mb-2 text-white">{step.title}</h4>
-                  <p className="text-gray-300 leading-relaxed">{step.description}</p>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </motion.section>
-
-        {/* Resources Section */}
-        <motion.section
-          variants={containerVariants}
-          initial="hidden"
-          animate="visible"
-          className="mb-16"
-        >
-          <h2 className="text-3xl font-bold mb-8 text-center bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
-            Resources & Downloads
-          </h2>
-          <div className="grid md:grid-cols-2 gap-6">
-            {resources.map((resource, idx) => (
-              <motion.div
-                key={idx}
-                variants={itemVariants}
-                className="flex items-center gap-4 p-6 bg-gradient-to-br from-gray-900/60 to-gray-800/60 border border-gray-700/50 rounded-2xl backdrop-blur-sm hover:border-gray-600/70 transition-all duration-300"
-              >
-                <Download className="w-5 h-5 text-blue-400 flex-shrink-0" />
-                <div>
-                  <h4 className="font-bold text-white mb-1">{resource.name}</h4>
-                  <p className="text-gray-400 text-sm">{resource.description}</p>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </motion.section>
-
-        {/* Footer Actions */}
+        {/* WhatsApp CTA Button */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1.5 }}
           className="text-center"
         >
-          <div className="flex justify-center items-center gap-4 mb-8">
-            <motion.button
-              onClick={() => router.back()}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="flex items-center gap-2 px-6 py-3 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl transition-all duration-300"
-            >
-              <ChevronLeft className="w-4 h-4" />
-              Back to Projects
-            </motion.button>
+          <a
+            href="https://wa.me/1234567890?text=Hi! I'm interested in the Basic Circuit Design Fundamentals with Arduino Integration project. Can you provide more details?"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="flex items-center gap-2 px-6 py-3 bg-blue-500 hover:bg-blue-600 text-white rounded-xl font-semibold transition-all duration-300"
+              className="px-10 py-5 bg-green-500 hover:bg-green-600 text-white rounded-xl font-bold text-xl flex items-center gap-3 mx-auto transition-all duration-300"
             >
-              <Share2 className="w-4 h-4" />
-              Share Project
+              <Phone className="w-6 h-6" />
+              Talk to Us via WhatsApp
             </motion.button>
-          </div>
+          </a>
         </motion.div>
       </div>
     </div>
