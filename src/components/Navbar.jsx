@@ -10,35 +10,56 @@ import {
   MobileNavToggle,
   MobileNavMenu,
 } from "@/components/ui/resizable-navbar";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { BackgroundRippleEffectDemo } from "./SectionOne";
 import Link from "next/link";
+import { onAuthStateChanged, signOut } from "firebase/auth";
+import { auth } from "@/lib/firebase"; // Adjust the import path to your firebase.js location
 
 export function NavbarDemo() {
   const navItems = [
     {
       name: "Home",
-      link: "#features",
+      link: "#",
     },
     {
       name: "Services",
-      link: "#pricing",
+      link: "#services",
     },
     {
       name: "Register",
-      link: "#contact",
+      link: "#register",
     },
     {
       name: "Gallery",
-      link: "#contact",
+      link: "#gallery",
     },
     {
       name: "About us",
-      link: "#contact",
+      link: "#about",
     },
   ];
 
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  const handleLogout = async () => {
+    await signOut(auth);
+    setUser(null);
+    setIsMobileMenuOpen(false);
+  };
+
+  const getDisplayName = () => {
+    return user?.displayName || user?.email?.split('@')[0] || 'User';
+  };
 
   return (
     <div className="relative w-full">
@@ -48,12 +69,23 @@ export function NavbarDemo() {
           <NavbarLogo />
           <NavItems items={navItems} />
           <div className="flex items-center gap-4">
-            <NavbarButton variant="secondary" href="/login">
-              Login
-            </NavbarButton>
-            <NavbarButton variant="primary" href="/login">
-              Sign up
-            </NavbarButton>
+            {user ? (
+              <>
+                <span className="text-sm font-medium text-white/80">Hi {getDisplayName()}</span>
+                <NavbarButton variant="secondary" onClick={handleLogout}>
+                  Logout
+                </NavbarButton>
+              </>
+            ) : (
+              <>
+                <NavbarButton variant="secondary" href="/login">
+                  Login
+                </NavbarButton>
+                <NavbarButton variant="primary" href="/login">
+                  Sign up
+                </NavbarButton>
+              </>
+            )}
           </div>
         </NavBody>
 
@@ -82,22 +114,40 @@ export function NavbarDemo() {
               </a>
             ))}
             <div className="flex w-full flex-col gap-4">
-             <NavbarButton
-                onClick={() => setIsMobileMenuOpen(false)}
-                variant="primary"
-                className="w-full"
-                href={"/login"}
-              >
-                  Login
-              </NavbarButton>
-
-              <NavbarButton
-                onClick={() => setIsMobileMenuOpen(false)}
-                variant="primary"
-                className="w-full"
-              >
-                Book a call
-              </NavbarButton>
+              {user ? (
+                <>
+                  <div className="text-center py-2">
+                    <span className="block text-sm font-medium text-neutral-600 dark:text-neutral-300">
+                      Hi {getDisplayName()}
+                    </span>
+                  </div>
+                  <NavbarButton
+                    onClick={handleLogout}
+                    variant="secondary"
+                    className="w-full"
+                  >
+                    Logout
+                  </NavbarButton>
+                </>
+              ) : (
+                <>
+                  <NavbarButton
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    variant="primary"
+                    className="w-full"
+                    href={"/login"}
+                  >
+                    Login
+                  </NavbarButton>
+                  <NavbarButton
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    variant="primary"
+                    className="w-full"
+                  >
+                    Book a call
+                  </NavbarButton>
+                </>
+              )}
             </div>
           </MobileNavMenu>
         </MobileNav>
@@ -115,4 +165,3 @@ const DummyContent = () => {
     </div>
   );
 };
-

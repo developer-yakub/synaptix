@@ -16,13 +16,23 @@ const page = () => {
   return (
     <div className="">
       <div className="relative bottom-13">
+        <div id="#">
         <NavbarDemo />
+        </div>
+        <div id="services">
         <BackgroundBeamsDemo />
+        </div>
+        <div id="register">
         <SynaptixLanding />
+        </div>
+        <div id="gallery">
         <SynaptixGallery />
+        </div>
         <IdeasSection />
         <CustomizeSection />
+        <div id="about">
         <About />
+        </div>
         <Contact />
         <Footer />
       </div>

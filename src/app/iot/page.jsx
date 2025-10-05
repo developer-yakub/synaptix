@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useRouter } from 'next/navigation';
 import { 
   Lightbulb, 
   Zap, 
@@ -18,6 +19,7 @@ import {
 } from 'lucide-react';
 
 const IotPortalPage = () => {
+  const router = useRouter();
   const [hoveredCard, setHoveredCard] = useState(null);
 
   const categories = [
@@ -32,7 +34,8 @@ const IotPortalPage = () => {
       ],
       highlight: "Ideal for students looking to strengthen their fundamentals.",
       color: "from-blue-500/20 to-cyan-500/20",
-      iconColor: "text-blue-400"
+      iconColor: "text-blue-400",
+      path: "/iot/electricalProjects"
     },
     {
       id: 2,
@@ -45,7 +48,8 @@ const IotPortalPage = () => {
       ],
       highlight: "Perfect for schools, startups, and industries seeking smart solutions.",
       color: "from-purple-500/20 to-pink-500/20",
-      iconColor: "text-purple-400"
+      iconColor: "text-purple-400",
+      path: "/iot/iotProjects"
     },
     {
       id: 3,
@@ -58,7 +62,8 @@ const IotPortalPage = () => {
       ],
       highlight: "Perfect for learners who want to combine coding with real-world impact.",
       color: "from-green-500/20 to-emerald-500/20",
-      iconColor: "text-green-400"
+      iconColor: "text-green-400",
+      path: "/iot/webProjects"
     },
     {
       id: 4,
@@ -71,7 +76,8 @@ const IotPortalPage = () => {
       ],
       highlight: "Great for research students and institutions validating ideas.",
       color: "from-orange-500/20 to-red-500/20",
-      iconColor: "text-orange-400"
+      iconColor: "text-orange-400",
+      path: "/iot/simulationProjects"
     },
     {
       id: 5,
@@ -84,7 +90,8 @@ const IotPortalPage = () => {
       ],
       highlight: "Tailored for innovators passionate about green energy & electric mobility.",
       color: "from-yellow-500/20 to-amber-500/20",
-      iconColor: "text-yellow-400"
+      iconColor: "text-yellow-400",
+      path: "/iot/evProjects"
     }
   ];
 
@@ -124,6 +131,10 @@ const IotPortalPage = () => {
         delay: 0.1
       }
     }
+  };
+
+  const handleCardClick = (path) => {
+    router.push(path);
   };
 
   return (
@@ -296,6 +307,7 @@ const IotPortalPage = () => {
                 <motion.div
                   whileHover={{ scale: 1.03, y: -10, rotateY: 5 }}
                   transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                  onClick={() => handleCardClick(category.path)}
                   className="relative h-full bg-gradient-to-br from-gray-900/80 via-gray-800/60 to-gray-900/80 border border-gray-700/60 rounded-3xl p-8 cursor-pointer overflow-hidden backdrop-blur-sm"
                 >
                   {/* Enhanced Gradient Overlay */}
