@@ -994,8 +994,8 @@ Constraints: ${formData.constraints || 'None specified'}
             <motion.a
               whileHover={{ scale: 1.05, backgroundColor: '#f8fafc' }}
               whileTap={{ scale: 0.95 }}
-              className="px-8 py-4 bg-white text-black rounded-lg font-medium text-lg flex items-center gap-3 mx-auto hover:bg-gray-50 transition-colors duration-300 shadow-sm hover:shadow-md"
-              href="https://wa.me/917893768080?text=Hi%21%20I%27m%20interested%20in%20your%20robotics%20curriculum%20services.%20Can%20we%20discuss%20my%20project%3F"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-green-600 text-white rounded-lg font-medium text-sm hover:bg-green-700 transition-all duration-200 shadow-lg hover:shadow-xl"
+              href="https://wa.me/917893768080?text=Hi%21%20I%27m%20interested%20in%20getting%20the%20Robotics%20Curriculum%20for%20my%20school%2Finstitution.%20Can%20we%20discuss%20the%20implementation%20details%3F"
               target="_blank"
               rel="noopener noreferrer"
             >

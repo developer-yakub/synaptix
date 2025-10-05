@@ -17,11 +17,10 @@ service cloud.firestore {
       return isAuthenticated() && request.auth.uid == userId;
     }
 
-    // Users collection - allow users to read/write their own data, admins can read/write all
+    // Users collection - allow users to read/update their own data, admins can read/update all
     match /users/{userId} {
       allow read: if isAuthenticated() && (isOwner(userId) || isAdmin());
-      allow write: if isAuthenticated() && (isOwner(userId) || (isAdmin() && resource == null) ||
-                   (isAdmin() && request.resource.data.role == resource.data.role));
+      allow write: if isAuthenticated() && (isOwner(userId) || isAdmin());
       allow create: if isAuthenticated();
     }
 
