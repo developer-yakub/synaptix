@@ -1,17 +1,3 @@
-// import { TimelineDemo } from "@/components/TimelineDemo";
-// import { WorldMapDemo } from "@/components/WorldMapDemo";
-// import React from "react";
-
-// const page = () => {
-//   return (
-//     <div>
-//       <TimelineDemo />
-//     </div>
-//   );
-// };
-
-// export default page;
-
 'use client';
 
 import React, { useState } from 'react';
@@ -898,17 +884,6 @@ Constraints: ${formData.constraints || 'None specified'}
                 />
               </div>
 
-              <div>
-                <label className="block text-sm font-semibold mb-3 text-gray-200">Upload any relevant documents (optional)—school brochure, lab photos, student lists (pdf/jpg)</label>
-                <input
-                  type="file"
-                  name="fileUploads"
-                  multiple
-                  onChange={handleInputChange}
-                  className="w-full p-4 bg-gray-800/80 border border-gray-600/50 rounded-xl text-white file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-gray-700 file:text-gray-200 hover:file:bg-gray-600 transition-all duration-300"
-                />
-              </div>
-
               <label className="flex items-center gap-3 p-4 bg-gray-800/60 border border-gray-700/50 rounded-xl hover:border-gray-600/70 transition-all duration-300">
                 <input
                   type="checkbox"
@@ -995,7 +970,7 @@ Constraints: ${formData.constraints || 'None specified'}
               whileHover={{ scale: 1.05, backgroundColor: '#f8fafc' }}
               whileTap={{ scale: 0.95 }}
               className="inline-flex items-center gap-2 px-6 py-3 bg-green-600 text-white rounded-lg font-medium text-sm hover:bg-green-700 transition-all duration-200 shadow-lg hover:shadow-xl"
-              href="https://wa.me/917893768080?text=Hi%21%20I%27m%20interested%20in%20getting%20the%20Robotics%20Curriculum%20for%20my%20school%2Finstitution.%20Can%20we%20discuss%20the%20implementation%20details%3F"
+              href="https://wa.me/9390404787?text=Hi%21%20I%27m%20interested%20in%20getting%20the%20Robotics%20Curriculum%20for%20my%20school%2Finstitution.%20Can%20we%20discuss%20the%20implementation%20details%3F"
               target="_blank"
               rel="noopener noreferrer"
             >

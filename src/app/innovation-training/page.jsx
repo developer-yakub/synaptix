@@ -608,33 +608,6 @@ const InnovationSupportPage = () => {
                   <option value="no">No – project will be independent</option>
                 </select>
               </div>
-
-              <div>
-                <label className="block text-sm font-semibold mb-3 text-gray-200">Project PDF (required)</label>
-                <input
-                  type="file"
-                  name="projectPdf"
-                  accept=".pdf"
-                  onChange={handleInputChange}
-                  className="w-full p-4 bg-gray-800/80 border border-gray-600/50 rounded-xl text-white file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-gray-700 file:text-gray-200 hover:file:bg-gray-600 transition-all duration-300"
-                />
-                <p className="text-gray-400 text-sm mt-2">Max file size: 20 MB</p>
-                <p className="text-gray-400 text-sm">Make sure the PDF contains the items from 'What to Include' above.</p>
-              </div>
-
-              <div>
-                <label className="block text-sm font-semibold mb-3 text-gray-200">Additional Files (STL, images, code repo, video links – suggest using Google Drive/WeTransfer if large)</label>
-                <input
-                  type="file"
-                  name="additionalFiles"
-                  multiple
-                  accept=".stl,.zip,.jpg,.png,.mp4,.link"
-                  onChange={handleInputChange}
-                  className="w-full p-4 bg-gray-800/80 border border-gray-600/50 rounded-xl text-white file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-gray-700 file:text-gray-200 hover:file:bg-gray-600 transition-all duration-300"
-                />
-                <p className="text-gray-400 text-sm mt-2">Accepted types: stl, zip, jpg/png, mp4, link – Max combined: 100 MB (or supply external link).</p>
-              </div>
-
               <div>
                 <label className="block text-sm font-semibold mb-3 text-gray-200">Any additional notes / special requests</label>
                 <textarea
@@ -759,7 +732,7 @@ const InnovationSupportPage = () => {
               whileHover={{ scale: 1.05, backgroundColor: '#f8fafc' }}
               whileTap={{ scale: 0.95 }}
               className="px-8 py-4 bg-white text-black rounded-lg font-medium text-lg flex items-center gap-3 mx-auto hover:bg-gray-50 transition-colors duration-300 shadow-sm hover:shadow-md"
-              href="https://wa.me/917893768080?text=Hi%21%20I%27m%20interested%20in%20your%20innovation%20support%20services.%20Can%20we%20discuss%20my%20project%3F"
+              href="https://wa.me/9390404787?text=Hi%21%20I%27m%20interested%20in%20your%20innovation%20support%20services.%20Can%20we%20discuss%20my%20project%3F"
               target="_blank"
               rel="noopener noreferrer"
             >

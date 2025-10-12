@@ -705,17 +705,6 @@ const WorkshopsHackathonsPage = () => {
                 </div>
               </div>
 
-              {/* Enhanced File Uploads */}
-              <div>
-                <label className="block text-sm font-semibold mb-3 text-gray-200">Post-event mentorship (proposal/winners doc/student list)</label>
-                <input
-                  type="file"
-                  name="fileUploads"
-                  onChange={handleInputChange}
-                  className="w-full p-4 bg-gray-800/80 border border-gray-600/50 rounded-xl text-white file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-gray-700 file:text-gray-200 hover:file:bg-gray-600 transition-all duration-300"
-                />
-              </div>
-
               <label className="flex items-center gap-3 p-4 bg-gray-800/60 border border-gray-700/50 rounded-xl hover:border-gray-600/70 transition-all duration-300">
                 <input
                   type="checkbox"
@@ -784,7 +773,7 @@ const WorkshopsHackathonsPage = () => {
               whileHover={{ scale: 1.05, backgroundColor: '#f8fafc' }}
               whileTap={{ scale: 0.95 }}
               className="px-8 py-4 bg-white text-black rounded-lg font-medium text-lg flex items-center gap-3 mx-auto hover:bg-gray-50 transition-colors duration-300 shadow-sm hover:shadow-md"
-              href="https://wa.me/917893768080?text=Hi%21%20I%27m%20interested%20in%20your%20workshops%20and%20hackathons%20services.%20Can%20we%20discuss%20my%20project%3F"
+              href="https://wa.me/9390404787?text=Hi%21%20I%27m%20interested%20in%20your%20workshops%20and%20hackathons%20services.%20Can%20we%20discuss%20my%20project%3F"
               target="_blank"
               rel="noopener noreferrer"
             >
