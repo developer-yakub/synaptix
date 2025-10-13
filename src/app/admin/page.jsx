@@ -59,10 +59,89 @@ import {
   Lightbulb,
   Sparkles,
   ArrowRight,
-  ChevronRight
+  ChevronRight,
+  CpuIcon
 } from 'lucide-react';
 
 const AdminPanel = () => {
+  // new variables for stem kits :
+// Add these new state variables at the top of the component (kit-specific to avoid overlap)
+const [kits, setKits] = useState([]); // Mock data or load as needed
+const [showKitModal, setShowKitModal] = useState(false);
+const [editingKit, setEditingKit] = useState(null);
+const [kitFormData, setKitFormData] = useState({
+  title: '',
+  description: '',
+  image: null
+});
+const [isCreatingKit, setIsCreatingKit] = useState(false);
+const [isUpdatingKit, setIsUpdatingKit] = useState(false);
+
+
+
+// Updated handler functions (only handleUpdateKit needs the fix)
+const handleCreateKit = async (e) => {
+  e.preventDefault();
+  if (isCreatingKit) return;
+  setIsCreatingKit(true);
+  try {
+    const newKit = {
+      id: Date.now(),
+      title: kitFormData.title,
+      description: kitFormData.description,
+      imageUrl: kitFormData.image ? URL.createObjectURL(kitFormData.image) : null, // Mock image URL
+      status: 'active'
+    };
+    setKits([...kits, newKit]);
+    setShowKitModal(false);
+    resetKitForm();
+  } catch (error) {
+    console.error('Error creating kit:', error);
+  } finally {
+    setIsCreatingKit(false);
+  }
+};
+
+const handleUpdateKit = async (e) => {
+  e.preventDefault();
+  if (isUpdatingKit || !editingKit) return;
+  setIsUpdatingKit(true);
+  try {
+    setKits(kits.map(kit => 
+      kit.id === editingKit.id 
+        ? { ...kit, title: kitFormData.title, description: kitFormData.description, imageUrl: kitFormData.image ? URL.createObjectURL(kitFormData.image) : kit.imageUrl }
+        : kit
+    ));
+    setEditingKit(null);
+    resetKitForm();
+    setShowKitModal(false); // This line closes the modal after update
+  } catch (error) {
+    console.error('Error updating kit:', error);
+  } finally {
+    setIsUpdatingKit(false);
+  }
+};
+
+const handleDeleteKit = (kitId) => {
+  if (!confirm('Are you sure you want to delete this kit?')) return;
+  setKits(kits.filter(kit => kit.id !== kitId));
+};
+
+const openEditKitModal = (kit) => {
+  setEditingKit(kit);
+  setKitFormData({
+    title: kit.title,
+    description: kit.description,
+    image: null
+  });
+  setShowKitModal(true);
+};
+
+const resetKitForm = () => {
+  setKitFormData({ title: '', description: '', image: null });
+};
+
+// new variables of stem kits ends here
   const router = useRouter();
   const [sidebarOpen, setSidebarOpen] = useState(true); // Start open for desktop
   const [activeTab, setActiveTab] = useState('dashboard');
@@ -570,7 +649,8 @@ const AdminPanel = () => {
     { id: 'projects', label: 'Projects', icon: FileText },
     { id: 'inquiries', label: 'Inquiries', icon: Mail },
     { id: 'users', label: 'Users', icon: Users },
-    { id: 'analytics', label: 'Analytics', icon: BarChart3 }
+    { id: 'analytics', label: 'Analytics', icon: BarChart3 },
+    { id: 'Kits', label: 'Stem Kits', icon: CpuIcon }
   ];
 
   const containerVariants = {
@@ -2038,6 +2118,158 @@ const AdminPanel = () => {
               </motion.div>
             )}
 
+              {/* Stem kits tab */}
+          {activeTab === 'Kits' && (
+                      <motion.div
+    variants={containerVariants}
+    initial="hidden"
+    animate="visible"
+    className="space-y-8"
+  >
+    {/* Kits Stats */}
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <motion.div
+        variants={itemVariants}
+        whileHover={{ scale: 1.02, y: -5 }}
+        className="relative bg-gradient-to-br from-gray-900/80 via-gray-800/60 to-gray-900/80 border border-gray-700/60 rounded-2xl p-6 backdrop-blur-sm overflow-hidden"
+      >
+        <div className="absolute inset-0 bg-gradient-to-br from-purple-500/20 to-pink-500/20 opacity-0 hover:opacity-20 transition-opacity duration-500"></div>
+        <div className="relative z-10">
+          <div className="flex items-center justify-start mb-4">
+            <div className="p-3 bg-gradient-to-br from-gray-800/80 to-gray-700/80 rounded-xl border border-gray-600/50">
+              <CpuIcon className="w-6 h-6 text-purple-400" />
+            </div>
+          </div>
+          <h3 className="text-2xl font-bold text-white mb-1">{kits.length}</h3>
+          <p className="text-gray-400 text-sm">Total Kits</p>
+        </div>
+      </motion.div>
+
+      {/* Additional stats cards can be added here if needed */}
+      <motion.div
+        variants={itemVariants}
+        whileHover={{ scale: 1.02, y: -5 }}
+        className="relative bg-gradient-to-br from-gray-900/80 via-gray-800/60 to-gray-900/80 border border-gray-700/60 rounded-2xl p-6 backdrop-blur-sm overflow-hidden"
+      >
+        <div className="absolute inset-0 bg-gradient-to-br from-green-500/20 to-emerald-500/20 opacity-0 hover:opacity-20 transition-opacity duration-500"></div>
+        <div className="relative z-10">
+          <div className="flex items-center justify-start mb-4">
+            <div className="p-3 bg-gradient-to-br from-gray-800/80 to-gray-700/80 rounded-xl border border-gray-600/50">
+              <Activity className="w-6 h-6 text-green-400" />
+            </div>
+          </div>
+          <h3 className="text-2xl font-bold text-white mb-1">
+            {kits.filter(kit => kit.status === 'active').length}
+          </h3>
+          <p className="text-gray-400 text-sm">Active Kits</p>
+        </div>
+      </motion.div>
+    </div>
+
+    {/* Kits Management Table */}
+    <motion.div
+      variants={itemVariants}
+      className="bg-gradient-to-br from-gray-900/80 via-gray-800/60 to-gray-900/80 border border-gray-700/60 rounded-2xl backdrop-blur-sm overflow-hidden"
+    >
+      <div className="p-6 border-b border-gray-700/50">
+        <div className="flex items-center justify-between">
+          <div>
+            <h3 className="text-xl font-bold text-white mb-1">STEM Kits Management</h3>
+            <p className="text-gray-400">Manage and add new STEM kits/products</p>
+          </div>
+          <div className="flex items-center gap-3">
+            <motion.button
+              onClick={() => setShowKitModal(true)}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-yellow-400 to-orange-500 text-black rounded-xl font-medium hover:shadow-lg transition-all"
+            >
+              <Plus className="w-4 h-4" />
+              Add Product
+            </motion.button>
+          </div>
+        </div>
+      </div>
+
+      <div className="overflow-x-auto">
+        <table className="w-full">
+          <thead className="bg-gray-800/40">
+            <tr>
+              <th className="text-left p-4 text-gray-300 font-medium">Sl. No</th>
+              <th className="text-left p-4 text-gray-300 font-medium">Title</th>
+              <th className="text-left p-4 text-gray-300 font-medium">Description</th>
+              <th className="text-left p-4 text-gray-300 font-medium">Image</th>
+              <th className="text-left p-4 text-gray-300 font-medium">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {kits.length > 0 ? kits.map((kit, index) => (
+              <motion.tr
+                key={kit.id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.1 * index }}
+                className="border-t border-gray-700/30 hover:bg-gray-800/30 transition-colors"
+              >
+                <td className="p-4">
+                  <span className="text-gray-300 font-medium">{index + 1}</span>
+                </td>
+                <td className="p-4">
+                  <div className="font-medium text-white">{kit.title}</div>
+                </td>
+                <td className="p-4">
+                  <div className="text-sm text-gray-400 line-clamp-2 max-w-xs">{kit.description}</div>
+                </td>
+                <td className="p-4">
+                  {kit.imageUrl ? (
+                    <img
+                      src={kit.imageUrl}
+                      alt={kit.title}
+                      className="w-12 h-12 rounded-lg object-cover"
+                    />
+                  ) : (
+                    <div className="w-12 h-12 rounded-lg bg-gradient-to-r from-gray-700/50 to-gray-600/50 flex items-center justify-center">
+                      <CpuIcon className="w-6 h-6 text-gray-400" />
+                    </div>
+                  )}
+                </td>
+                <td className="p-4">
+                  <div className="flex items-center gap-2">
+                    <motion.button
+                      onClick={() => openEditKitModal(kit)}
+                      whileHover={{ scale: 1.1 }}
+                      whileTap={{ scale: 0.9 }}
+                      className="p-2 text-gray-400 hover:text-yellow-400 transition-colors"
+                      title="Edit Kit"
+                    >
+                      <Edit className="w-4 h-4" />
+                    </motion.button>
+                    <motion.button
+                      onClick={() => handleDeleteKit(kit.id)}
+                      whileHover={{ scale: 1.1 }}
+                      whileTap={{ scale: 0.9 }}
+                      className="p-2 text-gray-400 hover:text-red-400 transition-colors"
+                      title="Delete Kit"
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </motion.button>
+                  </div>
+                </td>
+              </motion.tr>
+            )) : (
+              <tr>
+                <td colSpan="5" className="text-center py-8 text-gray-400">
+                  No kits found. Click "Add Product" to create your first kit.
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      </div>
+    </motion.div>
+                      </motion.div>
+              )}
+
 
           </main>
         </div>
@@ -2663,8 +2895,108 @@ const AdminPanel = () => {
           </motion.div>
         )}
       </AnimatePresence>
+
+        {/* Added animations for stem kits */}
+
+        {/* Add/Edit Kit Modal (place it outside the tab conditional, similar to the project modal) */}
+<AnimatePresence>
+  {showKitModal && (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+      onClick={(e) => { if (e.target === e.currentTarget) { setShowKitModal(false); setEditingKit(null); resetKitForm(); } }}
+    >
+      <motion.div
+        initial={{ scale: 0.9, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        exit={{ scale: 0.9, opacity: 0 }}
+        className="bg-gradient-to-br from-gray-900/90 via-gray-800/80 to-gray-900/90 border border-gray-700/60 rounded-2xl p-6 w-full max-w-md max-h-[90vh] overflow-y-auto backdrop-blur-sm"
+      >
+        <div className="flex items-center justify-between mb-6">
+          <h3 className="text-xl font-bold text-white">
+            {editingKit ? 'Edit Kit' : 'Add New Product'}
+          </h3>
+          <motion.button
+            onClick={() => { setShowKitModal(false); setEditingKit(null); resetKitForm(); }}
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            className="p-2 bg-gray-800/60 border border-gray-600/50 rounded-xl hover:bg-gray-700/60 transition-colors"
+          >
+            <X className="w-5 h-5" />
+          </motion.button>
+        </div>
+
+        <form onSubmit={editingKit ? handleUpdateKit : handleCreateKit} className="space-y-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-300 mb-2">Title *</label>
+            <input
+              type="text"
+              value={kitFormData.title}
+              onChange={(e) => setKitFormData({ ...kitFormData, title: e.target.value })}
+              className="w-full px-4 py-3 bg-gray-800/60 border border-gray-600/50 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:border-yellow-400/70 transition-colors"
+              placeholder="Enter kit title"
+              required
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-300 mb-2">Description *</label>
+            <textarea
+              value={kitFormData.description}
+              onChange={(e) => setKitFormData({ ...kitFormData, description: e.target.value })}
+              className="w-full px-4 py-3 bg-gray-800/60 border border-gray-600/50 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:border-yellow-400/70 transition-colors resize-none"
+              placeholder="Enter kit description"
+              rows={4}
+              required
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-300 mb-2">Image</label>
+            <input
+              type="file"
+              accept="image/*"
+              onChange={(e) => setKitFormData({ ...kitFormData, image: e.target.files?.[0] || null })}
+              className="w-full px-4 py-3 bg-gray-800/60 border border-gray-600/50 rounded-xl text-white file:bg-yellow-400/20 file:text-yellow-400 file:border-0 file:rounded-lg file:px-3 file:py-1 file:mr-3 hover:file:bg-yellow-400/30 transition-colors"
+            />
+            {editingKit?.imageUrl && !kitFormData.image && (
+              <img src={editingKit.imageUrl} alt="Current image" className="w-20 h-20 rounded-lg object-cover mt-2" />
+            )}
+          </div>
+
+          <div className="flex gap-4 pt-4">
+            <motion.button
+              type="button"
+              onClick={() => { setShowKitModal(false); setEditingKit(null); resetKitForm(); }}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              disabled={isCreatingKit || isUpdatingKit}
+              className="flex-1 px-6 py-3 rounded-xl font-medium transition-all bg-gray-800/60 border border-gray-600/50 text-gray-300 hover:text-white hover:bg-gray-700/60"
+            >
+              Cancel
+            </motion.button>
+            <motion.button
+              type="submit"
+              whileHover={(isCreatingKit || isUpdatingKit) ? {} : { scale: 1.02 }}
+              whileTap={(isCreatingKit || isUpdatingKit) ? {} : { scale: 0.98 }}
+              disabled={isCreatingKit || isUpdatingKit}
+              className="flex-1 px-6 py-3 rounded-xl font-medium transition-all flex items-center justify-center gap-2 bg-gradient-to-r from-yellow-400 to-orange-500 text-black hover:shadow-lg"
+            >
+              {(isCreatingKit || isUpdatingKit) && <div className="w-4 h-4 border border-current border-t-transparent rounded-full animate-spin" />}
+              {editingKit ? (isUpdatingKit ? 'Updating...' : 'Update Kit') : (isCreatingKit ? 'Creating...' : 'Add Product')}
+            </motion.button>
+          </div>
+        </form>
+      </motion.div>
+    </motion.div>
+  )}
+</AnimatePresence>
     </div>
   );
 };
 
 export default AdminPanel;
+
+
