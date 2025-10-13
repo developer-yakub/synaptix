@@ -37,42 +37,9 @@ const STEMKitsTrainersPage = () => {
   const [kits, setKits] = useState([]);
 
   // Mock data (temporarily added; will be replaced by Firebase data when available)
-  const mockKits = [
-    {
-      id: 1,
-      title: "Electronics & IoT Starter Kit",
-      description: "Complete learning package for electronics fundamentals and IoT applications. Includes Arduino, sensors, and step-by-step modules.",
-      imageUrl: "/api/placeholder/400/300" // Replace with actual image URLs later
-    },
-    {
-      id: 2,
-      title: "Renewable Energy Exploration Kit",
-      description: "Hands-on kit for understanding solar and wind energy. Features solar panels, wind turbine components, and energy monitoring tools.",
-      imageUrl: "/api/placeholder/400/300"
-    },
-    {
-      id: 3,
-      title: "Robotics & Automation Builder Kit",
-      description: "Comprehensive robotics kit for building autonomous systems. Includes motor controllers, sensors, and programming interfaces.",
-      imageUrl: "/api/placeholder/400/300"
-    },
-    {
-      id: 4,
-      title: "STEM Competition Advanced Kit",
-      description: "Competition-grade components for advanced projects. Features sensor arrays, mechanical parts, and professional documentation.",
-      imageUrl: "/api/placeholder/400/300"
-    }
-  ];
 
-  // Fetch kits on mount (Firebase data will override mock data)
-  useEffect(() => {
-    const q = query(collection(db, 'kits'), orderBy('createdAt', 'desc'));
-    const unsubscribe = onSnapshot(q, (snapshot) => {
-      const kitsData = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
-      setKits(kitsData.length > 0 ? kitsData : mockKits); // Use mock if no real data
-    });
-    return () => unsubscribe();
-  }, []);
+
+
 
   const trainers = [
     {
