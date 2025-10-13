@@ -3090,7 +3090,6 @@ const resetKitForm = () => {
 
         {/* Add/Edit Kit Modal (place it outside the tab conditional, similar to the project modal) */}
 
-        // Add this modal JSX (place outside the return, after all useEffects, wrapped in AnimatePresence like other modals)
 <AnimatePresence>
   {showKitModal && (
     <motion.div
