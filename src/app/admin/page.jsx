@@ -68,6 +68,7 @@ import {
   collection,
   addDoc,
   getDocs,
+  getDoc,
   doc,
   updateDoc,
   deleteDoc,
@@ -86,13 +87,12 @@ import {
   getDownloadURL,
   deleteObject
 } from 'firebase/storage';
-import { storage } from '@/lib/firebase'; // Ensure storage is exported from your firebase config
+import { storage, db } from '@/lib/firebase'; // Ensure storage and db are exported from your firebase config
 
 
 const AdminPanel = () => {
   // new variables for stem kits :
-
-const [kits, setKits] = useState([]); // Mock data or load as needed
+const [kits, setKits] = useState([]);
 const [showKitModal, setShowKitModal] = useState(false);
 const [editingKit, setEditingKit] = useState(null);
 const [kitFormData, setKitFormData] = useState({
@@ -108,206 +108,13 @@ const [isUpdatingKit, setIsUpdatingKit] = useState(false);
 // Updated handler functions (only handleUpdateKit needs the fix)
 
 
-// added new variables for backend 
+// added new variables for backend
 
 // Add this inside the AdminPanel component, after existing states
 const KIT_STATUS = {
   ACTIVE: 'active',
   INACTIVE: 'inactive',
   DRAFT: 'draft'
-};
-
-// Native Firebase functions for kits (define inside component)
-const getKits = async (filters = null, limitVal = null) => {
-  try {
-    let q = query(collection(db, 'kits'), orderBy('createdAt', 'desc'));
-
-    if (filters) {
-      Object.entries(filters).forEach(([key, value]) => {
-        q = query(q, where(key, '==', value));
-      });
-    }
-
-    if (limitVal) {
-      q = query(q, limit(limitVal));
-    }
-
-    const querySnapshot = await getDocs(q);
-    return querySnapshot.docs.map(d => ({ id: d.id, ...d.data() }));
-  } catch (error) {
-    console.error('Error fetching kits:', error);
-    throw error;
-  }
-};
-
-const createKit = async (kitData, imageFile = null) => {
-  try {
-    const newKit = {
-      ...kitData,
-      status: KIT_STATUS.ACTIVE,
-      createdAt: serverTimestamp(),
-      updatedAt: serverTimestamp()
-    };
-
-    let imageUrl = null;
-    if (imageFile) {
-      const storageRef = ref(storage, `kits/${Date.now()}_${imageFile.name}`);
-      await uploadBytes(storageRef, imageFile);
-      imageUrl = await getDownloadURL(storageRef);
-      newKit.imageUrl = imageUrl;
-    }
-
-    const docRef = await addDoc(collection(db, 'kits'), newKit);
-    return { id: docRef.id, ...newKit };
-  } catch (error) {
-    console.error('Error creating kit:', error);
-    throw error;
-  }
-};
-
-const updateKit = async (kitId, kitData, newImageFile = null) => {
-  try {
-    const kitRef = doc(db, 'kits', kitId);
-    const existingSnapshot = await getDocs(query(doc(db, 'kits', kitId)));
-    const existingKit = existingSnapshot.docs[0]?.data();
-
-    let imageUrl = existingKit?.imageUrl;
-    if (newImageFile) {
-      if (existingKit?.imageUrl) {
-        try {
-          const oldImageRef = ref(storage, existingKit.imageUrl);
-          await deleteObject(oldImageRef);
-        } catch (err) {
-          console.error('Error deleting old image:', err);
-        }
-      }
-
-      const storageRef = ref(storage, `kits/${Date.now()}_${newImageFile.name}`);
-      await uploadBytes(storageRef, newImageFile);
-      imageUrl = await getDownloadURL(storageRef);
-    }
-
-    const updateData = {
-      ...kitData,
-      imageUrl,
-      updatedAt: serverTimestamp()
-    };
-
-    await updateDoc(kitRef, updateData);
-    return { id: kitId, ...updateData };
-  } catch (error) {
-    console.error('Error updating kit:', error);
-    throw error;
-  }
-};
-
-const deleteKit = async (kitId) => {
-  try {
-    const kitSnapshot = await getDocs(query(doc(db, 'kits', kitId)));
-    const kitData = kitSnapshot.docs[0]?.data();
-
-    if (kitData?.imageUrl) {
-      try {
-        const imageRef = ref(storage, kitData.imageUrl);
-        await deleteObject(imageRef);
-      } catch (err) {
-        console.error('Error deleting image:', err);
-      }
-    }
-
-    await deleteDoc(doc(db, 'kits', kitId));
-  } catch (error) {
-    console.error('Error deleting kit:', error);
-    throw error;
-  }
-};
-
-const subscribeToKits = (callback) => {
-  const q = query(collection(db, 'kits'), orderBy('createdAt', 'desc'));
-  return onSnapshot(q, (snapshot) => {
-    const kitsData = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
-    callback(kitsData);
-  });
-};
-
-// Add this useEffect for loading kits (place after existing useEffects)
-// useEffect(() => {
-//   if (!isAdmin || activeTab !== 'Kits') return;
-
-//   const loadKits = async () => {
-//     try {
-//       const kitsData = await getKits();
-//       setKits(kitsData);
-//     } catch (error) {
-//       console.error('Error loading kits:', error);
-//     }
-//   };
-
-//   loadKits();
-
-//   const unsubscribe = subscribeToKits((updatedKits) => {
-//     setKits(updatedKits);
-//   });
-
-//   return () => unsubscribe();
-// }, [isAdmin, activeTab]);
-
-// Some new handlers 
-// Updated kit handlers (replace existing mock handlers)
-const handleCreateKit = async (e) => {
-  e.preventDefault();
-  if (isCreatingKit) return;
-  setIsCreatingKit(true);
-  try {
-    await createKit(
-      {
-        title: kitFormData.title,
-        description: kitFormData.description,
-      },
-      kitFormData.image
-    );
-    setShowKitModal(false);
-    resetKitForm();
-  } catch (error) {
-    console.error('Error creating kit:', error);
-    alert('Failed to create kit. Please try again.');
-  } finally {
-    setIsCreatingKit(false);
-  }
-};
-
-const handleUpdateKit = async (e) => {
-  e.preventDefault();
-  if (isUpdatingKit || !editingKit) return;
-  setIsUpdatingKit(true);
-  try {
-    await updateKit(
-      editingKit.id,
-      {
-        title: kitFormData.title,
-        description: kitFormData.description,
-      },
-      kitFormData.image
-    );
-    setEditingKit(null);
-    resetKitForm();
-    setShowKitModal(false);
-  } catch (error) {
-    console.error('Error updating kit:', error);
-    alert('Failed to update kit. Please try again.');
-  } finally {
-    setIsUpdatingKit(false);
-  }
-};
-
-const handleDeleteKit = async (kitId) => {
-  if (!confirm('Are you sure you want to delete this kit?')) return;
-  try {
-    await deleteKit(kitId);
-  } catch (error) {
-    console.error('Error deleting kit:', error);
-    alert('Failed to delete kit. Please try again.');
-  }
 };
 
 const openEditKitModal = (kit) => {
@@ -324,14 +131,127 @@ const resetKitForm = () => {
   setKitFormData({ title: '', description: '', image: null });
 };
 
+// Kit handler functions
+const handleCreateKit = async (e) => {
+  e.preventDefault();
+  if (isCreatingKit) return;
 
+  setIsCreatingKit(true);
+  try {
+    let imageUrl = null;
 
+    // Upload image if provided
+    if (kitFormData.image) {
+      const imageRef = ref(storage, `kits/${Date.now()}_${kitFormData.image.name}`);
+      const snapshot = await uploadBytes(imageRef, kitFormData.image);
+      imageUrl = await getDownloadURL(snapshot.ref);
+    }
 
+    // Add kit to Firestore
+    await addDoc(collection(db, 'kits'), {
+      title: kitFormData.title,
+      description: kitFormData.description,
+      imageUrl,
+      status: KIT_STATUS.ACTIVE,
+      createdAt: serverTimestamp(),
+      updatedAt: serverTimestamp()
+    });
 
+    setShowKitModal(false);
+    resetKitForm();
+    // Refresh kits list
+    loadKits();
+  } catch (error) {
+    console.error('Error creating kit:', error);
+    alert('Failed to create kit. Please try again.');
+  } finally {
+    setIsCreatingKit(false);
+  }
+};
 
+const handleUpdateKit = async (e) => {
+  e.preventDefault();
+  if (isUpdatingKit || !editingKit) return;
 
+  setIsUpdatingKit(true);
+  try {
+    let imageUrl = editingKit.imageUrl;
 
-// new variables of stem kits ends here
+    // Upload new image if provided
+    if (kitFormData.image) {
+      // Delete old image if exists
+      if (editingKit.imageUrl) {
+        const oldImageRef = ref(storage, editingKit.imageUrl);
+        await deleteObject(oldImageRef).catch(() => {}); // Ignore errors if file doesn't exist
+      }
+
+      const imageRef = ref(storage, `kits/${Date.now()}_${kitFormData.image.name}`);
+      const snapshot = await uploadBytes(imageRef, kitFormData.image);
+      imageUrl = await getDownloadURL(snapshot.ref);
+    }
+
+    // Update kit in Firestore
+    await updateDoc(doc(db, 'kits', editingKit.id), {
+      title: kitFormData.title,
+      description: kitFormData.description,
+      imageUrl,
+      updatedAt: serverTimestamp()
+    });
+
+    setEditingKit(null);
+    setShowKitModal(false);
+    resetKitForm();
+    // Refresh kits list
+    loadKits();
+  } catch (error) {
+    console.error('Error updating kit:', error);
+    alert('Failed to update kit. Please try again.');
+  } finally {
+    setIsUpdatingKit(false);
+  }
+};
+
+const handleDeleteKit = async (kitId) => {
+  if (!confirm('Are you sure you want to delete this kit?')) return;
+
+  try {
+    const kitRef = doc(db, 'kits', kitId);
+    const kitDoc = await getDoc(kitRef);
+    const kitData = kitDoc.data();
+
+    // Delete image from storage if exists
+    if (kitData?.imageUrl) {
+      const imageRef = ref(storage, kitData.imageUrl);
+      await deleteObject(imageRef).catch(() => {}); // Ignore errors if file doesn't exist
+    }
+
+    // Delete kit from Firestore
+    await deleteDoc(kitRef);
+
+    // Refresh kits list
+    loadKits();
+  } catch (error) {
+    console.error('Error deleting kit:', error);
+    alert('Failed to delete kit. Please try again.');
+  }
+};
+
+// Load kits function
+const loadKits = async () => {
+  try {
+    const kitQuery = query(collection(db, 'kits'), orderBy('createdAt', 'desc'));
+    const querySnapshot = await getDocs(kitQuery);
+    const kitsData = querySnapshot.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data()
+    }));
+    setKits(kitsData);
+  } catch (error) {
+    console.error('Error loading kits:', error);
+  }
+};
+
+// Import db from firebase
   const router = useRouter();
   const [sidebarOpen, setSidebarOpen] = useState(true); // Start open for desktop
   const [activeTab, setActiveTab] = useState('dashboard');
@@ -736,7 +656,12 @@ const resetKitForm = () => {
     return unsubscribe;
   }, [isAdmin, activeTab]);
 
+  // Load kits for kits tab
+  useEffect(() => {
+    if (!isAdmin || activeTab !== 'Kits') return;
 
+    loadKits();
+  }, [isAdmin, activeTab]);
 
   // Open edit modal
   const openEditModal = (project) => {
@@ -3090,6 +3015,7 @@ const resetKitForm = () => {
 
         {/* Add/Edit Kit Modal (place it outside the tab conditional, similar to the project modal) */}
 
+        // Add this modal JSX (place outside the return, after all useEffects, wrapped in AnimatePresence like other modals)
 <AnimatePresence>
   {showKitModal && (
     <motion.div
@@ -3203,5 +3129,3 @@ const resetKitForm = () => {
 };
 
 export default AdminPanel;
-
-

@@ -16,14 +16,6 @@ service firebase.storage {
       allow delete: if isAuthenticated();
     }
 
-    // Allow authenticated users to read and write kits (for STEM kits)
-    match /kits/{allPaths=**} {
-      allow read: if isAuthenticated();
-      allow write: if isAuthenticated();
-      allow create: if isAuthenticated();
-      allow delete: if isAuthenticated();
-    }
-
     // Deny all other access
     match /{allPaths=**} {
       allow read, write: if false;

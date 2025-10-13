@@ -509,3 +509,153 @@ export const subscribeToInquiries = (callback) => {
     callback(inquiries);
   });
 };
+
+// Kit Management Functions
+export const createKit = async (kitData, image = null) => {
+  try {
+    let imageUrl = null;
+
+    // Upload image if provided
+    if (image) {
+      const storageRef = ref(storage, `kits/${Date.now()}_${image.name}`);
+      const snapshot = await uploadBytes(storageRef, image);
+      imageUrl = await getDownloadURL(snapshot.ref);
+    }
+
+    const kit = {
+      ...kitData,
+      imageUrl,
+      status: 'active',
+      createdAt: new Date(),
+      updatedAt: new Date()
+    };
+
+    const docRef = await addDoc(collection(db, 'kits'), kit);
+    return { id: docRef.id, ...kit };
+  } catch (error) {
+    console.error('Error creating kit:', error);
+    throw error;
+  }
+};
+
+export const updateKit = async (kitId, kitData, image = null) => {
+  try {
+    let imageUrl = kitData.imageUrl || null;
+
+    // Upload new image if provided
+    if (image) {
+      // Delete old image if it exists
+      if (imageUrl) {
+        try {
+          const oldImageRef = ref(storage, imageUrl);
+          await deleteObject(oldImageRef);
+        } catch (error) {
+          console.warn('Failed to delete old kit image:', error);
+        }
+      }
+
+      const storageRef = ref(storage, `kits/${Date.now()}_${image.name}`);
+      const snapshot = await uploadBytes(storageRef, image);
+      imageUrl = await getDownloadURL(snapshot.ref);
+    }
+
+    const updateData = {
+      ...kitData,
+      imageUrl,
+      updatedAt: new Date()
+    };
+
+    await updateDoc(doc(db, 'kits', kitId), updateData);
+    return { id: kitId, ...updateData };
+  } catch (error) {
+    console.error('Error updating kit:', error);
+    throw error;
+  }
+};
+
+export const deleteKit = async (kitId) => {
+  try {
+    // Get kit data first to delete associated image
+    const kitDoc = await getDoc(doc(db, 'kits', kitId));
+    if (kitDoc.exists()) {
+      const kitData = kitDoc.data();
+
+      // Delete associated image
+      if (kitData.imageUrl) {
+        try {
+          const imageRef = ref(storage, kitData.imageUrl);
+          await deleteObject(imageRef);
+        } catch (error) {
+          console.warn('Failed to delete kit image:', error);
+        }
+      }
+    }
+
+    await deleteDoc(doc(db, 'kits', kitId));
+  } catch (error) {
+    console.error('Error deleting kit:', error);
+    throw error;
+  }
+};
+
+export const getKits = async (limitCount = null) => {
+  try {
+    let q = query(collection(db, 'kits'), orderBy('createdAt', 'desc'));
+
+    if (limitCount) {
+      q = query(q, limit(limitCount));
+    }
+
+    const querySnapshot = await getDocs(q);
+    return querySnapshot.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data()
+    }));
+  } catch (error) {
+    console.error('Error getting kits:', error);
+    throw error;
+  }
+};
+
+export const getKit = async (kitId) => {
+  try {
+    const docSnap = await getDoc(doc(db, 'kits', kitId));
+    if (docSnap.exists()) {
+      return { id: docSnap.id, ...docSnap.data() };
+    }
+    return null;
+  } catch (error) {
+    console.error('Error getting kit:', error);
+    throw error;
+  }
+};
+
+// Real-time listeners for kits
+export const subscribeToKits = (callback) => {
+  const q = query(collection(db, 'kits'), orderBy('createdAt', 'desc'));
+
+  return onSnapshot(q, (querySnapshot) => {
+    const kits = querySnapshot.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data()
+    }));
+    callback(kits);
+  });
+};
+
+// Get kit statistics
+export const getKitStats = async () => {
+  try {
+    const kits = await getKits();
+
+    return {
+      total: kits.length,
+      active: kits.filter(k => k.status === 'active').length,
+      inactive: kits.filter(k => k.status === 'inactive').length,
+      draft: kits.filter(k => k.status === 'draft').length
+    };
+  } catch (error) {
+    console.error('Error getting kit stats:', error);
+    throw error;
+  }
+};

@@ -49,6 +49,14 @@ service cloud.firestore {
       allow delete: if isAdmin();
     }
 
+    // Kits collection - admins can read/write all kits, authenticated users can read
+    match /kits/{kitId} {
+      allow read: if isAuthenticated();
+      allow write: if isAdmin();
+      allow create: if isAdmin();
+      allow delete: if isAdmin();
+    }
+
     // Allow authenticated users to read project data for the public portal
     match /projects/{projectId} {
       allow read: if isAuthenticated();
