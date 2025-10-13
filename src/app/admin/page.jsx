@@ -65,7 +65,7 @@ import {
 
 const AdminPanel = () => {
   // new variables for stem kits :
-// Add these new state variables at the top of the component (kit-specific to avoid overlap)
+
 const [kits, setKits] = useState([]); // Mock data or load as needed
 const [showKitModal, setShowKitModal] = useState(false);
 const [editingKit, setEditingKit] = useState(null);
