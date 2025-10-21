@@ -61,7 +61,7 @@ const InnovativeFooter = () => {
           {/* Brand section */}
           <div className="lg:col-span-2">
             <div className="mb-8">
-              <h2 className="text-4xl font-light tracking-widest mb-4" style={{ fontFamily: 'var(--font-display)' }}>SYNAPTIX</h2>
+              <h2 className="text-4xl font-light tracking-widest mb-4" style={{ fontFamily: 'var(--font-display)' }}>SYNAPTIX ROBOTICS</h2>
               <p className="text-white/70 font-normal leading-relaxed max-w-md" style={{ fontFamily: 'var(--font-sans)' }}>
                 Empowering the next generation of innovators through cutting-edge robotics education,
                 hands-on workshops, and custom technology solutions.

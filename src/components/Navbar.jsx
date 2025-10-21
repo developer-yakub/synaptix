@@ -143,13 +143,6 @@ export function NavbarDemo() {
                   >
                     Login
                   </NavbarButton>
-                  <NavbarButton
-                    onClick={() => setIsMobileMenuOpen(false)}
-                    variant="primary"
-                    className="w-full"
-                  >
-                    Book a call
-                  </NavbarButton>
                 </>
               )}
             </div>
