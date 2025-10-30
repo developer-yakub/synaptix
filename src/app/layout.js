@@ -5,9 +5,7 @@ import { Roboto, Lora, Poppins, Montserrat, Open_Sans } from "next/font/google";
 export const metadata = {
   title: "Synaptix Robotics",
   description: "A leading innovator in robotics and automation, dedicated to empowering education, industries, and individuals with smart, reliable, and future-ready technology solutions. We design and develop advanced robotics kits, IoT systems, and automation projects that bridge the gap between creativity and practical innovation. With a focus on learning, research, and real-world applications, we strive to inspire the next generation of thinkers, makers, and problem-solvers.",
-  icons: {
-    icon: "/favicon.ico",
-  },
+  icons: "/favicon.ico"
 };
 
 
