@@ -4,6 +4,8 @@ import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion"
 import { ArrowRight, Sparkles, Building2, FlaskConical, Users, BookOpen, Zap } from "lucide-react";
 import { isClient, isDesktop, conditional3DTransform } from "@/lib/utils";
 import { use3DScrollTransform } from "@/lib/hooks";
+import { Button } from "./ui/button";
+import Link from "next/link";
 
 const SynaptixLanding = () => {
   const containerRef = useRef(null);
@@ -280,7 +282,7 @@ const SynaptixLanding = () => {
               transition={{ duration: 1, delay: 0.9 }}
               className="flex flex-col sm:flex-row items-center justify-center gap-6 pt-8"
             >
-              <motion.button
+              {/* <motion.button
                 className="group relative px-10 py-5 border border-white/30 rounded-full text-white font-light tracking-wider overflow-hidden"
                 whileHover={{ scale: 1.05, borderColor: "rgba(255,255,255,0.5)" }}
                 whileTap={{ scale: 0.95 }}
@@ -296,39 +298,32 @@ const SynaptixLanding = () => {
                   whileHover={{ x: "100%" }}
                   transition={{ duration: 0.6 }}
                 />
-              </motion.button>
+              </motion.button> */}
+              <Link
+              href={"/workshops-hackathons"}
+              >              
+              <Button variant={'outline'} className={"cursor-pointer"}>
+                Schedule Workshop
+              </Button>
+              </Link>
 
-              <motion.button
+              {/* <motion.button
                 className="group px-10 py-5 bg-white text-black font-light tracking-wider rounded-full hover:bg-white/90 transition-all duration-300 flex items-center space-x-3"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
                 <Zap className="w-5 h-5" />
                 <span>Get Lab Quotation</span>
-              </motion.button>
-            </motion.div>
+              </motion.button> */}
 
-            {/* Stats Footer */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              transition={{ duration: 1, delay: 1.2 }}
-              className="flex items-center justify-center space-x-12 pt-12"
-            >
-              {[
-                { value: "500+", label: "Institutions" },
-                { value: "10K+", label: "Students Trained" },
-                { value: "15+", label: "Years Experience" }
-              ].map((stat, index) => (
-                <div key={index} className="text-center space-y-2">
-                  <div className="text-3xl font-light tracking-wider" style={{ fontFamily: 'var(--font-display)' }}>
-                    {stat.value}
-                  </div>
-                  <div className="text-xs text-white/40 uppercase tracking-widest">
-                    {stat.label}
-                  </div>
-                </div>
-              ))}
+
+              <Link
+              href={"/robotics-curriculum"}
+              >              
+              <Button className={"cursor-pointer"}>
+                Get lab quotation
+              </Button>
+              </Link>
             </motion.div>
           </div>
         </motion.div>

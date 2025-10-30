@@ -18,9 +18,9 @@ const InnovativeFooter = () => {
 
   const stats = [
     { number: "1250+", label: "Projects Completed" },
-    { number: "5000+", label: "Students Trained" },
-    { number: "500+", label: "Institutions" },
-    { number: "5", label: "Years Experience" },
+    { number: "1000+", label: "Students Trained" },
+    { number: "10+", label: "Institutions" },
+    { number: "1", label: "Years Experience" },
   ];
 
   const quickLinks = [
@@ -28,7 +28,6 @@ const InnovativeFooter = () => {
     { name: "Our Services", href: "#services" },
     { name: "Gallery", href: "#gallery" },
     { name: "Contact", href: "#contact" },
-    { name: "Career", href: "#career" },
   ];
 
   const services = [
@@ -117,25 +116,7 @@ const InnovativeFooter = () => {
             </div>
           </div>
 
-          {/* Services */}
-          <div>
-            <h3 className="text-lg font-medium mb-6 text-white/90">Our Services</h3>
-            <div className="space-y-3">
-              {services.map((service, index) => (
-                <motion.a
-                  key={service.name}
-                  href={service.href}
-                  className="block text-white/60 hover:text-white/90 transition-colors duration-300 font-light"
-                  whileHover={{ x: 5 }}
-                  initial={{ opacity: 0, y: 10 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: index * 0.1 }}
-                >
-                  {service.name}
-                </motion.a>
-              ))}
-            </div>
-          </div>
+   
         </div>
 
         {/* Statistics */}

@@ -38,10 +38,10 @@ const AboutSection = () => {
   const layer3RotateY = useTransform(scrollYProgress, [0, 1], [0, 480]);
 
   const metrics = [
-    { value: "500+", label: "Schools & Colleges", desc: "Educational partnerships" },
-    { value: "2000+", label: "Students & Innovators", desc: "Minds empowered" },
-    { value: "150+", label: "Industries", desc: "Corporate collaborations" },
-    { value: "75+", label: "Startups & Entrepreneurs", desc: "Innovation ventures" },
+    { value: "10+", label: "Schools & Colleges", desc: "Educational partnerships" },
+    { value: "1000+", label: "Students & Innovators", desc: "Minds empowered" },
+    { value: "10+", label: "Industries", desc: "Corporate collaborations" },
+    { value: "20+", label: "Startups & Entrepreneurs", desc: "Innovation ventures" },
   ];
 
   const specializations = [

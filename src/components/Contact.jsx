@@ -49,30 +49,35 @@ const ContactPage = () => {
   const layer2RotateY = useTransform(scrollYProgress, [0, 1], [0, -420]);
   const layer3RotateZ = useTransform(scrollYProgress, [0, 1], [0, 600]);
 
+
+
+//   Email : connect@synaptixrobotics.com 
+// Phone : 9390404787 
+// Location : 2nd floor, 2-9-791/1 NGOs colony, Hanamkonda, Telangana 506370
   const contactMethods = [
     {
       icon: Mail,
       label: "Email",
-      value: "hello@synaptixrobotics.com",
-      subvalue: "support@synaptixrobotics.com",
+      value: "connect@synaptixrobotics.com",
+      // subvalue: "support@synaptixrobotics.com",
     },
     {
       icon: Phone,
       label: "Phone",
-      value: "+91 98765 43210",
-      subvalue: "+91 87654 32109",
+      value: "+91 93904 04787 ",
+      // subvalue: "+91 87654 32109",
     },
     {
       icon: MapPin,
       label: "Location",
-      value: "Warangal, Telangana",
-      subvalue: "India - 506002",
+      value: "2nd floor, 2-9-791/1 NGOs colony, Hanamkonda",
+      subvalue: "Telangana 506370",
     },
     {
       icon: Clock,
       label: "Hours",
       value: "Mon - Sat: 9AM - 7PM",
-      subvalue: "Sunday: By Appointment",
+      // subvalue: "Sunday: By Appointment",
     },
   ];
 

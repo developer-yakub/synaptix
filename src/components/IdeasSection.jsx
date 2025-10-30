@@ -311,48 +311,6 @@ const IdeasSection = () => {
           transition={{ duration: 1, delay: 1 }}
           className="text-center"
         >
-          {/* Upload zone */}
-          <motion.div
-            className="relative mx-auto w-full max-w-xs sm:max-w-sm md:w-80 h-32 sm:h-36 md:h-40 border-2 border-dashed border-white/20 rounded-2xl flex flex-col items-center justify-center mb-8 sm:mb-10 lg:mb-12 cursor-pointer group hover:border-white/40 transition-colors duration-500 px-4"
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-          >
-            <Upload className="w-6 h-6 sm:w-8 sm:h-8 text-white/40 mb-3 sm:mb-4 group-hover:text-white/60 transition-colors duration-300" />
-            <p className="text-white/60 text-xs sm:text-sm font-light text-center">
-              Drag & drop your idea file here
-            </p>
-            <p className="text-white/40 text-xs mt-1 text-center">
-              or click to browse
-            </p>
-          </motion.div>
-
-          {/* Action buttons */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-6 mb-16">
-            <motion.button
-              className="group relative px-8 py-4 border border-white/20 rounded-full text-white font-light tracking-wide hover:border-white/40 transition-all duration-500 overflow-hidden"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <span className="relative z-10 flex items-center">
-                <Headphones className="w-4 h-4 mr-3" />
-                Speak with Expert
-              </span>
-              <motion.div
-                className="absolute inset-0 bg-white/5"
-                initial={{ x: "-100%" }}
-                whileHover={{ x: "100%" }}
-                transition={{ duration: 0.6 }}
-              />
-            </motion.button>
-
-            <motion.button
-              className="px-8 py-4 bg-white text-black font-light tracking-wide rounded-full hover:bg-white/90 transition-all duration-300"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              Start Your Journey
-            </motion.button>
-          </div>
 
           {/* Closing message */}
           <motion.div

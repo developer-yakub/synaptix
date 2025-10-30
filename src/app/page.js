@@ -33,7 +33,9 @@ const page = () => {
         <div id="about">
         <About />
         </div>
+        <div id="contact">
         <Contact />
+        </div>
         <Footer />
       </div>
     </div>

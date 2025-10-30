@@ -366,35 +366,7 @@ const CustomizeSection = () => {
           transition={{ duration: 1 }}
           className="text-center"
         >
-          {/* Action modules */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-6 mb-16">
-            <motion.button
-              className="group relative px-8 py-4 border border-white/20 rounded-full text-white font-light tracking-wide hover:border-white/40 transition-all duration-500 overflow-hidden"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => setIsModalOpen(true)}
-            >
-              <span className="relative z-10 flex items-center">
-                <MessageCircle className="w-4 h-4 mr-3" />
-                Start Configuration
-              </span>
-              <motion.div
-                className="absolute inset-0 bg-white/5"
-                initial={{ x: "-100%" }}
-                whileHover={{ x: "100%" }}
-                transition={{ duration: 0.6 }}
-              />
-            </motion.button>
-
-            <motion.button
-              className="px-8 py-4 bg-white text-black font-light tracking-wide rounded-full hover:bg-white/90 transition-all duration-300"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              View Documentation
-            </motion.button>
-          </div>
-
+       
           {/* Closing statement */}
           <motion.div
             initial={{ opacity: 0 }}
