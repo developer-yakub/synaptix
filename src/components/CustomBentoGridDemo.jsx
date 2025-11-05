@@ -179,7 +179,7 @@ const items = [
     header: <Skeleton />,
     icon: <IconClipboardCopy className="h-4 w-4 text-neutral-500" />,
     link: "/iot",
-    image:"/images/iot.svg"
+    image:"/images/iotRevised.png"
   },
   {
     title: "3D DESIGING & PROTOTYPING",
@@ -188,7 +188,7 @@ const items = [
     header: <Skeleton />,
     icon: <IconFileBroken className="h-4 w-4 text-neutral-500" />,
     link: "/3d-designing-prototyping",
-    image:"/images/threeD.svg"
+    image:"/images/revisedThreeD.png"
 
   },
   {
@@ -197,7 +197,7 @@ const items = [
     header: <Skeleton />,
     icon: <IconSignature className="h-4 w-4 text-neutral-500" />,
     link: "/robotics-ai-education",
-    image:"/images/robotics.svg"
+    image:"/images/robotics&AiEducation.png"
   },
   {
     title: " ⁠STEM Kits & Trainers for Schools",
@@ -205,7 +205,7 @@ const items = [
     header: <Skeleton />,
     icon: <IconTableColumn className="h-4 w-4 text-neutral-500" />,
     link: "/stem-kits-trainers",
-    image:"/images/stem.svg"
+    image:"/images/revisedStemKits.png"
   },
   {
     title: "DRONE DEVELOPMENT",
@@ -213,7 +213,7 @@ const items = [
     header: <Skeleton />,
     icon: <IconArrowWaveRightUp className="h-4 w-4 text-neutral-500" />,
     link: "/drone-development",
-    image:"/images/drone.svg"
+    image:"/images/revisedDrone.png"
   },
   {
     title: "SOFTWARE & WEB DEVELOPMENT ",
@@ -221,7 +221,7 @@ const items = [
     header: <Skeleton />,
     icon: <IconBoxAlignTopLeft className="h-4 w-4 text-neutral-500" />,
     link: "/software-web-development",
-    image:"/images/softwareDev.svg"
+    image:"/images/revisedSoftware.png"
   },
   {
     title: "Workshops & Hackathons",
@@ -229,7 +229,7 @@ const items = [
     header: <Skeleton />,
     icon: <IconBoxAlignRightFilled className="h-4 w-4 text-neutral-500" />,
     link: "/workshops-hackathons",
-    image:"/images/workshop.svg"
+    image:"/images/revisedWorkshops.png"
   },
   {
     title: "Innovation Training for Students",
@@ -238,7 +238,7 @@ const items = [
     header: <Skeleton />,
     icon: <IconCodeDots className="h-4 w-4 text-neutral-500" />,
     link: "/innovation-training",
-    image:"/images/innovation.svg"
+    image:"/images/revisedInnovation.png"
   },
   {
     title: "Robotics Curriculum",
@@ -246,6 +246,6 @@ const items = [
     header: <Skeleton />,
     icon: <IconWorld className="h-4 w-4 text-neutral-500" />,
     link: "/robotics-curriculum",
-    image:"/images/robotCurr.svg"
+    image:"/images/revisedRoboticsCurriculumn.png"
   },
 ];
