@@ -256,7 +256,7 @@ const ProjectDetailPage = () => {
                   className="flex flex-wrap gap-4"
                 >
                   <a
-                    href={`https://wa.me/917893768080?text=${encodeURIComponent(
+                    href={`https://wa.me/919390404787?text=${encodeURIComponent(
                       `Hi! I'm interested in starting the "${project.title}" project. Can you help me get started?`
                     )}`}
                     target="_blank"

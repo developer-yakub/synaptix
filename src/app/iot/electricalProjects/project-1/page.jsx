@@ -200,7 +200,7 @@ const ProjectDetailPage = () => {
             whileHover={{ scale: 1.05, backgroundColor: '#f8fafc' }}
             whileTap={{ scale: 0.95 }}
             className="px-8 py-4 bg-white text-black rounded-lg font-medium text-lg flex items-center gap-3 mx-auto hover:bg-gray-50 transition-colors duration-300 shadow-sm hover:shadow-md"
-            href="https://wa.me/917893768080?text=Hi%21%20I%27m%20interested%20in%20your%20electrical%20and%20electronics%20projects.%20Can%20we%20discuss%20my%20project%3F"
+            href="https://wa.me/919390404787?text=Hi%21%20I%27m%20interested%20in%20your%20electrical%20and%20electronics%20projects.%20Can%20we%20discuss%20my%20project%3F"
             target="_blank"
             rel="noopener noreferrer"
           >
