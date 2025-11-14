@@ -51,9 +51,6 @@ const ContactPage = () => {
 
 
 
-//   Email : connect@synaptixrobotics.com 
-// Phone : 9390404787 
-// Location : 2nd floor, 2-9-791/1 NGOs colony, Hanamkonda, Telangana 506370
   const contactMethods = [
     {
       icon: Mail,
@@ -70,7 +67,7 @@ const ContactPage = () => {
     {
       icon: MapPin,
       label: "Location",
-      value: "2nd floor, 2-9-791/1 NGOs colony, Hanamkonda",
+      value: "2nd floor, 2-9-784/1 NGOs colony, Hanamkonda",
       subvalue: "Telangana 506370",
     },
     {
