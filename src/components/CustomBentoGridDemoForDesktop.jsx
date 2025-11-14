@@ -55,7 +55,7 @@ const items = [
     header: <Skeleton />,
     icon: <IconClipboardCopy className="h-4 w-4 text-neutral-500" />,
     link: "/iot",
-    image:"/images/iotRevised.png"
+    image:"/images/iotRevisedForDesktop.png"
   },
   {
     title: "3D DESIGING & PROTOTYPING",
@@ -64,7 +64,7 @@ const items = [
     header: <Skeleton />,
     icon: <IconFileBroken className="h-4 w-4 text-neutral-500" />,
     link: "/3d-designing-prototyping",
-    image:"/images/revisedThreeD.png"
+    image:"/images/revisedThreeDForDesktop.png"
 
   },
   {
@@ -81,7 +81,7 @@ const items = [
     header: <Skeleton />,
     icon: <IconTableColumn className="h-4 w-4 text-neutral-500" />,
     link: "/stem-kits-trainers",
-    image:"/images/revisedStemKits.png"
+    image:"/images/revisedStemKitsForDesktop.png"
   },
   {
     title: "DRONE DEVELOPMENT",
@@ -89,7 +89,7 @@ const items = [
     header: <Skeleton />,
     icon: <IconArrowWaveRightUp className="h-4 w-4 text-neutral-500" />,
     link: "/drone-development",
-    image:"/images/revisedDrone.png"
+    image:"/images/revisedDroneForDesktop.png"
   },
   {
     title: "SOFTWARE & WEB DEVELOPMENT ",
@@ -105,7 +105,7 @@ const items = [
     header: <Skeleton />,
     icon: <IconBoxAlignRightFilled className="h-4 w-4 text-neutral-500" />,
     link: "/workshops-hackathons",
-    image:"/images/revisedWorkshops.png"
+    image:"/images/revisedWorkshopsForDesktop.png"
   },
   {
     title: "Innovation Training for Students",
@@ -114,7 +114,7 @@ const items = [
     header: <Skeleton />,
     icon: <IconCodeDots className="h-4 w-4 text-neutral-500" />,
     link: "/innovation-training",
-    image:"/images/revisedInnovation.png"
+    image:"/images/revisedInnovationForDesktop.png"
   },
   {
     title: "Robotics Curriculum",
@@ -122,7 +122,7 @@ const items = [
     header: <Skeleton />,
     icon: <IconWorld className="h-4 w-4 text-neutral-500" />,
     link: "/robotics-curriculum",
-    image:"/images/revisedRoboticsCurriculumn.png"
+    image:"/images/revisedRoboticsCurriculumnForDesktop.png"
   },
 ];
 

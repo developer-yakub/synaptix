@@ -10,6 +10,7 @@ import CustomizeSection from "@/components/CustomizeSection";
 import About from "@/components/About";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
+import { BackgroundBeamsDemoForDesktop } from "@/components/SectionThreeForDesktop";
 
 
 const page = () => {
@@ -19,8 +20,11 @@ const page = () => {
         <div id="#">
         <NavbarDemo />
         </div>
-        <div id="services">
+        <div id="services" className="md:hidden">
         <BackgroundBeamsDemo />
+        </div>
+        <div className="hidden md:block h-full w-full bg-red-600">
+          <BackgroundBeamsDemoForDesktop/>
         </div>
         <div id="register">
         <SynaptixLanding />
