@@ -113,8 +113,11 @@ const [showTeamModal, setShowTeamModal] = useState(false);
 const [editingMember, setEditingMember] = useState(null);
 const [teamFormData, setTeamFormData] = useState({
   name: '',
+  email: "",  
   mobile: '',
   skills: '',
+  about: "",        
+  message: "",      
   role: '',
   image: null
 });
@@ -912,7 +915,10 @@ const handleSaveTeamMember = async (e) => {
       const docRef = await addDoc(collection(db, "team"), {
         name: teamFormData.name,
         mobile: teamFormData.mobile,
+        email: teamFormData.email,  
         skills: teamFormData.skills,
+        about: teamFormData.about,      
+        message: teamFormData.message, 
         role: teamFormData.role,
         imageUrl,
         qrCodeUrl: null,
@@ -943,9 +949,12 @@ const handleSaveTeamMember = async (e) => {
     else {
       await updateDoc(doc(db, "team", editingMember.id), {
         name: teamFormData.name,
+        email: teamFormData.email,    
         mobile: teamFormData.mobile,
         skills: teamFormData.skills,
         role: teamFormData.role,
+        about: teamFormData.about,         
+        message: teamFormData.message, 
         imageUrl,
         updatedAt: serverTimestamp()
       });
@@ -988,12 +997,38 @@ const handleDeleteTeamMember = async (id, imageUrl, qrUrl) => {
 const resetTeamForm = () => {
   setTeamFormData({
     name: "",
+    email:"",
+    about:"",
+    message:"",
     mobile: "",
     skills: "",
     role: "",
     image: null
   });
 };
+
+
+// Extracts "teamQR%2Fxxxxx.png" from Firebase URL
+function extractStoragePath(url) {
+  const match = url.match(/o\/(.*)\?/);
+  return match ? match[1] : null;
+}
+
+
+const downloadQR = (url, fileName) => {
+  try {
+    const link = document.createElement("a");
+    link.href = url;                       // direct firebase URL
+    link.download = `${fileName}.png`;     // force download name
+    link.target = "_blank";                // fallback if browser blocks
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  } catch (err) {
+    console.error("Download failed:", err);
+  }
+};
+
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-black text-white relative overflow-hidden">
@@ -2570,7 +2605,6 @@ const resetTeamForm = () => {
               )}
 
 
-
               {activeTab === "team" && (
   <div className="p-6">
     <div className="flex justify-between items-center mb-6">
@@ -2584,21 +2618,20 @@ const resetTeamForm = () => {
     </div>
 
     {/* Team Table */}
-    {/* Team Table */}
-<div className="bg-gray-900/60 p-4 rounded-xl border border-gray-700/40">
-  <table className="w-full text-left text-gray-300">
+  <div className="bg-gray-900/60 p-4 rounded-xl border border-gray-700/40 overflow-x-auto">
+  <table className="w-full text-left text-gray-300 table-auto">
     <thead>
       <tr className="border-b border-gray-700 text-gray-400">
-        <th className="py-3">Image</th>
-        <th>Name</th>
-        <th>Mobile</th>
-        <th>Role</th>
-        <th>Skills</th>
-
-        {/* NEW COLUMN */}
-        <th>QR Code</th>
-
-        <th>Actions</th>
+        <th className="py-3 w-20">Image</th>
+        <th className="w-40">Name</th>
+        <th className="w-48">Email</th>
+        <th className="w-40">Mobile</th>
+        <th className="w-32">Role</th>
+        <th className="w-48">Skills</th>
+        <th className="w-56">About</th>
+        <th className="w-56">Message</th>
+        <th className="w-32">QR Code</th>
+        <th className="w-32">Actions</th>
       </tr>
     </thead>
 
@@ -2617,49 +2650,81 @@ const resetTeamForm = () => {
           </td>
 
           <td>{member.name}</td>
+          <td className="truncate max-w-[180px]">{member.email}</td>
           <td>{member.mobile}</td>
           <td>{member.role}</td>
-          <td>{member.skills}</td>
+          <td className="truncate max-w-[200px]">{member.skills}</td>
 
-          {/* QR CODE CELL */}
-          <td>
+          {/* ABOUT (ellipsis) */}
+          <td className="max-w-[220px]">
+            <p className="line-clamp-2 text-gray-300">
+              {member.about}
+            </p>
+          </td>
+
+          {/* MESSAGE (ellipsis) */}
+          <td className="max-w-[220px]">
+            <p className="line-clamp-2 text-gray-300">
+              {member.message}
+            </p>
+          </td>
+
+          {/* QR CODE + DOWNLOAD */}
+          <td className="py-3">
             {member.qrCodeUrl ? (
-              <img
-                src={member.qrCodeUrl}
-                className="w-12 h-12 rounded-lg border border-gray-700"
-                alt="QR Code"
-              />
+              <div className="flex flex-col items-start gap-2">
+                <img
+                  src={member.qrCodeUrl}
+                  className="w-12 h-12 rounded-lg border border-gray-700"
+                />
+                <button
+                  onClick={() => downloadQR(member.qrCodeUrl, member.name)}
+                  className="text-green-400 text-sm"
+                >
+                  Download
+                </button>
+              </div>
             ) : (
               <span className="text-gray-500 text-sm">No QR</span>
             )}
           </td>
 
           {/* ACTIONS */}
-          <td className="flex gap-3">
-            <button
-              onClick={() => {
-                setEditingMember(member);
-                setTeamFormData({
-                  name: member.name,
-                  mobile: member.mobile,
-                  skills: member.skills,
-                  role: member.role,
-                  image: null
-                });
-                setShowTeamModal(true);
-              }}
-              className="text-blue-400"
-            >
-              Edit
-            </button>
+          <td className="py-3">
+            <div className="flex flex-col gap-2">
 
-            <button
-              onClick={() => handleDeleteTeamMember(member.id, member.imageUrl, member.qrCodeUrl)}
-              className="text-red-400"
-            >
-              Delete
-            </button>
+              <button
+                onClick={() => {
+                  setEditingMember(member);
+                  setTeamFormData({
+                    name: member.name,
+                    email: member.email || "",
+                    mobile: member.mobile,
+                    skills: member.skills,
+                    role: member.role,
+                    about: member.about || "",
+                    message: member.message || "",
+                    image: null
+                  });
+                  setShowTeamModal(true);
+                }}
+                className="text-blue-400 text-sm"
+              >
+                Edit
+              </button>
+
+              <button
+                onClick={() =>
+                  handleDeleteTeamMember(member.id, member.imageUrl, member.qrCodeUrl)
+                }
+                className="text-red-400 text-sm"
+              >
+                Delete
+              </button>
+
+            </div>
           </td>
+
         </tr>
       ))}
     </tbody>
@@ -2668,7 +2733,6 @@ const resetTeamForm = () => {
 
   </div>
 )}
-
 
           </main>
         </div>
@@ -3454,6 +3518,34 @@ const resetTeamForm = () => {
           className="w-full p-3 bg-gray-800 border border-gray-600 rounded-lg text-white"
           required
         />
+
+        <input
+  type="email"
+  placeholder="Email"
+  value={teamFormData.email}
+  onChange={(e) => setTeamFormData({ ...teamFormData, email: e.target.value })}
+  className="w-full p-3 bg-gray-800 border border-gray-600 rounded-lg text-white"
+  required
+/>
+
+
+<textarea
+  placeholder="About Member"
+  value={teamFormData.about}
+  onChange={(e) => setTeamFormData({ ...teamFormData, about: e.target.value })}
+  className="w-full p-3 bg-gray-800 border border-gray-600 rounded-lg text-white"
+  rows={3}
+/>
+
+
+<textarea
+  placeholder="Message"
+  value={teamFormData.message}
+  onChange={(e) => setTeamFormData({ ...teamFormData, message: e.target.value })}
+  className="w-full p-3 bg-gray-800 border border-gray-600 rounded-lg text-white"
+  rows={3}
+/>
+
 
         <textarea
           placeholder="Skills (comma separated)"
