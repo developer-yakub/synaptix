@@ -19,6 +19,7 @@ import {
   Cpu,
   ArrowRight
 } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
 const IotPortalPage = () => {
   const router = useRouter();
@@ -316,7 +317,7 @@ const IotPortalPage = () => {
                 onMouseLeave={() => setHoveredCard(null)}
                 className="relative group"
               >
-                <motion.div
+                <div
                   whileHover={{ scale: 1.03, y: -10, rotateY: 5 }}
                   transition={{ type: "spring", stiffness: 300, damping: 20 }}
                   className="relative h-full bg-gradient-to-br from-gray-900/80 via-gray-800/60 to-gray-900/80 border border-gray-700/60 rounded-3xl p-8 overflow-hidden backdrop-blur-sm"
@@ -395,17 +396,17 @@ const IotPortalPage = () => {
 
                     {/* Enhanced Explore Button */}
                     <Link href={category.path}>
-                      <motion.button
+                      <Button
                         whileHover={{ scale: 1.05, backgroundColor: '#ffffff' }}
                         whileTap={{ scale: 0.95 }}
-                        className="w-full py-4 bg-gradient-to-r from-white to-gray-100 text-black rounded-xl font-bold text-lg flex items-center justify-center gap-3 group-hover:shadow-lg transition-all duration-300"
+                        className="w-full py-6 bg-gradient-to-r from-white to-gray-100 text-black rounded-xl font-bold text-lg flex items-center justify-center gap-3 group-hover:shadow-lg transition-all duration-300 "
                       >
                         Explore Projects
                         <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                      </motion.button>
+                      </Button>
                     </Link>
                   </div>
-                </motion.div>
+                </div>
               </motion.div>
             );
           })}

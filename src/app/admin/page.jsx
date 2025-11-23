@@ -85,9 +85,13 @@ import {
   ref,
   uploadBytes,
   getDownloadURL,
-  deleteObject
+  deleteObject,
+  uploadString
 } from 'firebase/storage';
 import { storage, db } from '@/lib/firebase'; // Ensure storage and db are exported from your firebase config
+import QRCode from 'qrcode';
+
+
 
 
 const AdminPanel = () => {
@@ -102,6 +106,33 @@ const [kitFormData, setKitFormData] = useState({
 });
 const [isCreatingKit, setIsCreatingKit] = useState(false);
 const [isUpdatingKit, setIsUpdatingKit] = useState(false);
+
+// TEAM management states (must be placed before ANY useEffect)
+const [teamMembers, setTeamMembers] = useState([]);
+const [showTeamModal, setShowTeamModal] = useState(false);
+const [editingMember, setEditingMember] = useState(null);
+const [teamFormData, setTeamFormData] = useState({
+  name: '',
+  mobile: '',
+  skills: '',
+  role: '',
+  image: null
+});
+
+const deleteImageFromUrl = async (url) => {
+  try {
+    const path = url.split("/o/")[1].split("?")[0]; // extract storage path
+    const fullPath = decodeURIComponent(path);      // decode %2F etc.
+
+    const imageRef = ref(storage, fullPath);
+    await deleteObject(imageRef);
+
+  } catch (error) {
+    console.error("Error deleting image:", error);
+  }
+};
+
+
 
 
 
@@ -250,6 +281,21 @@ const loadKits = async () => {
     console.error('Error loading kits:', error);
   }
 };
+
+const loadTeamMembers = async () => {
+  try {
+    const q = query(collection(db, "team"), orderBy("createdAt", "desc"));
+    const snapshot = await getDocs(q);
+    const members = snapshot.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data()
+    }));
+    setTeamMembers(members);
+  } catch (error) {
+    console.error("Error loading team members:", error);
+  }
+};
+
 
 // Import db from firebase
   const router = useRouter();
@@ -448,6 +494,14 @@ const loadKits = async () => {
 
     return () => unsubscribe();
   }, [isAdmin]);
+
+  const [isSavingMember, setIsSavingMember] = useState(false);
+useEffect(() => {
+  if (!isAdmin || activeTab !== "team") return;
+  loadTeamMembers();
+}, [isAdmin, activeTab]);
+
+
 
   // Handle project creation
   const handleCreateProject = async (e) => {
@@ -765,7 +819,8 @@ const loadKits = async () => {
     { id: 'inquiries', label: 'Inquiries', icon: Mail },
     { id: 'users', label: 'Users', icon: Users },
     { id: 'analytics', label: 'Analytics', icon: BarChart3 },
-    { id: 'Kits', label: 'Stem Kits', icon: CpuIcon }
+    { id: 'Kits', label: 'Stem Kits', icon: CpuIcon },
+    { id: 'team', label: 'Team', icon: Users },
   ];
 
   const containerVariants = {
@@ -810,6 +865,135 @@ const loadKits = async () => {
       default: return 'text-gray-400 bg-gray-500/20';
     }
   };
+
+// handle save team member
+
+const handleSaveTeamMember = async (e) => {
+  e.preventDefault();
+  if (isSavingMember) return;
+
+  setIsSavingMember(true);
+
+  // Convert QR DataURL → Blob
+  function dataURLtoBlob(dataURL) {
+    const arr = dataURL.split(",");
+    const mime = arr[0].match(/:(.*?);/)[1];
+    const bstr = atob(arr[1]);
+    let n = bstr.length;
+    const u8arr = new Uint8Array(n);
+    while (n--) u8arr[n] = bstr.charCodeAt(n);
+    return new Blob([u8arr], { type: mime });
+  }
+
+  try {
+    let imageUrl = editingMember?.imageUrl || null;
+    let qrCodeUrl = editingMember?.qrCodeUrl || null;
+
+    // ------------------------------------------
+    // 🔹 UPLOAD TEAM IMAGE (IF NEW SELECTED)
+    // ------------------------------------------
+    if (teamFormData.image) {
+      if (editingMember?.imageUrl) {
+        await deleteImageFromUrl(editingMember.imageUrl);
+      }
+
+      const imageRef = ref(
+        storage,
+        `team/${Date.now()}_${teamFormData.image.name}`
+      );
+      const snap = await uploadBytes(imageRef, teamFormData.image);
+      imageUrl = await getDownloadURL(snap.ref);
+    }
+
+    // ------------------------------------------
+    // 🔹 CREATE NEW MEMBER
+    // ------------------------------------------
+    if (!editingMember) {
+      const docRef = await addDoc(collection(db, "team"), {
+        name: teamFormData.name,
+        mobile: teamFormData.mobile,
+        skills: teamFormData.skills,
+        role: teamFormData.role,
+        imageUrl,
+        qrCodeUrl: null,
+        createdAt: serverTimestamp(),
+        updatedAt: serverTimestamp()
+      });
+
+      const memberId = docRef.id;
+
+      // Generate URL like: /team/xyz123
+      const profileUrl = `https://www.synaptixrobotics.com/team/${memberId}`;
+
+      // Generate QR DataURL
+      const qrDataUrl = await QRCode.toDataURL(profileUrl);
+
+      // Upload QR to Firebase
+      const qrRef = ref(storage, `teamQR/${memberId}.png`);
+      const qrSnap = await uploadBytes(qrRef, dataURLtoBlob(qrDataUrl));
+      const finalQrUrl = await getDownloadURL(qrSnap.ref);
+
+      // Save QR URL inside the Firestore doc
+      await updateDoc(doc(db, "team", memberId), { qrCodeUrl: finalQrUrl });
+    }
+
+    // ------------------------------------------
+    // 🔹 UPDATE EXISTING MEMBER
+    // ------------------------------------------
+    else {
+      await updateDoc(doc(db, "team", editingMember.id), {
+        name: teamFormData.name,
+        mobile: teamFormData.mobile,
+        skills: teamFormData.skills,
+        role: teamFormData.role,
+        imageUrl,
+        updatedAt: serverTimestamp()
+      });
+    }
+
+    // ------------------------------------------
+    // 🔹 CLEANUP + REFRESH
+    // ------------------------------------------
+    setShowTeamModal(false);
+    setEditingMember(null);
+    resetTeamForm();
+    loadTeamMembers();
+
+  } catch (error) {
+    console.error("Error saving team member:", error);
+  } finally {
+    setIsSavingMember(false);
+  }
+};
+
+
+
+// Delete team member
+const handleDeleteTeamMember = async (id, imageUrl, qrUrl) => {
+  try {
+    await deleteDoc(doc(db, "team", id));
+
+    if (imageUrl) await deleteImageFromUrl(imageUrl);
+    if (qrUrl) await deleteImageFromUrl(qrUrl);
+
+    loadTeamMembers();
+  } catch (error) {
+    console.error("Error deleting member:", error);
+  }
+};
+
+
+
+// Reset team form
+const resetTeamForm = () => {
+  setTeamFormData({
+    name: "",
+    mobile: "",
+    skills: "",
+    role: "",
+    image: null
+  });
+};
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-black text-white relative overflow-hidden">
@@ -2386,6 +2570,106 @@ const loadKits = async () => {
               )}
 
 
+
+              {activeTab === "team" && (
+  <div className="p-6">
+    <div className="flex justify-between items-center mb-6">
+      <h2 className="text-2xl font-semibold text-white">Team Members</h2>
+      <button
+        onClick={() => { setShowTeamModal(true); setEditingMember(null); resetTeamForm(); }}
+        className="px-4 py-2 bg-yellow-500 text-black font-semibold rounded-lg"
+      >
+        + Add Team Member
+      </button>
+    </div>
+
+    {/* Team Table */}
+    {/* Team Table */}
+<div className="bg-gray-900/60 p-4 rounded-xl border border-gray-700/40">
+  <table className="w-full text-left text-gray-300">
+    <thead>
+      <tr className="border-b border-gray-700 text-gray-400">
+        <th className="py-3">Image</th>
+        <th>Name</th>
+        <th>Mobile</th>
+        <th>Role</th>
+        <th>Skills</th>
+
+        {/* NEW COLUMN */}
+        <th>QR Code</th>
+
+        <th>Actions</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      {teamMembers.map(member => (
+        <tr key={member.id} className="border-b border-gray-800">
+
+          {/* IMAGE */}
+          <td className="py-3">
+            {member.imageUrl && (
+              <img
+                src={member.imageUrl}
+                className="w-12 h-12 object-cover rounded-lg"
+              />
+            )}
+          </td>
+
+          <td>{member.name}</td>
+          <td>{member.mobile}</td>
+          <td>{member.role}</td>
+          <td>{member.skills}</td>
+
+          {/* QR CODE CELL */}
+          <td>
+            {member.qrCodeUrl ? (
+              <img
+                src={member.qrCodeUrl}
+                className="w-12 h-12 rounded-lg border border-gray-700"
+                alt="QR Code"
+              />
+            ) : (
+              <span className="text-gray-500 text-sm">No QR</span>
+            )}
+          </td>
+
+          {/* ACTIONS */}
+          <td className="flex gap-3">
+            <button
+              onClick={() => {
+                setEditingMember(member);
+                setTeamFormData({
+                  name: member.name,
+                  mobile: member.mobile,
+                  skills: member.skills,
+                  role: member.role,
+                  image: null
+                });
+                setShowTeamModal(true);
+              }}
+              className="text-blue-400"
+            >
+              Edit
+            </button>
+
+            <button
+              onClick={() => handleDeleteTeamMember(member.id, member.imageUrl, member.qrCodeUrl)}
+              className="text-red-400"
+            >
+              Delete
+            </button>
+          </td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>
+
+  </div>
+)}
+
+
           </main>
         </div>
       </div>
@@ -3123,6 +3407,96 @@ const loadKits = async () => {
     </motion.div>
   )}
 </AnimatePresence>
+
+<AnimatePresence>
+{showTeamModal && (
+  <motion.div
+    initial={{ opacity: 0 }}
+    animate={{ opacity: 1 }}
+    exit={{ opacity: 0 }}
+    className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50"
+    onClick={(e) => { if (e.target === e.currentTarget) { setShowTeamModal(false); resetTeamForm(); setEditingMember(null); } }}
+  >
+    <motion.div
+      initial={{ scale: 0.9, opacity: 0 }}
+      animate={{ scale: 1, opacity: 1 }}
+      exit={{ scale: 0.9, opacity: 0 }}
+      className="bg-gray-900/80 border border-gray-700 p-6 rounded-2xl w-full max-w-md"
+    >
+      <h3 className="text-xl font-bold text-white mb-4">
+        {editingMember ? "Edit Team Member" : "Add Team Member"}
+      </h3>
+
+      <form onSubmit={handleSaveTeamMember} className="space-y-4">
+        <input
+          type="text"
+          placeholder="Name"
+          value={teamFormData.name}
+          onChange={(e) => setTeamFormData({ ...teamFormData, name: e.target.value })}
+          className="w-full p-3 bg-gray-800 border border-gray-600 rounded-lg text-white"
+          required
+        />
+
+        <input
+          type="text"
+          placeholder="Mobile Number"
+          value={teamFormData.mobile}
+          onChange={(e) => setTeamFormData({ ...teamFormData, mobile: e.target.value })}
+          className="w-full p-3 bg-gray-800 border border-gray-600 rounded-lg text-white"
+          required
+        />
+
+        <input
+          type="text"
+          placeholder="Role (e.g., Developer, Trainer)"
+          value={teamFormData.role}
+          onChange={(e) => setTeamFormData({ ...teamFormData, role: e.target.value })}
+          className="w-full p-3 bg-gray-800 border border-gray-600 rounded-lg text-white"
+          required
+        />
+
+        <textarea
+          placeholder="Skills (comma separated)"
+          value={teamFormData.skills}
+          onChange={(e) => setTeamFormData({ ...teamFormData, skills: e.target.value })}
+          className="w-full p-3 bg-gray-800 border border-gray-600 rounded-lg text-white"
+          rows={3}
+        />
+
+        <input
+          type="file"
+          accept="image/*"
+          onChange={(e) => setTeamFormData({ ...teamFormData, image: e.target.files?.[0] || null })}
+          className="w-full text-white"
+        />
+
+        {editingMember?.imageUrl && !teamFormData.image && (
+          <img src={editingMember.imageUrl} className="w-20 h-20 mt-2 rounded-lg" />
+        )}
+
+        <div className="flex gap-3 pt-4">
+          <button
+            type="button"
+            onClick={() => { setShowTeamModal(false); resetTeamForm(); setEditingMember(null); }}
+            className="flex-1 px-4 py-3 rounded-lg bg-gray-700 text-gray-300"
+          >
+            Cancel
+          </button>
+
+          <button
+            type="submit"
+            disabled={isSavingMember}
+            className="flex-1 px-4 py-3 rounded-lg bg-yellow-500 text-black font-semibold"
+          >
+            {isSavingMember ? "Saving..." : editingMember ? "Update" : "Create"}
+          </button>
+        </div>
+      </form>
+    </motion.div>
+  </motion.div>
+)}
+</AnimatePresence>
+
     </div>
   );
 };
