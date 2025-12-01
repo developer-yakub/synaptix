@@ -84,7 +84,7 @@ const InnovativeFooter = () => {
                 whileHover={{ x: 5 }}
               >
                 <Phone className="w-4 h-4" />
-                <span className="font-light">+91 98765 43210</span>
+                <span className="font-light">+91 93904 04787</span>
               </motion.a>
 
               <motion.div
